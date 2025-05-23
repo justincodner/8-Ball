@@ -16,6 +16,9 @@ public class Ball {
  public void setVelocity(PVector velo) {
    velocity = velo;
  }
+ public PVector getPosition(){
+  return position; 
+ }
  
  
 }
