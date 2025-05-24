@@ -41,14 +41,19 @@ public class Cue{
   }
   public void render(){
     setAngle();
-    if(angle.y >= 0){
+    rotate(-PI/6);
+   // rotate(PI/6);
+   /* if(angle.y >= 0){
       rotate(acos(angle.x));
     } else{
-       rotate(-1*acos(angle.x));
+       //rotate(-1*acos(angle.x));
+       
     }
+    */
     strokeWeight(0);
     fill(200,200,100);
-    rect(20*angle.x + ball.getPosition().x,20*angle.y+ball.getPosition().y,2,length);
+    rect(100,100,20,200);
+    //rect(20*angle.x + ball.getPosition().x,20*angle.y+ball.getPosition().y,10,length);
   //  rect(20*angle.x-2,20*angle.y,2,length);
     println(angle.x + " 0||0 "+ angle.y);
     pMouse();
