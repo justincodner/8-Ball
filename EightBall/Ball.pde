@@ -1,5 +1,5 @@
 public class Ball {
- final private float radius = 25.0;
+ final private float radius = 10.0;
  private PVector position;
  private PVector velocity;
  private PVector spin;
@@ -10,11 +10,20 @@ public class Ball {
             velocity= new PVector(0,0);
                 spin= new PVector(0,0);
  }
+ public Ball(int x, int y){
+    position= new PVector(x,y);
+        friction= new PVector(0,0);
+            velocity= new PVector(0,0);
+                spin= new PVector(0,0);
+ }
  public void collision(Ball otherBall) {
    
  }
+ public float getRad() {
+   return this.radius;
+ }
  
- public void setPostition(PVector pos) {
+ public void setPosition(PVector pos) {
    position = pos;
  }
  
@@ -25,10 +34,10 @@ public class Ball {
   return position; 
  }
  void render(){
-   fill(255,0,0);
+   fill(255,255,255);
    strokeWeight(2);
-  ellipse(position.x, position.y, radius*10,radius*10) ;
-  println("ball x:" + position.x + ", Y: "+position.y);
+  ellipse(position.x, position.y, radius*2,radius*2) ;
+  //println("ball x:" + position.x + ", Y: "+position.y);
  }
  
 }
