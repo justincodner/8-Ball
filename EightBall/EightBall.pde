@@ -3,7 +3,7 @@
     PVector x = new PVector(220,220);
 void setup() {
   size(500,700);
-  frameRate(60);
+  frameRate(7);
  
 }
 
