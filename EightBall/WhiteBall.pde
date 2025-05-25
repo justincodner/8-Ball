@@ -1,7 +1,7 @@
 public class WhiteBall extends Ball{
 
- public WhiteBall(){
-   super();
+ public WhiteBall(int i, int k){
+   super(i,k);
   
  }
  
