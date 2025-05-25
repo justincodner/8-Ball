@@ -28,14 +28,18 @@ public void collision(Ball otherBall) {
  }
  
  public void transferVelocity(Ball otherBall) {
-   //transfer energy with conservation
+   PVector otherPos = otherBall.position;
+   float dx = (otherPos.x-position.x);
+   float dy = (otherPos.y-position.y);
+   float nxHat = dx / (2 * radius);
+   float nyHat = dy / (2 *radius);
+   float v1 = velocity.x * nxHat + velocity.y * nyHat;
+   float v2 = otherBall.velocity.x * nxHat + otherBall.velocity.y * nyHat;
+   velocity.add(-v1 + v2, -v1+v2);
+   otherBall.velocity.add(-v2+v1,-v2+v1);
  }
  
  public void transferSpin(Ball otherBall) {
-   PVector otherPos = otherBall.position;
-   float dx = (otherPos.x-position.x)/2;
-   float dy = (otherPos.y-position.y)/2;
-   PVector tangent = new PVector(position.x +dx, position.y +dy);
    
  }
  
@@ -50,6 +54,10 @@ public void collision(Ball otherBall) {
  
  public void setVelocity(PVector velo) {
    velocity = velo;
+ }
+ 
+ public void updatePosition() {
+   position.add(velocity);
  }
  
  public void updateVelocity() {
