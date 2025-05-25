@@ -1,25 +1,28 @@
 public class Ball {
 final private float radius = 10.0;
 
- private PVector position;
- private PVector velocity;
- private PVector spin;
- private PVector friction;
+private PVector position;
+private PVector velocity;
+private PVector spin;
+private PVector friction;
 
- public Ball(){
+public Ball(){
     position= new PVector(220,220);
-        friction= new PVector(0,0);
-            velocity= new PVector(0,0);
-                spin= new PVector(0,0);
+    friction= new PVector(0,0);
+    velocity= new PVector(0,0);
+    spin= new PVector(0,0);
  }
- public Ball(int x, int y){
+public Ball(int x, int y){
     position= new PVector(x,y);
-        friction= new PVector(0,0);
-            velocity= new PVector(0,0);
-                spin= new PVector(0,0);
+    friction= new PVector(0,0);
+    velocity= new PVector(0,0);
+    spin= new PVector(0,0);
  }
 
- public void collision(Ball otherBall) {
+public PVector getPosition() {
+  return position;
+}
+public void collision(Ball otherBall) {
    transferVelocity(otherBall);
    transferSpin(otherBall);
  }
@@ -27,13 +30,17 @@ final private float radius = 10.0;
  public void transferVelocity(Ball otherBall) {
    //transfer energy with conservation
  }
- public float getRad() {
-   return this.radius;
+ 
+ public void transferSpin(Ball otherBall) {
+   PVector otherPos = otherBall.position;
+   float dx = (otherPos.x-position.x)/2;
+   float dy = (otherPos.y-position.y)/2;
+   PVector tangent = new PVector(position.x +dx, position.y +dy);
+   
  }
  
-
- public void transferSpin(Ball otherBall) {
-   //transfer the spin
+ public float getRad() {
+   return this.radius;
  }
  
 
@@ -61,10 +68,7 @@ final private float radius = 10.0;
  
  
  
- public void render() {
-   //implemented in sub classes
- }
- void render(){
+void render(){
    fill(255,255,255);
    strokeWeight(2);
   ellipse(position.x, position.y, radius*2,radius*2) ;
