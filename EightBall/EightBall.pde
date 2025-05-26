@@ -18,6 +18,8 @@ void draw() {
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
   b1.render();
   b2.render();
+  b1.updateVelocity();
+  b2.updateVelocity();
   b1.updatePosition();
   b2.updatePosition();
   if(Math.sqrt((b1.position.x-b2.position.x) * (b1.position.x-b2.position.x) + (b1.position.y - b2.position.y) * (b1.position.y - b2.position.y)) < 20) {

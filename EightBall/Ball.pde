@@ -60,9 +60,27 @@ public void collision(Ball otherBall) {
    position.add(velocity);
  }
  
+ 
+ public void updateFriction() {
+   float fric = .160 * 9.81 * .0005;
+   double angle = Math.atan(velocity.y/velocity.x);
+   float vx = fric * -1 * (float) Math.cos(angle);
+   float vy = fric * -1 * (float) Math.sin(angle);
+   
+   if(Math.abs(vx) > Math.abs(velocity.x)) {
+     vx = velocity.x * -1;
+   }
+   
+   if(Math.abs(vy) > Math.abs(velocity.y)) {
+     vy = velocity.y * -1;
+   }
+   friction = new PVector(vx,vy);
+ }
  public void updateVelocity() {
-   velocity.add(friction);
-   velocity.add(spin); 
+   if(velocity.x > 0 && velocity.y > 0) {
+     updateFriction();
+     velocity.add(friction);
+   }
  }
  
  public boolean isInPocket() {
