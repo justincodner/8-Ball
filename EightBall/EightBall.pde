@@ -1,4 +1,4 @@
- WhiteBall b = new WhiteBall(60,60);
+ WhiteBall b = new WhiteBall(60,70);
  Cue c = new Cue(b);
  PVector x = new PVector(220,220);
  
@@ -6,8 +6,13 @@
   Ball b2 = new Ball(55,90);
 void setup() {
   size(500,700);
+//<<<<<<< HEAD
+  frameRate(20);
+ 
+//=======
   frameRate(60);
   b1.setVelocity(new PVector(0,1));
+//>>>>>>> b45122a847ead0fee8887ed635d118c914aba2f4
 }
 
 void draw() {
