@@ -7,12 +7,8 @@
   Ball b2 = new Ball(55,90);
 void setup() {
   size(500,700);
-//<<<<<<< HEAD
-  frameRate(5);
- 
-//=======
+  frameRate(20);
   b1.setVelocity(new PVector(0,1));
-//>>>>>>> b45122a847ead0fee8887ed635d118c914aba2f4
 }
 
 void draw() {
@@ -26,12 +22,8 @@ void draw() {
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
   b1.render();
   b2.render();
-  b1.updateVelocity();
-  b2.updateVelocity();
-  b1.updatePosition();
-  b2.updatePosition();
   if(Math.sqrt((b1.position.x-b2.position.x) * (b1.position.x-b2.position.x) + (b1.position.y - b2.position.y) * (b1.position.y - b2.position.y)) < 20) {
-    b1.transferVelocity(b2);
+    b1.collision(b2);
   }
   */
   
