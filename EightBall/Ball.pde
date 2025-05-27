@@ -71,7 +71,7 @@ public void transferSpin(float nx, float ny, Ball otherBall) {
  
  
  public void updateFriction() {
-   float fric = .160 * 9.81 * .001;
+   float fric = .160 * 9.81 * .002;
    double angle = Math.atan(velocity.y/velocity.x);
    float vx = fric * -1 * (float) Math.cos(angle);
    float vy = fric * -1 * (float) Math.sin(angle);
@@ -129,7 +129,7 @@ void render(){
    updateVelocity();
    updatePosition();
    updateSpin();
-  //println("ball x:" + position.x + ", Y: "+position.y);
+  println("ball x:" + position.x + ", Y: "+position.y);
  }
  
 }
