@@ -41,9 +41,7 @@ public class Cue{
     if(mouseX < ball.getPosition().x){
       angleToY*= -1;
     }
-    println(angleToY);
-        println(angle);
-    if(powerDraw){
+     if(powerDraw){
     setPosition(power);
     }else if(powerDrawn){
       angle=theta;
@@ -81,9 +79,9 @@ public class Cue{
       powerDrawn = true;
       powerDraw = false;
       power-=11;
-   //     println(power);
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
+      println("suppsoed to transfer powe rhere");
       ball.setVelocity(angle.copy().setMag(setPower/maxPower).mult(-1));
       power =0;
     }

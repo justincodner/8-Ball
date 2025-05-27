@@ -98,6 +98,9 @@ void render(){
    fill(255,255,255);
    strokeWeight(2);
   ellipse(position.x, position.y, radius*2,radius*2) ;
+  textSize(20);
+  fill(255,0,0);
+  text("Ball velocity: "+ velocity, 10,160);
   //println("ball x:" + position.x + ", Y: "+position.y);
  }
  
