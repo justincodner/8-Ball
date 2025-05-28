@@ -14,6 +14,7 @@ public class Cue{
   private float setPower;
   private boolean powerDraw;
   private boolean powerDrawn;
+  private boolean stricken = false;
   private WhiteBall ball;
   
   public Cue(WhiteBall b){
@@ -81,9 +82,9 @@ public class Cue{
       power-=11;
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
-      println("suppsoed to transfer powe rhere");
-      ball.setVelocity(angle.copy().setMag(setPower/maxPower).mult(-1));
+      ball.setVelocity(new PVector((float) Math.sin(angleToY) * power * .6, (float) Math.cos(angleToY) * power * .6));
       power =0;
+      stricken = true;
     }
   }
   //packeges ever
