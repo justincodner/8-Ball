@@ -4,8 +4,10 @@ public class Player {
   private boolean finalShot;
   
   public Player(String name){
-    name1 = name;
+    this.name = name;
     ballType1= ballType;
     finalShot = false;
   }
+  
+  
 }
