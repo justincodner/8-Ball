@@ -36,21 +36,6 @@ public void collision(Ball otherBall) {
   otherBall.velocity.add(PVector.mult(collisionNormal, impulseMag));
  }
 
-/* implement later
-public void transferSpin(float nx, float ny, Ball otherBall) {
-  float xvelo1 = spin.x * nx + spin.y * ny * -1;
-  float yvelo1 = spin.x * ny + spin.y * nx;
-  float xvelo2 = otherBall.spin.x * nx + otherBall.spin.y * ny * -1;
-  float yvelo2 = otherBall.spin.x * ny + otherBall.spin.y * nx;
-  velocity.add(xvelo1, yvelo1);
-  velocity.add(xvelo2, yvelo2);
-  float dT = spin.x - otherBall.spin.x;
-  float dS = spin.y - otherBall.spin.y;
-  spin.add(.2 * dT, .2 * dS);
-  spin.add(.2 * dT, .2 * dS);
-  
-}
-*/
  public float getRad() {
    return this.radius;
  }
@@ -118,7 +103,9 @@ public void transferSpin(float nx, float ny, Ball otherBall) {
      return false;
    }
  }
- 
+ void transferSpin(Ball otherBall) {
+   return;
+ }
  
  
 void render(){
