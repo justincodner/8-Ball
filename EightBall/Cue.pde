@@ -82,7 +82,7 @@ public class Cue{
       power-=11;
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
-      ball.setVelocity(new PVector((float) Math.sin(angleToY) * power, (float) Math.cos(angleToY) * power));
+      ball.setVelocity(new PVector((float) Math.sin(angleToY) * power * .6, (float) Math.cos(angleToY) * power * .6));
       power =0;
       stricken = true;
     }
