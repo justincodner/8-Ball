@@ -1,51 +1,115 @@
 public class Cue{
-  final private float length = 30;
-//  private PVector position; //head of the stick
-  private float power;
-  private PVector angle; //
-  private boolean positionSet;
-  private WhiteBall ball;
-  private float angleScalar;
+  //defaults 
+  final private float length = 200;
+  final private PVector up = new PVector(0,1); //why no static
+  final private static int minPower = 5;
+  final private static int maxPower = 100;
+  final private static int space = 2;
   
-  public Cue(){
+  private PVector centerPos; //center of the stick b4 rotate
+  private PVector angle; //
+  private float angleToY; //radians
+  private float angleLock;
+  private float power;
+  private float setPower;
+  private boolean powerDraw;
+  private boolean powerDrawn;
+  private boolean stricken = false;
+  private WhiteBall ball;
+  
+  public Cue(WhiteBall b){
+    ball = b;
     power= 0;
     angle = new PVector(1,0); //default right
+    centerPos = new PVector(0,0);
+    angleLock =0;
+    setPower =0;
   }
   //drag cue 
   //
   public void setAngle(){
-    //position follow cartesian quadrants
-    // mouse on stick
+    PVector theta = angle.copy();
+    float thetaRadians = angleToY;
+    // set amnt of rotation mouse on stick
     angle.x = mouseX - ball.getPosition().x;
-    angle.y = ball.getPosition().y - mouseY;
-    angle.normalize();
+    angle.y = mouseY- ball.getPosition().y ;
+    angle.limit(ball.getRad()+space+100);
+    if(angle.mag() < ball.getRad()+space+20){
+       angle.setMag(ball.getRad()+space+20); 
+    }
     
+    angleToY = acos(up.dot(angle) / (angle.mag())); 
+    if(mouseX < ball.getPosition().x){
+      angleToY*= -1;
+    }
+     if(powerDraw){
+    setPosition(power);
+    }else if(powerDrawn){
+      angle=theta;
+      angleToY = thetaRadians;
+      setPosition(power);
+    }else{
+     setPosition(0); 
+    }
     
   }
-  /*
-  public void setPosition(){
-    position.x= mouseX.
+
+  public void setPosition(float d){
+     //reorienting new x, y
+    //diag + cue - ball over twice the cue = x
+    PVector cueVec = angle.copy().setMag(length / 2 + d+space+ball.getRad()); // cue vector
+    PVector diagVec = (PVector.add(cueVec,ball.getPosition()));
+    centerPos.x = (float)(diagVec.magSq()+Math.pow(cueVec.mag(),2)
+                  - Math.pow(ball.getPosition().mag(),2))/(2 * cueVec.mag()); //dist cue center to ogn
+    centerPos.y = centerPos.x*tan(angleToY -atan(diagVec.x/diagVec.y));
   }
-  */
   public void setPower(){
     if(mousePressed){
-     while(mousePressed){
-       power = ball.getPosition().dist(new PVector(mouseX,mouseY));
-     }
+      powerDraw =true;
+       //power += (new PVector(mouseX-pmouseX,mouseY-pmouseY)).limit(40).mag();
+       power = PVector.dist(ball.getPosition(), new PVector(mouseX, mouseY)) - length/2 ;
+       if(power>maxPower){
+         power =maxPower;
+       } else if (power < minPower){
+         power =minPower;
+       }
     }
-    
   }
-  public void strike(float pow){
-    
+  public void strike(){
+    if(power >0 && !mousePressed){
+      powerDrawn = true;
+      powerDraw = false;
+      power-=11;
+    } else if(powerDrawn && power <= 0){
+      powerDrawn = false;
+      ball.setVelocity(new PVector((float) Math.sin(angleToY) * power * .6, (float) Math.cos(angleToY) * power * .6));
+      power =0;
+      stricken = true;
+    }
   }
+  //packeges ever
   public void render(){
-    if(angle.y >= 0){
-      rotate(acos(angle.x));
-    } else{
-       rotate(-1*acos(angle.x));
-    }
-    rect(20*angle.x,20*angle.y,5,length);
-    
+    strike();
+    setAngle();
+    setPower();
+    p();
+    rotate(PI/2-angleToY);
+    rectMode(CENTER);
+    strokeWeight(0);
+    fill(200,100,20);
+    rect(centerPos.x,centerPos.y,length,10);
+    fill(255);
+    rect(centerPos.x,centerPos.y,2,2);
+    rotate(-1*(PI/2-angleToY));
+  }
+  public void p(){ 
+   textSize(20);
+   fill(0,0,255);
+   text("Power: " +power,20,20);
+   text("angle to y: "+ (angleToY *180/PI),20,50);
+   text("angle vector: "+ angle,20,80);
+   text("PowerDraw: "+ powerDraw,20,110);
+   text("PowerDrawn: "+ powerDrawn,20,140);
   }
 }
 /*
@@ -54,6 +118,7 @@ mouseY
 pmouseX  
 pmouseY  
 mousePressed  
+
 mouseReleased()  
 mouseClicked()  
 mouseMoved()  
