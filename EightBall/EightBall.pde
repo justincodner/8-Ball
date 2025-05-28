@@ -3,8 +3,8 @@
    Cue c = new Cue(ball2);
  PVector x = new PVector(220,220);
  
- Ball b1 = new Ball(50,50);
-  Ball b2 = new Ball(55,90);
+ Ball b1 = new Ball(110,300);
+  Ball b2 = new Ball(100, 400);
 void setup() {
   size(500,700);
   frameRate(20);
@@ -14,12 +14,15 @@ void setup() {
 void draw() {
   ball2.setVelocity(new PVector(10,10));
   ball2.render();
- // b.setPosition(x);
+  // b.setPosition(x);
   background(100,200,50);  
- // b.render();
-  c.render();
-  /*
+  b.render();
+  if(!c.stricken) {
+    c.render();
+  } 
+  
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
+  
   b1.render();
   b2.render();
   if(Math.sqrt((b1.position.x-b2.position.x) * (b1.position.x-b2.position.x) + (b1.position.y - b2.position.y) * (b1.position.y - b2.position.y)) < 20) {
