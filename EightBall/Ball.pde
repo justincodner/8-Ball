@@ -129,7 +129,6 @@ void render(){
    updateVelocity();
    updatePosition();
    updateSpin();
-  println("ball x:" + position.x + ", Y: "+position.y);
  }
  
 }

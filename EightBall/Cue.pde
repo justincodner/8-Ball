@@ -42,9 +42,7 @@ public class Cue{
     if(mouseX < ball.getPosition().x){
       angleToY*= -1;
     }
-    println(angleToY);
-        println(angle);
-    if(powerDraw){
+     if(powerDraw){
     setPosition(power);
     }else if(powerDrawn){
       angle=theta;
@@ -82,7 +80,6 @@ public class Cue{
       powerDrawn = true;
       powerDraw = false;
       power-=11;
-   //     println(power);
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
       ball.setVelocity(new PVector((float) Math.sin(angleToY) * power, (float) Math.cos(angleToY) * power));
