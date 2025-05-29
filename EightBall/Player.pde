@@ -3,14 +3,14 @@ public class Player {
     private String ballType; // "solid" or "striped"
     private boolean finalShot;
     private Cue cue;
-    private WhiteBall whiteBall;
+    // private WhiteBall whiteBall;
     
     // Constructor
     public Player(String name, WhiteBall whiteBall) {
         this.playerName = name;
         this.ballType = null;
         this.finalShot = false;
-        this.whiteBall = whiteBall;
+        // this.whiteBall = whiteBall;
         this.cue = new Cue(whiteBall);
     }
 
@@ -52,6 +52,6 @@ public class Player {
     }
 
     public boolean hasStruck() {
-        return cue.stricken(); // if implemented in Cue
+        return cue.stricken(); 
     }
 }
