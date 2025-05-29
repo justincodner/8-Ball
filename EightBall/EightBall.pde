@@ -10,7 +10,7 @@ void setup() {
   frameRate(60);
   b1.setVelocity(new PVector(0,0));
   b.setVelocity(new PVector(0,2));
-  b.spin = new PVector(0, -1);
+  b.spin = new PVector(0, 0);
 }
 
 void draw() {
