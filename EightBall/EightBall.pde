@@ -9,8 +9,8 @@ void setup() {
   size(500,700);
   frameRate(60);
   b1.setVelocity(new PVector(0,0));
-  b.setVelocity(new PVector(0,2));
-  b.spin = new PVector(0, 0);
+  b.setVelocity(new PVector(0,4));
+  b.spin = new PVector(-1, -2);
 }
 
 void draw() {
