@@ -87,20 +87,24 @@ public class Cue{
       stricken = true;
     }
   }
+  public boolean isFired(){
+     return sticken; 
+  }
   //packeges ever
   public void render(){
     strike();
     setAngle();
     setPower();
     p();
-    rotate(PI/2-angleToY);
+    float rot = PI/2-angleToY;
+    rotate(rot);
     rectMode(CENTER);
     strokeWeight(0);
     fill(200,100,20);
     rect(centerPos.x,centerPos.y,length,10);
     fill(255);
     rect(centerPos.x,centerPos.y,2,2);
-    rotate(-1*(PI/2-angleToY));
+    resetMatrix(); 
   }
   public void p(){ 
    textSize(20);
@@ -110,6 +114,9 @@ public class Cue{
    text("angle vector: "+ angle,20,80);
    text("PowerDraw: "+ powerDraw,20,110);
    text("PowerDrawn: "+ powerDrawn,20,140);
+   text("Mouse X: "+ mouseX,20,160);
+   text("Mouse Y: "+ mouseY,20,180);
+   
   }
 }
 /*

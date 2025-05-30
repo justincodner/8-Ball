@@ -1,4 +1,5 @@
 public class Player {
+
     private String playerName;
     private String ballType; // "solid" or "striped"
     private boolean finalShot;
@@ -52,6 +53,7 @@ public class Player {
     }
 
     public boolean hasStruck() {
-        return cue.stricken(); 
+        return cue.isFired(); 
     }
+
 }
