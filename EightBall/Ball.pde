@@ -111,7 +111,8 @@ public void collision(Ball otherBall) {
 void render(){
    fill(255,255,255);
    strokeWeight(2);
-   ellipse(position.x, position.y, radius*2,radius*2) ;
+   ellipseMode(CENTER);
+   ellipse(position.x, position.y, this.radius*2,radius*2) ;
    updateVelocity();
    updatePosition();
    updateSpin();

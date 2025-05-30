@@ -5,7 +5,7 @@ public class Player {
   
   public Player(String name){
     this.name = name;
-    ballType1= ballType;
+    //ballType1= ballType;
     finalShot = false;
   }
   
