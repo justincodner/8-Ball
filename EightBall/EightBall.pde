@@ -14,8 +14,9 @@ void setup() {
   pt = new PoolTable(width-50,(int)(.6*(width-50) +.5),5);
 println("8ball w:"+width);  frameRate(60);
   b1.setVelocity(new PVector(0,0));
-  b.setVelocity(new PVector(0,0));
-  b.spin = new PVector(0, 0);
+
+  b.setVelocity(new PVector(0,4));
+  b.spin = new PVector(-1, -2);
 }
 
 void draw() {

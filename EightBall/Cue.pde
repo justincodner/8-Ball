@@ -87,6 +87,9 @@ public class Cue{
       stricken = true;
     }
   }
+  public boolean isFired(){
+     return sticken; 
+  }
   //packeges ever
   public void render(){
     strike();

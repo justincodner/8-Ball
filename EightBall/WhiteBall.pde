@@ -5,10 +5,11 @@ public class WhiteBall extends Ball{
  }
  
  public void transferSpin(Ball otherBall) {
-  PVector collisionNormal = PVector.sub(super.position, otherBall.position);
-  collisionNormal.normalize();
-  collisionNormal = new PVector(collisionNormal.x*spin.x, collisionNormal.y*spin.y);
-  super.velocity.add(collisionNormal);
-  
- }
+   PVector collisionDir = PVector.sub(otherBall.position, super.position);
+   collisionDir.normalize();
+   PVector tangentDir = new PVector(collisionDir.y, -collisionDir.x);
+   super.velocity.add(PVector.mult(collisionDir, spin.y));;
+   super.velocity.add(PVector.mult(tangentDir, spin.x));
+   spin = new PVector(0,0);
+}
 }
