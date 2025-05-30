@@ -3,14 +3,14 @@
    Cue c = new Cue(b);
  PVector x = new PVector(220,220);
  
- Ball b1 = new Ball(160,300);
-  Ball b2 = new Ball(160, 400);
+ Ball b1 = new WhiteBall(160,300);
+  Ball b2 = new WhiteBall(160, 400);
 void setup() {
   size(500,700);
   frameRate(60);
   b1.setVelocity(new PVector(0,0));
   b.setVelocity(new PVector(0,4));
-  b.spin = new PVector(-1, -2);
+  b.spin = new PVector(-1,4);
 }
 
 void draw() {
