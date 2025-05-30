@@ -52,6 +52,6 @@ public class Player {
     }
 
     public boolean hasStruck() {
-        return cue.stricken(); 
+        return cue.isFired(); 
     }
 }
