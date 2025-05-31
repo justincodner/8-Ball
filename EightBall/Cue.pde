@@ -8,6 +8,7 @@ public class Cue{
   
   private PVector centerPos; //center of the stick b4 rotate
   private PVector angle; //
+  private PVector tprint = new PVector(0,0); //
   private float angleToY; //radians
   private float angleLock;
   private float power;
@@ -16,6 +17,7 @@ public class Cue{
   private boolean powerDrawn;
   private boolean stricken = false;
   private WhiteBall ball;
+  private float hPower; //highest pwoer b4 cue released
   
   public Cue(WhiteBall b){
     ball = b;
@@ -55,7 +57,7 @@ public class Cue{
   }
 
   public void setPosition(float d){
-     //reorienting new x, y
+     //reorienting new x, y based on how far cue is 
     //diag + cue - ball over twice the cue = x
     PVector cueVec = angle.copy().setMag(length / 2 + d+space+ball.getRad()); // cue vector
     PVector diagVec = (PVector.add(cueVec,ball.getPosition()));
@@ -65,7 +67,11 @@ public class Cue{
   }
   public void setPower(){
     if(mousePressed){
-      powerDraw =true;
+      if(powerDrawn==false){
+        
+         hPower =power; 
+      }
+       powerDraw =true;
        //power += (new PVector(mouseX-pmouseX,mouseY-pmouseY)).limit(40).mag();
        power = PVector.dist(ball.getPosition(), new PVector(mouseX, mouseY)) - length/2 ;
        if(power>maxPower){
@@ -77,18 +83,25 @@ public class Cue{
   }
   public void strike(){
     if(power >0 && !mousePressed){
+    
       powerDrawn = true;
       powerDraw = false;
       power-=11;
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
-      ball.setVelocity(new PVector((float) Math.sin(angleToY) * power * .6, (float) Math.cos(angleToY) * power * .6));
+      tprint=new PVector((float) Math.sin(angleToY) * hPower * .6, (float) Math.cos(angleToY) * hPower * .6);
+      println("ball set vel:"+tprint);
+      println("current power (cue hit ball)"+power);
+            println("hPower (cue hit ball)"+hPower);
+       println("angle to y: "+ (angleToY *180/PI));
+      ball.setVelocity(new PVector((float) Math.sin(angleToY) * -hPower * .1, (float) Math.cos(angleToY) * -hPower * .1));
       power =0;
+      hPower=0;
       stricken = true;
     }
   }
   public boolean isFired(){
-     return sticken; 
+     return stricken; 
   }
   //packeges ever
   public void render(){
@@ -108,14 +121,16 @@ public class Cue{
   }
   public void p(){ 
    textSize(20);
-   fill(0,0,255);
+   fill(0,255,255);
    text("Power: " +power,20,20);
+   text("hPower: " +hPower,180,20);
    text("angle to y: "+ (angleToY *180/PI),20,50);
    text("angle vector: "+ angle,20,80);
    text("PowerDraw: "+ powerDraw,20,110);
    text("PowerDrawn: "+ powerDrawn,20,140);
    text("Mouse X: "+ mouseX,20,160);
    text("Mouse Y: "+ mouseY,20,180);
+   text("ball set vel: "+ tprint,20,height-30);
    
   }
 }

@@ -10,13 +10,15 @@ WhiteBall b = new WhiteBall(160,170);
 PoolTable pt;
 
 void setup() {
-  size(500,500);
-  pt = new PoolTable(width-50,(int)(.6*(width-50) +.5),5);
-println("8ball w:"+width);  frameRate(60);
+  size(600,700);
+ 
+  pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
+println("8ball w:"+width); 
   b1.setVelocity(new PVector(0,0));
 
-  b.setVelocity(new PVector(0,4));
+  b.setVelocity(new PVector(0,0));
   b.spin = new PVector(-1, -2);
+   frameRate(60);
 }
 
 void draw() {
