@@ -22,12 +22,12 @@ public class PoolTable{
       println("h: "+height);
       //top down left right
       
-   pocket.add(new int[] {x-wr,y-lr});  
-   pocket.add(new int[] {x-wr,y+lr});
-   pocket.add(new int[] {x,y-lr});
-   pocket.add(new int[] {x,y+lr});
-   pocket.add(new int[] {x+wr,y-lr});
-   pocket.add(new int[] {x+wr,y+lr});
+   pocket.add(new int[] {x-wr-inset,y-lr-inset});  
+   pocket.add(new int[] {x-wr-inset,y+lr+inset});
+   pocket.add(new int[] {x,y-lr-inset});
+   pocket.add(new int[] {x,y+lr+inset});
+   pocket.add(new int[] {x+wr+inset,y-lr-inset});
+   pocket.add(new int[] {x+wr+inset,y+lr+inset});
  //  pocketRadius = ball.getRad()+2;
  for(int[] a : pocket){
     println("pocket: "+Arrays.toString(a));
@@ -55,42 +55,27 @@ public class PoolTable{
     rect(x-wr,y+lr+frame,x+wr,y+lr);//top
     rect(x-wr,y-lr,x+wr,y-lr-frame);//down
     
-    rectMode(RADIUS);
-   float rt2 =sqrt(2)*inset; //llonger on corners
-      //45 deg rect
+    rectMode(RADIUS);   
     rotate(-PI/4);
-    fill(20,255,255);
+    fill(felt);
     rect(-90,400,4,10);
-   // rect(((pocket.get(0)[0]-rt2)-(pocket.get(0)[1]-rt2))/sqrt(2), (pocket.get(0)[0]-rt2)*(sqrt(2)-1)-(pocket.get(0)[1]-rt2), gapRadius,2*gapRadius);
- ///   rect(((pocket.get(1)[0]-rt2)-(pocket.get(1)[1]+rt2))/sqrt(2), (pocket.get(1)[0]-rt2)*(sqrt(2)-1)-(pocket.get(1)[1]+rt2), gapRadius,2*gapRadius);
-  println("x4 (uper right): "+(((pocket.get(4)[0]+rt2)-(pocket.get(4)[1]-rt2))/sqrt(2))); 
-  println("y4 (uper right): "+((pocket.get(4)[0]+rt2)*(sqrt(2)-1)-(pocket.get(4)[1]-rt2)));
-   rect(((pocket.get(4)[0]+rt2)-(pocket.get(4)[1]-rt2))/sqrt(2), (pocket.get(4)[0]+rt2)*(sqrt(2)-1)-(pocket.get(4)[1]-rt2), 2*gapRadius,gapRadius);
-    rect(((pocket.get(5)[0]+rt2)-(pocket.get(5)[1]+rt2))/sqrt(2), (pocket.get(5)[0]+rt2)*(sqrt(2)-1)-(pocket.get(5)[1]+rt2), 2*gapRadius,gapRadius);
+   rect((pocket.get(0)[0]-pocket.get(0)[1])/sqrt(2),(pocket.get(0)[0]+pocket.get(0)[1]+2*inset)/sqrt(2),gapRadius,gapRadius); //top right
+   rect((pocket.get(1)[0]-pocket.get(1)[1]+2*inset)/sqrt(2),(pocket.get(1)[0]+pocket.get(1)[1])/sqrt(2),gapRadius,gapRadius); //top right
+   rect((pocket.get(4)[0]-pocket.get(4)[1]-2*inset)/sqrt(2),(pocket.get(4)[0]+pocket.get(4)[1])/sqrt(2),gapRadius,gapRadius); //top right
+   rect((pocket.get(5)[0]-pocket.get(5)[1])/sqrt(2),(pocket.get(5)[0]+pocket.get(5)[1]-2*inset)/sqrt(2),gapRadius,gapRadius); //top right
     resetMatrix();
+    rect(pocket.get(2)[0],pocket.get(2)[1]+inset,gapRadius,gapRadius);
+    rect(pocket.get(3)[0],pocket.get(3)[1]-inset,gapRadius,gapRadius);
     
     //pocket
 ellipseMode(RADIUS);
 
    for(int i=0; i< pocket.size();i++){
-     float ix = 0;
-     float iy = 0;
-     if(i<2){
-       ix=-inset;
-     }else if(i>3){
-       ix=inset;
-    }
-    if(i%2==0){
-      iy = -inset;
-    }else {
-      iy=inset;
-    }
-       
-     fill(felt);
-     
-     ellipse(pocket.get(i)[0]+ix,pocket.get(i)[1]+iy,gapRadius,gapRadius);
+    
+      fill(felt);
+     ellipse(pocket.get(i)[0],pocket.get(i)[1],gapRadius,gapRadius);
      fill(20);
-     ellipse(pocket.get(i)[0]+ix,pocket.get(i)[1]+iy,pocketRadius,pocketRadius);
+     ellipse(pocket.get(i)[0],pocket.get(i)[1],pocketRadius,pocketRadius);
     
     
    }
