@@ -4,19 +4,16 @@ final private float radius = 10.0;
 private PVector position;
 private PVector velocity;
 private PVector friction;
-private PVector spin;
 
 public Ball(){
     position= new PVector(220,220);
     friction= new PVector(0,0);
     velocity= new PVector(0,0);
-    spin = new PVector(0,0);
  }
 public Ball(float x, float y){
     position= new PVector(x,y);
     friction= new PVector(0,0);
     velocity= new PVector(0,0);
-    spin = new PVector(0,0);
  }
 
 public PVector getPosition() {
