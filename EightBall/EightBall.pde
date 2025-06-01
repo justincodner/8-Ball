@@ -40,7 +40,6 @@ void draw() {
       c.render();
    }
    */
-
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
   for(Ball a: pt.circ()){
    a.render(); 
