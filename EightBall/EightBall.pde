@@ -4,9 +4,10 @@ WhiteBall b = new WhiteBall(160,170);
    Cue c = new Cue(b);
  PVector x = new PVector(220,220);
  
- Ball b1 = new Ball(160,300);
-  Ball b2 = new Ball(160, 400);
-  
+
+ Ball b1 = new WhiteBall(160,300);
+  Ball b2 = new WhiteBall(160, 400);
+
 PoolTable pt;
 
 void setup() {
@@ -16,7 +17,7 @@ println("8ball w:"+width);  frameRate(60);
   b1.setVelocity(new PVector(0,0));
 
   b.setVelocity(new PVector(0,4));
-  b.spin = new PVector(-1, -2);
+  b.spin = new PVector(-1,4);
 }
 
 void draw() {
