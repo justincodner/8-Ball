@@ -5,10 +5,10 @@ public class BlackBall extends Ball {
   }
   
   public void render() {
+    super.render();
    fill(0,0,0);
    strokeWeight(2);
    ellipse(super.position.x, super.position.y, super.radius*2,super.radius*2) ;
-   super.render();
 
   }
 }

@@ -7,6 +7,8 @@ WhiteBall b = new WhiteBall(160,170);
 
  Ball b1 = new WhiteBall(160,300);
   Ball b2 = new WhiteBall(160, 400);
+color red = color(0,0,255);
+ Ball testingBall = new GameBall(250,250,1,red, 5);
 
 PoolTable pt;
 
@@ -18,11 +20,11 @@ println("8ball w:"+width);  frameRate(60);
 
   b.setVelocity(new PVector(0,4));
   b.spin = new PVector(-1,4);
+  
 }
 
 void draw() {
   //ball2.setVelocity(new PVector(10,10));
-  
   ball2.render();
   background(100,000,150);  
    pt.render();
@@ -38,7 +40,7 @@ void draw() {
   detectCollision(b1,b2);
   detectCollision(b,b1);
   detectCollision(b,b2);
-  
+  testingBall.render();
   //pool table
   
 }
