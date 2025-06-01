@@ -3,11 +3,12 @@ public class Cue{
   final private float length = 200;
   final private PVector up = new PVector(0,1); //why no static
   final private static int minPower = 5;
-  final private static int maxPower = 100;
+  final private static int maxPower = 200;
   final private static int space = 2;
   
   private PVector centerPos; //center of the stick b4 rotate
   private PVector angle; //
+  private PVector tprint = new PVector(0,0); //
   private float angleToY; //radians
   private float angleLock;
   private float power;
@@ -15,9 +16,10 @@ public class Cue{
   private boolean powerDraw;
   private boolean powerDrawn;
   private boolean stricken = false;
-  private WhiteBall ball;
+  private Ball ball;
+  private float hPower; //highest pwoer b4 cue released
   
-  public Cue(WhiteBall b){
+  public Cue(Ball b){
     ball = b;
     power= 0;
     angle = new PVector(1,0); //default right
@@ -55,7 +57,7 @@ public class Cue{
   }
 
   public void setPosition(float d){
-     //reorienting new x, y
+     //reorienting new x, y based on how far cue is 
     //diag + cue - ball over twice the cue = x
     PVector cueVec = angle.copy().setMag(length / 2 + d+space+ball.getRad()); // cue vector
     PVector diagVec = (PVector.add(cueVec,ball.getPosition()));
@@ -65,7 +67,11 @@ public class Cue{
   }
   public void setPower(){
     if(mousePressed){
-      powerDraw =true;
+      if(powerDrawn==false){
+        
+         hPower =power; 
+      }
+       powerDraw =true;
        //power += (new PVector(mouseX-pmouseX,mouseY-pmouseY)).limit(40).mag();
        power = PVector.dist(ball.getPosition(), new PVector(mouseX, mouseY)) - length/2 ;
        if(power>maxPower){
@@ -77,13 +83,20 @@ public class Cue{
   }
   public void strike(){
     if(power >0 && !mousePressed){
+    
       powerDrawn = true;
       powerDraw = false;
-      power-=11;
+      power-=hPower/10;
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
-      ball.setVelocity(new PVector((float) Math.sin(angleToY) * power * .6, (float) Math.cos(angleToY) * power * .6));
+      tprint=new PVector((float) Math.sin(angleToY) * hPower * .8, (float) Math.cos(angleToY) * hPower * .8);
+      println("ball set vel:"+tprint);
+      println("current power (cue hit ball)"+power);
+            println("hPower (cue hit ball)"+hPower);
+       println("angle to y: "+ (angleToY *180/PI));
+      ball.setVelocity(new PVector((float) Math.sin(angleToY) * -hPower * .1, (float) Math.cos(angleToY) * -hPower * .1));
       power =0;
+      hPower=0;
       stricken = true;
     }
   }
@@ -95,7 +108,7 @@ public class Cue{
     strike();
     setAngle();
     setPower();
-    p();
+    pcue();
     float rot = PI/2-angleToY;
     rotate(rot);
     rectMode(CENTER);
@@ -106,17 +119,25 @@ public class Cue{
     rect(centerPos.x,centerPos.y,2,2);
     resetMatrix(); 
   }
-  public void p(){ 
+  public void pcue(){ 
+   ArrayList<String> debug = new ArrayList<String>();
    textSize(20);
-   fill(0,0,255);
-   text("Power: " +power,20,20);
-   text("angle to y: "+ (angleToY *180/PI),20,50);
-   text("angle vector: "+ angle,20,80);
-   text("PowerDraw: "+ powerDraw,20,110);
-   text("PowerDrawn: "+ powerDrawn,20,140);
-   text("Mouse X: "+ mouseX,20,160);
-   text("Mouse Y: "+ mouseY,20,180);
-   
+   fill(0,255,255);
+   debug.add("Power: " +power);
+   debug.add("hPower: " +hPower);
+   debug.add("angle to y: "+ (angleToY *180/PI));
+  // debug.add("angle vector: "+ angle);
+   debug.add("PowerDraw: "+ powerDraw);
+   debug.add("PowerDrawn: "+ powerDrawn);
+   debug.add("Power: " +power);
+   debug.add("ball set vel: "+ tprint);
+   debug.add("Mouse X: "+ mouseX);
+   debug.add("Mouse Y: "+ mouseY);
+//   debug.add("ball set vel: "+ tprint);
+  
+   for(int i=0;i<debug.size();i++){
+     text(debug.get(i), 20, i*20);
+   }
   }
 }
 /*

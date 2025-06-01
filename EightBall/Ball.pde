@@ -15,10 +15,7 @@ public Ball(float x, float y){
     friction= new PVector(0,0);
     velocity= new PVector(0,0);
  }
-
-public PVector getPosition() {
-  return position;
-}
+ 
 public void collision(Ball otherBall) {
   PVector collisionNormal = PVector.sub(position, otherBall.position);
   float distance = collisionNormal.mag();
@@ -33,9 +30,15 @@ public void collision(Ball otherBall) {
   otherBall.velocity.add(PVector.mult(collisionNormal, impulseMag));
  }
 
- public float getRad() {
-   return this.radius;
- }
+   public float getRad() {
+     return this.radius;
+   }
+   public PVector getPosition() {
+    return position;
+   }
+  public PVector getVelocity() {
+    return this.velocity;
+  }
  
 
  public void setPosition(PVector pos) {
@@ -90,6 +93,19 @@ public void collision(Ball otherBall) {
 void render(){
    updateVelocity();
    updatePosition();
-}
- 
+   updateSpin();
+ }
+  public void pball(){ 
+    //ball debug window;
+   ArrayList<String> debug = new ArrayList<String>();
+   textSize(20);
+   fill(10,240,0);
+   debug.add("Veclocity: " +velocity);
+   debug.add("position: " +position);
+//   debug.add("ball set vel: "+ tprint);
+  
+   for(int i=0;i<debug.size();i++){
+     text(debug.get(i), 20,height-30- i*20);
+   }
+  }
 }
