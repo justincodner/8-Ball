@@ -1,5 +1,5 @@
 public class Ball {
-final private float radius = 10.0;
+final private float radius = 5.0;
 
 private PVector position;
 private PVector velocity;
@@ -93,7 +93,7 @@ public void collision(Ball otherBall) {
 void render(){
    updateVelocity();
    updatePosition();
-   updateSpin();
+ //  updateSpin();
  }
   public void pball(){ 
     //ball debug window;

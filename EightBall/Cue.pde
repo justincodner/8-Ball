@@ -55,7 +55,11 @@ public class Cue{
     }
     
   }
-
+  public Ball setBall(Ball b){
+    Ball alpha = ball;
+    ball = b;
+    return alpha;
+  }
   public void setPosition(float d){
      //reorienting new x, y based on how far cue is 
     //diag + cue - ball over twice the cue = x

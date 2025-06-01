@@ -1,5 +1,3 @@
-
-
   //WhiteBall ball2 = new WhiteBall(100,100);
    Cue c;
  PVector x = new PVector(220,220);
@@ -9,21 +7,21 @@ color red = color(0,0,255);
 PoolTable pt;
 
 void setup() {
-  size(600,700);
-  pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
-
-  Ball mball =new WhiteBall(150,220);
-  pt.addBall(mball);
-  pt.addBall(new Ball(160,300));
-  pt.addBall(new Ball(160,400)); 
-  print("adasddkdas");
-  pt.getBall(0).setVelocity(new PVector(10,10));
-  c = new Cue(pt.getBall(0));
-  pt.getBall(1).setVelocity(new PVector(0,0));
-  pt.getBall(1).spin = new PVector(-1, -2);
-  //============================
-  frameRate(10);
-  //===========================
+   size(600,700);
+   pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
+ 
+   Ball mball =new WhiteBall(150,220);
+   pt.addBall(mball);
+   pt.addBall(new Ball(160,300));
+   pt.addBall(new Ball(160,400)); 
+   print("adasddkdas");
+   pt.getBall(0).setVelocity(new PVector(0,0));
+   c = new Cue(pt.getBall(0));
+   pt.getBall(1).setVelocity(new PVector(0,0));
+//   pt.getBall(1).spin = new PVector(-1, -2);
+   //============================
+   frameRate(50);
+   //===========================
 }
 
 void draw() {
@@ -32,20 +30,31 @@ void draw() {
 
   background(100,000,150);  
   pt.render();
-  pt.cscore();
-  pt.wbounce();
-  pt.getBall(1).render();
-  if(!c.stricken) {
-    c.render();
-  } 
-  
+  pt.cscore(c);
+  //pt.wbounce();
+  pt.getBall(0).render();
+   c.render();
+  /*
+   if(!c.stricken) {
+     
+      c.render();
+   }
+   */
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
-  pt.getBall(1).render();
-  pt.getBall(2).render();
-  detectCollision(pt.getBall(1),pt.getBall(2));
-  detectCollision(pt.getBall(1),pt.getBall(1));
-  detectCollision(pt.getBall(1),pt.getBall(2));
-  
+  for(Ball a: pt.circ()){
+   a.render(); 
+  }
+  detectCollision(pt.getBall(1),pt.getBall(0));
+  /*for(int i=0; i< pt.circ().size();i++){
+     println("qweq");
+     for(int k=i; k< pt.circ().size();k++){
+        println("qweq");
+        detectCollision(pt.getBall(k),pt.getBall(i));
+         
+     }
+  } 
+  */
+ 
   //pool table
   
 }
@@ -56,6 +65,7 @@ void mousePressed(){
 void detectCollision(Ball tb1, Ball tb2) {
   if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) < 20) {
     tb1.collision(tb2);
-    tb1.transferSpin(tb2);
+    
+    tb1.transferSpin(tb2); //<==
   } 
 }
