@@ -1,5 +1,5 @@
 public class Player {
-
+  
     private String playerName;
     private String ballType; // "solid" or "striped"
     private boolean finalShot;
