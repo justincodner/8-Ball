@@ -3,7 +3,7 @@ public class Cue{
   final private float length = 200;
   final private PVector up = new PVector(0,1); //why no static
   final private static int minPower = 5;
-  final private static int maxPower = 100;
+  final private static int maxPower = 200;
   final private static int space = 2;
   
   private PVector centerPos; //center of the stick b4 rotate
@@ -89,7 +89,7 @@ public class Cue{
       power-=11;
     } else if(powerDrawn && power <= 0){
       powerDrawn = false;
-      tprint=new PVector((float) Math.sin(angleToY) * hPower * .6, (float) Math.cos(angleToY) * hPower * .6);
+      tprint=new PVector((float) Math.sin(angleToY) * hPower * .8, (float) Math.cos(angleToY) * hPower * .8);
       println("ball set vel:"+tprint);
       println("current power (cue hit ball)"+power);
             println("hPower (cue hit ball)"+hPower);

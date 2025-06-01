@@ -1,5 +1,7 @@
 
-WhiteBall b = new WhiteBall(160,170);
+WhiteBall b = new WhiteBall(460,370);
+//lol
+
   WhiteBall ball2 = new WhiteBall(100,100);
    Cue c = new Cue(b);
  PVector x = new PVector(220,220);
@@ -28,7 +30,7 @@ void draw() {
   background(100,000,150);  
    pt.render();
   b.render();
-  if(!c.stricken) {
+ if(!c.stricken) {
     c.render();
   } 
   

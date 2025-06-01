@@ -18,10 +18,7 @@ public Ball(float x, float y){
     velocity= new PVector(0,0);
     spin = new PVector(0,0);
  }
-
-public PVector getPosition() {
-  return position;
-}
+ 
 public void collision(Ball otherBall) {
   PVector collisionNormal = PVector.sub(position, otherBall.position);
   float distance = collisionNormal.mag();
@@ -36,9 +33,15 @@ public void collision(Ball otherBall) {
   otherBall.velocity.add(PVector.mult(collisionNormal, impulseMag));
  }
 
- public float getRad() {
-   return this.radius;
- }
+   public float getRad() {
+     return this.radius;
+   }
+   public PVector getPosition() {
+    return position;
+   }
+  public PVector getVelocity() {
+    return this.velocity;
+  }
  
 
  public void setPosition(PVector pos) {
