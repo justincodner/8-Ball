@@ -12,4 +12,10 @@ public class WhiteBall extends Ball{
    super.velocity.add(PVector.mult(tangentDir, spin.x));
    spin = new PVector(0,0);
 }
+  public void render() {
+   fill(255,255,255);
+   strokeWeight(2);
+   ellipse(super.position.x, super.position.y, super.radius*2,super.radius*2) ;
+   super.render();
+  }
 }

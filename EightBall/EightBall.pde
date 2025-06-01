@@ -3,39 +3,41 @@
   //WhiteBall ball2 = new WhiteBall(100,100);
    Cue c;
  PVector x = new PVector(220,220);
+color red = color(0,0,255);
+ Ball testingBall = new GameBall(250,250,1,red, 5);
 
 PoolTable pt;
 
 void setup() {
-   size(600,700);
-   pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
- 
-   Ball mball =new WhiteBall(150,220);
-   pt.addBall(mball);
-   pt.addBall(new Ball(160,300));
-   pt.addBall(new Ball(160,400)); 
-   print("adasddkdas");
-   pt.getBall(0).setVelocity(new PVector(10,10));
-   c = new Cue(pt.getBall(0));
- pt.getBall(1).setVelocity(new PVector(0,0));
- pt.getBall(1).spin = new PVector(-1, -2);
- //============================
-   frameRate(10);
-//===========================
+  size(600,700);
+  pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
+
+  Ball mball =new WhiteBall(150,220);
+  pt.addBall(mball);
+  pt.addBall(new Ball(160,300));
+  pt.addBall(new Ball(160,400)); 
+  print("adasddkdas");
+  pt.getBall(0).setVelocity(new PVector(10,10));
+  c = new Cue(pt.getBall(0));
+  pt.getBall(1).setVelocity(new PVector(0,0));
+  pt.getBall(1).spin = new PVector(-1, -2);
+  //============================
+  frameRate(10);
+  //===========================
 }
 
 void draw() {
-  //ball2.setVelocity(new PVector(10,10));
-  
-//  ball2.render();
+  //ball2.setVelocity(new PVector(10,10));  
+  //  ball2.render();
+
   background(100,000,150);  
   pt.render();
   pt.cscore();
   pt.wbounce();
   pt.getBall(1).render();
-   if(!c.stricken) {
-      c.render();
-   } 
+  if(!c.stricken) {
+    c.render();
+  } 
   
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
   pt.getBall(1).render();
