@@ -120,5 +120,17 @@ void render(){
    updatePosition();
    updateSpin();
  }
- 
+  public void pball(){ 
+    //ball debug window;
+   ArrayList<String> debug = new ArrayList<String>();
+   textSize(20);
+   fill(10,240,0);
+   debug.add("Veclocity: " +velocity);
+   debug.add("position: " +position);
+//   debug.add("ball set vel: "+ tprint);
+  
+   for(int i=0;i<debug.size();i++){
+     text(debug.get(i), 20,height-30- i*20);
+   }
+  }
 }

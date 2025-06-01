@@ -37,24 +37,33 @@ public class PoolTable{
    //striped ad to arr player one
    //not strpied arr p2
  }
+ 
  public ArrayList<Ball> addBall(Ball apple){
     circles.add(apple);
     return circles;
  }
+ 
+ public Ball getBall(int i){
+    return circles.get(i);
+ }
+  
  public Ball cscore(){
    //returns ball scored.null if nothing
-   // 
+   //checks entire circles
+   
    for(int i = 0; i<circles.size(); i++){
      for(int k = 0; k<pocket.size(); k++){
        //CHANGE VLAUE
        if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <2){
-         return circles.get(i);
+         return circles.remove(i);
        }
      }
    }
     return null;
  }
  public Ball wbounce(){
+   //returns ball bounced.null if nothing
+   //checks entire circles
    PVector t = new PVector(0,0);
    for(int i = 0; i<circles.size(); i++){
      if(circles.get(i).getPosition().x>= x+wr-circles.get(i).getRad() || circles.get(i).getPosition().x<= x-wr+circles.get(i).getRad()){ //right wall
@@ -70,7 +79,7 @@ public class PoolTable{
      }
    }
    return null;
- }
+  }
   public void render(){
     color felt = color(40,170,20);
     rectMode(CORNERS);
@@ -106,12 +115,28 @@ public class PoolTable{
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
    }
+   
+   for(Ball bob :circles){
+      bob.render(); 
+   }
+   ptble();
+   if(circles.size()>0){
+     circles.get(0).pball();
+   }
    strokeWeight(1);
    fill(222,0,2);
    line(x,0,x,height);
    line(0,y,width,y);
-     
    //striped ad to arr player one
    //not strpied arr p2
  }
+ public void ptble(){ 
+   ArrayList<String> debug = new ArrayList<String>();
+   textSize(20);
+   fill(0,255,255);
+// debug.add("ball set vel: "+ tprint);
+   for(int i=0;i<debug.size();i++){
+     text(debug.get(i), 20, height-i*20);
+   }
+  }
 }

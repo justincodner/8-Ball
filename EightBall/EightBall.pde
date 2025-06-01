@@ -1,46 +1,48 @@
 
-WhiteBall b = new WhiteBall(460,370);
-//lol
 
-  WhiteBall ball2 = new WhiteBall(100,100);
-   Cue c = new Cue(b);
+  //WhiteBall ball2 = new WhiteBall(100,100);
+   Cue c;
  PVector x = new PVector(220,220);
- 
- Ball b1 = new Ball(160,300);
-  Ball b2 = new Ball(160, 400);
-  
+
 PoolTable pt;
 
 void setup() {
-  size(600,700);
+   size(600,700);
+   pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
  
-  pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
-println("8ball w:"+width); 
-  b1.setVelocity(new PVector(0,0));
-
-  b.setVelocity(new PVector(0,0));
-  b.spin = new PVector(-1, -2);
-   frameRate(60);
+   Ball mball =new WhiteBall(150,220);
+   pt.addBall(mball);
+   pt.addBall(new Ball(160,300));
+   pt.addBall(new Ball(160,400)); 
+   print("adasddkdas");
+   pt.getBall(0).setVelocity(new PVector(10,10));
+   c = new Cue(pt.getBall(0));
+ pt.getBall(1).setVelocity(new PVector(0,0));
+ pt.getBall(1).spin = new PVector(-1, -2);
+ //============================
+   frameRate(10);
+//===========================
 }
 
 void draw() {
   //ball2.setVelocity(new PVector(10,10));
   
-  ball2.render();
+//  ball2.render();
   background(100,000,150);  
-   pt.render();
-  b.render();
- if(!c.stricken) {
-    c.render();
-  } 
+  pt.render();
+  pt.cscore();
+  pt.wbounce();
+  pt.getBall(1).render();
+   if(!c.stricken) {
+      c.render();
+   } 
   
   //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
- 
-  b1.render();
-  b2.render();
-  detectCollision(b1,b2);
-  detectCollision(b,b1);
-  detectCollision(b,b2);
+  pt.getBall(1).render();
+  pt.getBall(2).render();
+  detectCollision(pt.getBall(1),pt.getBall(2));
+  detectCollision(pt.getBall(1),pt.getBall(1));
+  detectCollision(pt.getBall(1),pt.getBall(2));
   
   //pool table
   
@@ -49,9 +51,9 @@ void mousePressed(){
   c.setPower();
 }
 //for testing purposes
-void detectCollision(Ball b1, Ball b2) {
-  if(Math.sqrt((b1.position.x-b2.position.x) * (b1.position.x-b2.position.x) + (b1.position.y - b2.position.y) * (b1.position.y - b2.position.y)) < 20) {
-    b1.collision(b2);
-    b1.transferSpin(b2);
+void detectCollision(Ball tb1, Ball tb2) {
+  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) < 20) {
+    tb1.collision(tb2);
+    tb1.transferSpin(tb2);
   } 
 }
