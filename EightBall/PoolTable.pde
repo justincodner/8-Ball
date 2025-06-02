@@ -152,11 +152,18 @@ public class PoolTable{
       circles.add(new GameBall(0,0,0, ballCol[i],i+1));
       circles.add(new GameBall(0,0,1,ballCol[i],i+8));
     }
-    Ball black = new BlackBall(400,350);
+    float l = (float) Math.sqrt(3);
+    Ball black = new BlackBall(450-20*l,350);
     java.util.Collections.shuffle(circles);
-    PVector[] positions ={new PVector(500,370), new PVector(500,360), new PVector(500,350), new PVector(500,340), new PVector(500,330),
-                          new PVector(500-10*Math.sqrt(3),365),new PVector(500-10*Math.sqrt(3),355), new PVector(500-10*Math.sqrt(3),345), new PVector(500-10*Math.sqrt(3),335),
-                          new }
+    PVector[] positions ={new PVector(450,370), new PVector(450,360), new PVector(450,350), new PVector(450,340), new PVector(450,330),
+                          new PVector(450-10*l,365),new PVector(450-10*l,355), new PVector(450-10*l,345), new PVector(450-10*l,335),
+                          new PVector(450-20*l, 360), new PVector(450-20*l, 340), 
+                          new PVector(450-30*l, 355), new PVector(450-20*l, 345),
+                          new PVector(450-40*l, 350) };
+    for(int i = 0; i < circles.size(); i++) {
+      circles.get(i).setPosition(positions[i]);
+    }
+    circles.add(black);
   }
   
 }

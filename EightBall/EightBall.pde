@@ -11,13 +11,14 @@ void setup() {
    pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
    
    Ball mball =new WhiteBall(150,220);
+   pt.start();
    pt.addBall(mball);
-   pt.addBall(new Ball(160,300));
-   pt.addBall(new Ball(160,400)); 
+   //pt.addBall(new Ball(160,300));
+   //pt.addBall(new Ball(160,400)); 
    print("adasddkdas");
-   pt.getBall(0).setVelocity(new PVector(0,0));
-   c = new Cue(pt.getBall(0));
-   pt.getBall(1).setVelocity(new PVector(0,0));
+   //pt.getBall(0).setVelocity(new PVector(0,0));
+   c = new Cue(pt.getBall(pt.circles.size()-1));
+   //pt.getBall(1).setVelocity(new PVector(0,0));
 //   pt.getBall(1).spin = new PVector(-1, -2);
    //============================
    frameRate(50);
