@@ -145,4 +145,18 @@ public class PoolTable{
      text(debug.get(i), 20, height-i*20);
    }
   }
+  
+  public void start() {
+    color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,139), color(255,165,0), color(0,255,0), color(139,0,0)};
+    for(int i = 0; i < 7; i++) {
+      circles.add(new GameBall(0,0,0, ballCol[i],i+1));
+      circles.add(new GameBall(0,0,1,ballCol[i],i+8));
+    }
+    Ball black = new BlackBall(400,350);
+    java.util.Collections.shuffle(circles);
+    PVector[] positions ={new PVector(500,370), new PVector(500,360), new PVector(500,350), new PVector(500,340), new PVector(500,330),
+                          new PVector(500-10*Math.sqrt(3),365),new PVector(500-10*Math.sqrt(3),355), new PVector(500-10*Math.sqrt(3),345), new PVector(500-10*Math.sqrt(3),335),
+                          new }
+  }
+  
 }
