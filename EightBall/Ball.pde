@@ -4,6 +4,7 @@ final private float radius = 5.0;
 private PVector position;
 private PVector velocity;
 private PVector friction;
+private double ta = 0;
 
 public Ball(){
     position= new PVector(220,220);
@@ -53,29 +54,39 @@ public void collision(Ball otherBall) {
    position.add(velocity);
  }
  
- 
- public void updateFriction() {
-   float fric = .160 * 9.81 * .002;
-   double angle = Math.atan(velocity.y/velocity.x);
-   float vx = fric * -1 * (float) Math.cos(angle);
-   float vy = fric * -1 * (float) Math.sin(angle);
-   
-   if(Math.abs(vx) > Math.abs(velocity.x)) {
-     vx = velocity.x * -1;
-   }
-   
-   if(Math.abs(vy) > Math.abs(velocity.y)) {
-     vy = velocity.y * -1;
-   }
-   friction = new PVector(vx,vy);
- }
  public void updateVelocity() {
    if(Math.abs(velocity.x) > 0 || Math.abs(velocity.y) > 0) {
      updateFriction();
      velocity.add(friction);
+   //  println(velocity);
    }
  }
  
+ public void updateFriction() {
+   float fric = .160 * 9.81 * .005;
+   double angle = Math.atan2(velocity.y,velocity.x);
+   ta =angle;
+   //println("velocity dir angle: " +angle);
+   //decrements
+   float vx = fric * -1 * (float) Math.cos(angle);
+   float vy = fric * -1 * (float) Math.sin(angle);
+   print("vx: " +vx);
+   println("||   vy: " +vy);
+   
+   ///if maginite of x-increment velocity
+   if(Math.abs(vx) > Math.abs(velocity.x)) {
+     vx = velocity.x * -1;
+     print("APPPPPLE");
+   }
+   
+   if(Math.abs(vy) > Math.abs(velocity.y)) {
+     vy = velocity.y * -1;
+     print("APPPPPLE");
+   }
+   
+   friction = new PVector(vx,vy);
+   //println(friction);
+ }
  public boolean isInPocket() {
    //Using place holder valuues
    if(position.x < 0 || position.x > 0 || position.y < 0 || position.y > 0) {
@@ -84,9 +95,12 @@ public void collision(Ball otherBall) {
      return false;
    }
  }
- void transferSpin(Ball otherBall) {
+ public void transferSpin(Ball otherBall) {
    //implemented only in white ball
    return;
+ }
+ public String toString(){
+   return "ball";
  }
  
  
@@ -100,10 +114,13 @@ void render(){
    ArrayList<String> debug = new ArrayList<String>();
    textSize(20);
    fill(10,240,0);
-   debug.add("Veclocity: " +velocity);
    debug.add("position: " +position);
-//   debug.add("ball set vel: "+ tprint);
-  
+   debug.add("Vel mag: " +velocity.mag());
+   debug.add("Velocity: " +velocity);
+   debug.add("Vel Angle: " +(ta*180/PI));
+   debug.add("Fsub f: " +friction.mag());
+    debug.add("friction: " +friction);
+   
    for(int i=0;i<debug.size();i++){
      text(debug.get(i), 20,height-30- i*20);
    }

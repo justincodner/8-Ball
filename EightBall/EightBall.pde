@@ -2,25 +2,29 @@
    Cue c;
  PVector x = new PVector(220,220);
 color red = color(0,0,255);
+ Ball testingBall = new GameBall(250,250,1,red, 5);
+ boolean debug=false; //toggle on for system print used to debug when error happens
 PoolTable pt;
 
 void setup() {
    size(600,700);
    pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
-   
+    println("# BALLS:"+pt.circ().size());
    Ball mball =new WhiteBall(150,350);
    pt.start();
-   pt.addBall(mball);
-   //pt.addBall(new Ball(160,300));
-   //pt.addBall(new Ball(160,400)); 
-   print("adasddkdas");
-   //pt.getBall(0).setVelocity(new PVector(0,0));
-   c = new Cue(pt.getBall(pt.circles.size()-1));
-   //pt.getBall(1).setVelocity(new PVector(0,0));
-//   pt.getBall(1).spin = new PVector(-1, -2);
-   //============================
-   frameRate(20);
-   //===========================
+   pt.addBall(0,mball);
+   
+  // pt.addBall(new Ball(160,300));
+  // pt.addBall(new Ball(160,400)); 
+    println("# BALLS:"+pt.circ().size());
+   pt.getBall(0).setVelocity(new PVector(0,0));
+   c = new Cue(pt.getBall(0));
+  // pt.getBall(1).setVelocity(new PVector(0,0));
+  //   pt.getBall(1).spin = new PVector(-1, -2);
+   //****************
+   frameRate(5);
+   //****************
+   println("# BALLS:"+pt.circ().size());
 }
 
 void draw() {
@@ -29,21 +33,29 @@ void draw() {
 
   background(100,000,150);  
   pt.render();
+  if(debug)
+  print("render");
   pt.cscore(c);
-  //pt.wbounce();
-  //pt.getBall(0).render();
-   //c.render();
-  
+
+  if(debug)
+  print("pocket score");
+  pt.wbounce();
+  if(debug)
+   print("wbounce");
+  pt.getBall(0).render();
+ //  c.render();
+ // println("first ball render");
+
    if(!c.stricken) {
-     
       c.render();
    }
    
-  //x.x += 10*Math.random()-5;  x.y += 10*Math.random()-5;
-  
-  
-  //detectCollision(pt.getBall(1),pt.getBall(0));
-  /*for(int i=0; i< pt.circ().size();i++){
+  for(Ball a: pt.circ()){
+   a.render(); 
+  }
+//  detectCollision(pt.getBall(1),pt.getBall(0));
+
+ /*for(int i=0; i< pt.circ().size();i++){
      println("qweq");
      for(int k=i; k< pt.circ().size();k++){
         println("qweq");
@@ -58,5 +70,17 @@ void draw() {
 }
 void mousePressed(){
   c.setPower();
+}
+void keyPressed(){
+  if(keyCode == 32){
+    frameRate(30);
+  } else if(keyCode == ENTER){
+    frameRate(1);
+  } else if(keyCode == RIGHT){
+    frameRate++;
+    //println(frameRate);
+  } else if(keyCode == LEFT){
+    frameRate--;
+  }
 }
 //for testing purposes
