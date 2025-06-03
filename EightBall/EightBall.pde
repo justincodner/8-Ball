@@ -9,22 +9,22 @@ PoolTable pt;
 void setup() {
    size(600,700);
    pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
-   
+    println("# BALLS:"+pt.circ().size());
    Ball mball =new WhiteBall(150,350);
    pt.start();
-   pt.addBall(mball);
+   pt.addBall(0,mball);
    
   // pt.addBall(new Ball(160,300));
   // pt.addBall(new Ball(160,400)); 
-   
+    println("# BALLS:"+pt.circ().size());
    pt.getBall(0).setVelocity(new PVector(0,0));
    c = new Cue(pt.getBall(0));
-     print("new cue");
   // pt.getBall(1).setVelocity(new PVector(0,0));
   //   pt.getBall(1).spin = new PVector(-1, -2);
    //****************
    frameRate(5);
    //****************
+   println("# BALLS:"+pt.circ().size());
 }
 
 void draw() {

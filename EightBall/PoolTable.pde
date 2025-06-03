@@ -44,6 +44,10 @@ public class PoolTable{
     circles.add(apple);
     return circles;
  }
+ public ArrayList<Ball> addBall(int index, Ball apple){
+    circles.add(index, apple);
+    return circles;
+ }
  public ArrayList<Ball> circ(){
     return circles;
  }
