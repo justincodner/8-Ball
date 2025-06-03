@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 public class PoolTable{
-  private final int pocketRadius = 10;
-  private final int inset = 20;
+  private final int pocketRadius = 15;
+  private final int inset = 10;
   private final int gapRadius =pocketRadius + 3;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
   private ArrayList<PVector> pocket = new ArrayList<PVector>();
   private ArrayList<Ball> circles = new ArrayList<Ball>();
+  private int bounce=0;
   
   public PoolTable(int wd, int len, int fr){
     wr = wd/2;
@@ -21,6 +22,7 @@ public class PoolTable{
     println("y: "+y);
     println("w: "+width);
     println("h: "+height);
+    
     //top down left right
         
     pocket.add(new PVector(x-wr-inset,y-lr-inset));  
@@ -54,13 +56,14 @@ public class PoolTable{
  public Ball cscore(Cue st){
    //returns ball scored.null if nothing
    //checks entire circles
-   println(circles.size());
+   
    for(int i = 0; i<circles.size(); i++){
      for(int k = 0; k<pocket.size(); k++){
        //CHANGE VLAUE
        if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <20){
-         println(circles);
-         st.setBall(circles.get(i+1));
+         println(circles.toString());
+        // if(circles.size()>0)
+         //  st.setBall(circles.get(i+1));
          return circles.remove(i);
        }
      }
@@ -71,18 +74,26 @@ public class PoolTable{
    //returns ball bounced.null if nothing
    //checks entire circles
    PVector t = new PVector(0,0);
+   fill(255,255,0);
+   strokeWeight(2);
    for(int i = 0; i<circles.size(); i++){
      if(circles.get(i).getPosition().x>= x+wr-circles.get(i).getRad() || circles.get(i).getPosition().x<= x-wr+circles.get(i).getRad()){ //right wall
+       bounce++;
+     //  println("bounce: "+ bounce);
        t =circles.get(i).getVelocity();
+      // println("v b:"+t + " mag " +t.mag());
        t.x*=-1;
        circles.get(i).setVelocity(t);
+     //  println("v a: "+circles.get(i).getVelocity()+" mag " + circles.get(i).getVelocity().mag());
        return circles.get(i);
-     } else if(circles.get(i).getPosition().y>= y-lr+circles.get(i).getRad() || circles.get(i).getPosition().x<= x+lr-circles.get(i).getRad()){ //bottom
+     } 
+     if(circles.get(i).getPosition().y>= y+lr-circles.get(i).getRad() || circles.get(i).getPosition().y<= y-lr+circles.get(i).getRad()){ //bottom
        t=circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
        return circles.get(i);
      }
+     
    }
    return null;
   }
@@ -105,10 +116,10 @@ public class PoolTable{
     rotate(-PI/4);
     fill(felt);
     rect(-90,400,4,10);
-   rect((pocket.get(0).x-pocket.get(0).y)/sqrt(2),(pocket.get(0).x+pocket.get(0).y+2*inset)/sqrt(2),gapRadius,inset+gapRadius); //top right
-   rect((pocket.get(1).x-pocket.get(1).y+2*inset)/sqrt(2),(pocket.get(1).x+pocket.get(1).y)/sqrt(2),gapRadius+inset,gapRadius); //top right
-   rect((pocket.get(4).x-pocket.get(4).y-2*inset)/sqrt(2),(pocket.get(4).x+pocket.get(4).y)/sqrt(2),gapRadius+inset,gapRadius); //top right
-   rect((pocket.get(5).x-pocket.get(5).y)/sqrt(2),(pocket.get(5).x+pocket.get(5).y-2*inset)/sqrt(2),gapRadius,gapRadius+inset); //top right
+   rect((pocket.get(0).x-pocket.get(0).y)/sqrt(2),(pocket.get(0).x+pocket.get(0).y+3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //top left
+   rect((pocket.get(1).x-pocket.get(1).y+3*inset)/sqrt(2),(pocket.get(1).x+pocket.get(1).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //bottom left
+   rect((pocket.get(4).x-pocket.get(4).y-3*inset)/sqrt(2),(pocket.get(4).x+pocket.get(4).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //top right
+   rect((pocket.get(5).x-pocket.get(5).y)/sqrt(2),(pocket.get(5).x+pocket.get(5).y-3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //bottom right
     resetMatrix();
     rect(pocket.get(2).x,pocket.get(2).y+inset,gapRadius,inset);
     rect(pocket.get(3).x,pocket.get(3).y-inset,gapRadius,inset);
@@ -130,9 +141,15 @@ public class PoolTable{
      circles.get(0).pball();
    }
    strokeWeight(1);
-   fill(222,0,2);
+   stroke(222,0,2);
    line(x,0,x,height);
    line(0,y,width,y);
+   //boucnewalls
+   line(x+wr-5,0,x+wr-5,height);
+   line(x-wr+5,0,x-wr+5,height);
+   line(0,y+lr-5,width,y+lr-5);
+   line(0,y-lr+5,0,y-lr+5);
+   stroke(0);
    //striped ad to arr player one
    //not strpied arr p2
  }

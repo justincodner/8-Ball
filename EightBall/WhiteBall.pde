@@ -18,6 +18,9 @@ public class WhiteBall extends Ball{
    fill(255,255,255);
    strokeWeight(2);
    ellipse(super.position.x, super.position.y, super.radius*2,super.radius*2) ;
+   stroke(140,170,190);
+   ellipse(super.position.x, super.position.y, 2,2) ;
+   stroke(0);
    super.render();
   }
 }
