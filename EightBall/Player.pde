@@ -1,7 +1,7 @@
 public class Player {
 
     private String playerName;
-    private String ballType; // "solid" or "striped"
+    private int ballType; // "solid" or "striped"
     private boolean finalShot;
     private Cue cue;
     private int ballsPocketed;
@@ -27,8 +27,8 @@ public class Player {
     }
 
     // Assigns solid or striped
-    public void assignType(String type) {
-        if (type.equals("solid") || type.equals("striped")) {
+    public void type(int type) {
+        if (type == 1 || type == 0) {
             this.ballType = type;
         }
     } 
