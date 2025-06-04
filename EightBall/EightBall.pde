@@ -7,6 +7,7 @@ color red = color(0,0,255);
 PoolTable pt;
 
 void setup() {
+
    size(700,700);
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
     println("# BALLS:"+pt.circ().size());
@@ -22,7 +23,7 @@ void setup() {
   // pt.getBall(1).setVelocity(new PVector(0,0));
   //   pt.getBall(1).spin = new PVector(-1, -2);
    //****************
-   frameRate(5);
+   frameRate(60);
    //****************
    println("# BALLS:"+pt.circ().size());
 }
@@ -33,6 +34,7 @@ void draw() {
 
   background(100,000,150);  
   pt.render();
+  pt.render();
   if(debug)
   print("render");
   pt.cscore(c);
@@ -42,6 +44,7 @@ void draw() {
   pt.wbounce();
   if(debug)
    print("wbounce");
+
   pt.getBall(0).render();
  // println("first ball render");
 
@@ -49,9 +52,7 @@ void draw() {
       c.render();
    }
    
-  for(Ball a: pt.circ()){
-   a.render(); 
-  }
+
 //  detectCollision(pt.getBall(1),pt.getBall(0));
 
  /*for(int i=0; i< pt.circ().size();i++){

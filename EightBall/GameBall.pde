@@ -2,11 +2,16 @@ public class GameBall extends Ball {
   private int type;
   private int num;
   private color col;
+  
   public GameBall(float x, float y, int type, color col, int num) {
     super(x,y);
     this.type = type;
     this.col = col;
     this.num = num;
+  }
+  
+  public int type() {
+    return type;
   }
   
   public void render() {
@@ -22,8 +27,13 @@ public class GameBall extends Ball {
       arc(super.position.x, super.position.y, super.radius*2,super.radius*2, 5*QUARTER_PI, 7 * QUARTER_PI, CHORD);
     }
     strokeWeight(2);
-    textSize(12);
+    textSize(10);
     fill(0,0,0);
-    text(num, super.position.x-3,super.position.y+4);
+    if(num < 10) {
+      text(num, super.position.x-3,super.position.y+4);
+    } else {
+      text(num,super.position.x-5,super.position.y+4);
+    }
+    
 }
 }

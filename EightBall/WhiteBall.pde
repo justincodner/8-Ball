@@ -1,7 +1,12 @@
 public class WhiteBall extends Ball{
  PVector spin;
+ int type = 2;
  public WhiteBall(int i, int k){
    super(i,k);
+ }
+ 
+ public int type() {
+   return type;
  }
  
  public void transferSpin(Ball otherBall) {

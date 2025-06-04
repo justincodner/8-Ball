@@ -1,37 +1,37 @@
 public class Player {
 
     private String playerName;
-    private String ballType; // "solid" or "striped"
+    private int ballType; // "solid" or "striped"
     private boolean finalShot;
     private Cue cue;
     private int ballsPocketed;
-    private boolean player1Turn;
-    private boolean player2Turn;
+    private boolean turn;
 
     // Constructor
-    public Player(String name, WhiteBall whiteBall) {
+    public Player(String name) {
         this.playerName = name;
         this.ballType = null;
         this.finalShot = false;
-        this.cue = new Cue(whiteBall);
         this.ballsPocketed = 0;
-        this.player1Turn = true;
-        this.player2Turn = false;
+        this.turn = true;
+    }
+    public void setWhiteBall(Ball whiteball){
+      this.cue = new Cue(whiteball);
     }
 
     // Called each frame to let the player take their shot
     public void takeShot() {
-        if (player1Turn || player2Turn) {
+        if (turn) {
             cue.render();  // handles aiming, power draw, and striking
         }
     }
 
     // Assigns solid or striped
-    public void assignType(String type) {
-        if (type.equals("solid") || type.equals("striped")) {
+    public void type(int type) {
+        if (type == 1 || type == 0) {
             this.ballType = type;
         }
-    }
+    } 
 
     public void setName(String name) {
         this.playerName = name;

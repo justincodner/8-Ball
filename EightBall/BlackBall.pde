@@ -1,7 +1,10 @@
 public class BlackBall extends Ball {
-
+  int type = 3;
   public BlackBall(float x, float y) {
     super(x,y);
+  }
+  public int type() {
+    return type;
   }
   
   public void render() {
