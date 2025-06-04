@@ -7,10 +7,10 @@ color red = color(0,0,255);
 PoolTable pt;
 
 void setup() {
-   size(600,700);
-   pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
+   size(700,700);
+   pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
     println("# BALLS:"+pt.circ().size());
-   Ball mball =new WhiteBall(150,350);
+   Ball mball =new WhiteBall(105,350);
    pt.start();
    pt.addBall(0,mball);
    
@@ -43,7 +43,6 @@ void draw() {
   if(debug)
    print("wbounce");
   pt.getBall(0).render();
- //  c.render();
  // println("first ball render");
 
    if(!c.stricken) {
