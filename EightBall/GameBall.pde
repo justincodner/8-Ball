@@ -2,6 +2,7 @@ public class GameBall extends Ball {
   private int type;
   private int num;
   private color col;
+  
   public GameBall(float x, float y, int type, color col, int num) {
     super(x,y);
     this.type = type;

@@ -21,4 +21,11 @@ public class GameStates{
     player2.turn = false;
     pt.start();
   }
+  
+  public boolean isfinalShot(){
+    for(Ball e: pt.circles){
+      if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
+    }
+    return true;
+  }
 }
