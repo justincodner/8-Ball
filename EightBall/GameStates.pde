@@ -20,5 +20,30 @@ public class GameStates{
     player1.turn = true;
     player2.turn = false;
     pt.start();
+    Ball white = new WhiteBall(150,350);
+    pt.circles.add(0,white);
+  }
+  
+  public boolean isGameOver() {
+    for(Ball e : pt.circles) {
+      if(e.type() == 3) {
+        return true;
+      }
+    } 
+    return false;
+  }
+  
+  public void renderGame() {
+    while(!isGameOver()) {
+    
+    
+    }
+    pt.render();
+    textSize(30);
+    if(playerTurn == 0) {
+       text("It is Player1's Turn", 20,20);
+    } else {
+      text("It is Player2's Turn", 20,20);
+    }
   }
 }

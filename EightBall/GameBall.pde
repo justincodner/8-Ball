@@ -9,6 +9,10 @@ public class GameBall extends Ball {
     this.num = num;
   }
   
+  public int type() {
+    return type;
+  }
+  
   public void render() {
    super.render();
    fill(col);

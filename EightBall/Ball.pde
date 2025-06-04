@@ -17,6 +17,9 @@ public Ball(float x, float y){
     velocity= new PVector(0,0);
  }
  
+ public int type() {
+   return -1;
+ }
 public void collision(Ball otherBall) {
   PVector collisionNormal = PVector.sub(position, otherBall.position);
   float distance = collisionNormal.mag();
