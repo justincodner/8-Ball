@@ -5,23 +5,23 @@ public class Player {
     private boolean finalShot;
     private Cue cue;
     private int ballsPocketed;
-    private boolean player1Turn;
-    private boolean player2Turn;
+    private boolean turn;
 
     // Constructor
-    public Player(String name, WhiteBall whiteBall) {
+    public Player(String name) {
         this.playerName = name;
         this.ballType = null;
         this.finalShot = false;
-        this.cue = new Cue(whiteBall);
         this.ballsPocketed = 0;
-        this.player1Turn = true;
-        this.player2Turn = false;
+        this.turn = true;
+    }
+    public void setWhiteBall(Ball whiteball){
+      this.cue = new Cue(whiteball);
     }
 
     // Called each frame to let the player take their shot
     public void takeShot() {
-        if (player1Turn || player2Turn) {
+        if (turn) {
             cue.render();  // handles aiming, power draw, and striking
         }
     }
@@ -31,7 +31,7 @@ public class Player {
         if (type.equals("solid") || type.equals("striped")) {
             this.ballType = type;
         }
-    }
+    } 
 
     public void setName(String name) {
         this.playerName = name;
