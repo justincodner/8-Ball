@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 public class PoolTable{
-  private final int pocketRadius = 15;
+  private final int pocketRadius = 13;
   private final int inset = 10;
   private final int gapRadius =pocketRadius + 3;
   private int wr, lr; //width radius is x direction
@@ -101,6 +101,19 @@ public class PoolTable{
    }
    return null;
   }
+  public float getTopWall(){
+    return y-lr+5;
+  }
+  public float geBottomWall(){
+    return y+lr-5;
+  }
+  public float getleWall(){
+    return x-wr+5;
+  }
+  public float getRaWall(){
+    return x+wr-5;
+  }
+  
   public void render(){
     color felt = color(40,170,20);
     rectMode(CORNERS);
@@ -119,7 +132,6 @@ public class PoolTable{
     rectMode(RADIUS);   
     rotate(-PI/4);
     fill(felt);
-    rect(-90,400,4,10);
    rect((pocket.get(0).x-pocket.get(0).y)/sqrt(2),(pocket.get(0).x+pocket.get(0).y+3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //top left
    rect((pocket.get(1).x-pocket.get(1).y+3*inset)/sqrt(2),(pocket.get(1).x+pocket.get(1).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //bottom left
    rect((pocket.get(4).x-pocket.get(4).y-3*inset)/sqrt(2),(pocket.get(4).x+pocket.get(4).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //top right
@@ -132,7 +144,7 @@ public class PoolTable{
     ellipseMode(RADIUS);
     for(int i=0; i< pocket.size();i++){
       fill(felt);
-      ellipse(pocket.get(i).x,pocket.get(i).y,gapRadius,gapRadius);
+      ellipse(pocket.get(i).x,pocket.get(i).y, gapRadius,gapRadius);
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
    }
@@ -157,8 +169,9 @@ public class PoolTable{
    //boucnewalls
    line(x+wr-5,0,x+wr-5,height);
    line(x-wr+5,0,x-wr+5,height);
+   println(x-wr+5);
    line(0,y+lr-5,width,y+lr-5);
-   line(0,y-lr+5,0,y-lr+5);
+   line(0,y-lr+5,width,y-lr+5);
    stroke(0);
    //striped ad to arr player one
    //not strpied arr p2

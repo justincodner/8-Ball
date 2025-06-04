@@ -66,7 +66,7 @@ public void collision(Ball otherBall) {
  }
  
  public void updateFriction() {
-   float fric = .160 * 9.81 * .005;
+   float fric = .160 * 9.81 * .002;
    double angle = Math.atan2(velocity.y,velocity.x);
    ta =angle;
    //println("velocity dir angle: " +angle);
