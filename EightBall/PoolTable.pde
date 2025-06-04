@@ -194,9 +194,9 @@ public class PoolTable{
   }
   
   void detectCollision(Ball tb1, Ball tb2) {
-  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) < 10) {
+  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) <= 10) {
     tb1.collision(tb2);
-    
+    print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
     //tb1.transferSpin(tb2); //<==
   }
   }
