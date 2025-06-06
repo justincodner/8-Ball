@@ -46,7 +46,7 @@ public class GameStates{
       text("It is Player2's Turn", 20,20);
     }
   }
-  
+ /* 
   public boolean isfinalShot(){
    int currentPlayerType;
     if (playerTurn == 0) {
@@ -58,5 +58,5 @@ public class GameStates{
       if(b.type() == currentPlayerType) return false;
     }
     return true;
-  }
+  }*/
 }
