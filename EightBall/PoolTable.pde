@@ -213,4 +213,25 @@ public class PoolTable{
     //tb1.transferSpin(tb2); //<==
   }
   }
+  
+  public boolean ballStop() {
+    for(Ball ball : circles) {
+      if(ball.velocity.x !=0 || ball.velocity.y!=0) {
+        return false;
+      }
+    }
+    return false;
+  }
+  
+  public boolean whitePocketed() {
+    for(Ball ball: circles) {
+      if(ball.type == 2) {
+        return false;
+      } 
+    }
+    return true;
+  }
+  
+  
+  
 }
