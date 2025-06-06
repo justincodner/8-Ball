@@ -4,15 +4,14 @@ public class Player {
     private int ballType; // "solid" or "striped"
     private boolean finalShot;
     private Cue cue;
-    private int ballsPocketed;
+    private int ballsLeft;
     private boolean turn;
 
     // Constructor
     public Player(String name) {
         this.playerName = name;
-        this.ballType = null;
         this.finalShot = false;
-        this.ballsPocketed = 0;
+        this.ballsLeft = 0;
         this.turn = true;
     }
     public void setWhiteBall(Ball whiteball){
@@ -42,8 +41,8 @@ public class Player {
     }
 
 
-    public void addPocketedBall() {
-        ballsPocketed++;
+    public void subtractBall() {
+        ballsLeft--;
     }
 
     public String getPlayerName() {
@@ -67,7 +66,7 @@ public class Player {
     }
 
 
-    public int getBallsPocketed() {
-        return ballsPocketed;
+    public int getBallsLeft() {
+        return ballsLeft;
     }
 }

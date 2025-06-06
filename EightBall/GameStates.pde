@@ -4,6 +4,7 @@ public class GameStates{
   boolean playerTwoFinal;
   Player player1;
   Player player2;
+  Player currentPlayer = player1;
   PoolTable pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
   
   
@@ -48,15 +49,13 @@ public class GameStates{
   }
   
   public boolean isfinalShot(){
-   int currentPlayerType;
-    if (playerTurn == 0) {
-      playerType = player1.type();
-    } else {
-      currentPlayerType = player2.type();
-    }
-    for(Ball b: pt.circles) {
-      if(b.type() == currentPlayerType) return false;
-    }
-    return true;
+    if(player1.getBallsLeft() == 0 || player2.getBallsLeft(2) == 0) return true;
+    return false;
   }
-}
+  public void changeTurn() {
+    if(isTurnOver() == true) 
+  }
+  
+  public void choosePocket(){
+    if(isFinalShot == true) 
+  }
