@@ -41,8 +41,8 @@ public class Player {
     }
 
 
-    public void addPocketedBall() {
-        ballsPocketed++;
+    public void subtractBall() {
+        ballsLeft--;
     }
 
     public String getPlayerName() {
@@ -66,7 +66,7 @@ public class Player {
     }
 
 
-    public int getBallsPocketed() {
-        return ballsPocketed;
+    public int getBallsLeft() {
+        return ballsLeft;
     }
 }
