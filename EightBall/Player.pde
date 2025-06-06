@@ -10,7 +10,6 @@ public class Player {
     // Constructor
     public Player(String name) {
         this.playerName = name;
-        this.ballType = null;
         this.finalShot = false;
         this.ballsPocketed = 0;
         this.turn = true;
@@ -50,7 +49,7 @@ public class Player {
         return playerName;
     }
 
-    public String getBallType() {
+    public int getBallType() {
         return ballType;
     }
 
