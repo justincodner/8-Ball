@@ -49,7 +49,7 @@ public class GameStates{
   
   public boolean isfinalShot(){
     for(Ball e: pt.circles){
-      if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
+   //   if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
     }
     return true;
   }
