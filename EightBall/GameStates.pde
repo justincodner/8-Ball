@@ -48,8 +48,14 @@ public class GameStates{
   }
   
   public boolean isfinalShot(){
-    for(Ball e: pt.circles){
-      if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
+   int currentPlayerType;
+    if (playerTurn == 0) {
+      playerType = player1.type();
+    } else {
+      currentPlayerType = player2.type();
+    }
+    for(Ball b: pt.circles) {
+      if(b.type() == currentPlayerType) return false;
     }
     return true;
   }
