@@ -54,6 +54,7 @@ public void collision(Ball otherBall) {
  }
  
  public void updatePosition() {
+   //println("ball update pos");
    position.add(velocity);
  }
  
@@ -73,18 +74,16 @@ public void collision(Ball otherBall) {
    //decrements
    float vx = fric * -1 * (float) Math.cos(angle);
    float vy = fric * -1 * (float) Math.sin(angle);
-   print("vx: " +vx);
-   println("||   vy: " +vy);
    
    ///if maginite of x-increment velocity
    if(Math.abs(vx) > Math.abs(velocity.x)) {
      vx = velocity.x * -1;
-     print("APPPPPLE");
+     
    }
    
    if(Math.abs(vy) > Math.abs(velocity.y)) {
      vy = velocity.y * -1;
-     print("APPPPPLE");
+    
    }
    
    friction = new PVector(vx,vy);

@@ -15,13 +15,9 @@ void setup() {
    pt.start();
    pt.addBall(0,mball);
    
-  // pt.addBall(new Ball(160,300));
-  // pt.addBall(new Ball(160,400)); 
     println("# BALLS:"+pt.circ().size());
-   pt.getBall(0).setVelocity(new PVector(0,0));
+   pt.getBall(0).setVelocity(new PVector(0,-6));
    c = new Cue(pt.getBall(0));
-  // pt.getBall(1).setVelocity(new PVector(0,0));
-  //   pt.getBall(1).spin = new PVector(-1, -2);
    //****************
    frameRate(60);
    //****************
@@ -29,23 +25,29 @@ void setup() {
 }
 
 void draw() {
+  println("start draw =======");
   //ball2.setVelocity(new PVector(10,10));  
   //  ball2.render();
 
-  background(100,000,150);  
-  pt.render();
-  pt.render();
-  if(debug)
-  print("render");
-  pt.cscore(c);
-
-  if(debug)
-  print("pocket score");
+  background(100,000,150); 
   pt.wbounce();
+  pt.render();
+  if(debug) 
+  print("render");
+  //pt.cscore(c);
+
+  if(debug){
+  print("pocket score");
+  
+   println("bound top: " + pt.topBound(pt.circ().get(0)));
+    println("bound bottom: " + pt.bottomBound(pt.circ().get(0)));
+     println("left bound: " + pt.leftBound(pt.circ().get(0)));
+      println("right bound: " + pt.rightBound(pt.circ().get(0)));
+  }
+  
   if(debug)
    print("wbounce");
 
-  pt.getBall(0).render();
  // println("first ball render");
 
    if(!c.stricken) {

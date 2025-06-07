@@ -65,7 +65,7 @@ public class PoolTable{
      for(int k = 0; k<pocket.size(); k++){
        //CHANGE VLAUE
        if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <20){
-         println(circles.toString());
+     
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
          return circles.remove(i);
@@ -77,11 +77,13 @@ public class PoolTable{
  public Ball wbounce(){
    //returns ball bounced.null if nothing
    //checks entire circles
+  // println("Ball bounce");
    PVector t = new PVector(0,0);
    fill(255,255,0);
    strokeWeight(2);
    for(int i = 0; i<circles.size(); i++){
-     if(circles.get(i).getPosition().x>= x+wr-circles.get(i).getRad() || circles.get(i).getPosition().x<= x-wr+circles.get(i).getRad()){ //right wall
+     if(circles.get(i).getPosition().x> x+wr-circles.get(i).getRad() ||
+       circles.get(i).getPosition().x< x-wr+circles.get(i).getRad()){ //right wall
        bounce++;
      //  println("bounce: "+ bounce);
        t =circles.get(i).getVelocity();
@@ -91,7 +93,8 @@ public class PoolTable{
      //  println("v a: "+circles.get(i).getVelocity()+" mag " + circles.get(i).getVelocity().mag());
        return circles.get(i);
      } 
-     if(circles.get(i).getPosition().y>= y+lr-circles.get(i).getRad() || circles.get(i).getPosition().y<= y-lr+circles.get(i).getRad()){ //bottom
+     if(circles.get(i).getPosition().y> y+lr-circles.get(i).getRad() || 
+       circles.get(i).getPosition().y< y-lr+circles.get(i).getRad()){ //bottom
        t=circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
@@ -101,17 +104,17 @@ public class PoolTable{
    }
    return null;
   }
-  public float getTopWall(){
-    return y-lr+5;
+  public boolean topBound(Ball oi){
+    return oi.getPosition().y<= y-lr+5;
   }
-  public float geBottomWall(){
-    return y+lr-5;
+  public boolean bottomBound(Ball oi){
+    return oi.getPosition().y>=y+lr-5;
   }
-  public float getleWall(){
-    return x-wr+5;
+  public boolean leftBound(Ball oi){
+    return oi.getPosition().y<=x-wr+5;
   }
-  public float getRaWall(){
-    return x+wr-5;
+  public boolean rightBound(Ball oi){
+    return oi.getPosition().y>=x+wr-5;
   }
   
   public void render(){
@@ -148,6 +151,7 @@ public class PoolTable{
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
    }
+   //collision detection
    for(int i = 0; i < circles.size()-1; i++) {
      for(int e = i+1 ; e < circles.size(); e++) {
        detectCollision(circles.get(i),circles.get(e));
@@ -169,7 +173,6 @@ public class PoolTable{
    //boucnewalls
    line(x+wr-5,0,x+wr-5,height);
    line(x-wr+5,0,x-wr+5,height);
-   println(x-wr+5);
    line(0,y+lr-5,width,y+lr-5);
    line(0,y-lr+5,width,y-lr+5);
    stroke(0);
@@ -209,7 +212,7 @@ public class PoolTable{
   void detectCollision(Ball tb1, Ball tb2) {
   if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) <= 10) {
     tb1.collision(tb2);
-    print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
+  //  print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
     //tb1.transferSpin(tb2); //<==
   }
   }
