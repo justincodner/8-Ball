@@ -1,6 +1,6 @@
 public class WhiteBall extends Ball{
- PVector spin;
- int type = 2;
+ private PVector spin;
+ private int type = 2;
  public WhiteBall(int i, int k){
    super(i,k);
  }

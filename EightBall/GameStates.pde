@@ -4,8 +4,9 @@ public class GameStates{
   boolean playerTwoFinal;
   Player player1;
   Player player2;
+  Player currentPlayer = player1;
   PoolTable pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
-  
+  int ballNum;
   
   public GameStates() {
     playerTurn = 0;
@@ -21,6 +22,7 @@ public class GameStates{
     player2.turn = false;
     pt.start();
     Ball white = new WhiteBall(150,350);
+    Cue stick =new Cue(white);
     pt.circles.add(0,white);
   }
   
@@ -30,6 +32,20 @@ public class GameStates{
         return true;
       }
     } 
+    return false;
+  }
+  
+  public boolean isTurnOver() {
+    //Work on ts func later
+    
+    if(pt.ballStop()) {
+      for(Ball ball: pt.circles) {
+      
+      }
+      if(pt.whitePocketed()) {
+        return true;
+      }
+    }
     return false;
   }
   
@@ -46,11 +62,34 @@ public class GameStates{
       text("It is Player2's Turn", 20,20);
     }
   }
-  
+
   public boolean isfinalShot(){
     for(Ball e: pt.circles){
    //   if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
+
+   int currentPlayerType;
+    if (playerTurn == 0) {
+      playerType = player1.type();
+    } else {
+      currentPlayerType = player2.type();
+    }
+    for(Ball b: pt.circles) {
+      if(b.type() == currentPlayerType) 
+      return false;
     }
     return true;
   }
 }
+ public boolean isfinalShot(){
+    if(player1.getBallsLeft() == 0 || player2.getBallsLeft(2) == 0)
+    return true;
+    return false;
+  }
+  public void changeTurn() {
+    if(isTurnOver() == true){}
+    
+  }
+  
+  public void choosePocket(){
+    if(isFinalShot == true){} 
+  }
