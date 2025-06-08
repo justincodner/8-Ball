@@ -62,7 +62,7 @@ public class GameStates{
       text("It is Player2's Turn", 20,20);
     }
   }
-
+/*
   public boolean isfinalShot(){
     for(Ball e: pt.circles){
    //   if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
@@ -93,3 +93,5 @@ public class GameStates{
   public void choosePocket(){
     if(isFinalShot == true){} 
   }
+  */
+}
