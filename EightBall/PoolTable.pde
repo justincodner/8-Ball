@@ -4,7 +4,7 @@ public class PoolTable{
   private final int pocketRadius = 13;
   private final int inset = 10;
   private final int gapRadius =pocketRadius + 3;
-  final private boolean debug = true;
+  final private boolean debug = false;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
@@ -33,6 +33,7 @@ public class PoolTable{
     pocket.add(new PVector(x,y+lr+inset));
     pocket.add(new PVector(x+wr+inset,y-lr-inset));
     pocket.add(new PVector(x+wr+inset,y+lr+inset));
+    //keep frame in bounce the same
 
  }
  public Ball checkForBall(){
@@ -49,6 +50,9 @@ public class PoolTable{
  public ArrayList<Ball> addBall(int index, Ball apple){
     circles.add(index, apple);
     return circles;
+ }
+ public ArrayList<Ball> getScoredBalls (){
+    return scoredBalls;
  }
  public ArrayList<Ball> circ(){
     return circles;
@@ -72,10 +76,8 @@ public class PoolTable{
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
          scoredBalls.add(circles.remove(i));
-         
-         
        }
-       print(i+", ");
+      // print(i+", ");
      }
    }
  }

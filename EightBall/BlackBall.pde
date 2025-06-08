@@ -11,7 +11,7 @@ public class BlackBall extends Ball {
     super.render();
    fill(0,0,0);
    strokeWeight(2);
-   ellipse(super.position.x, super.position.y, super.radius*2,super.radius*2) ;
+   ellipse(super.position.x, super.position.y, super.radius,super.radius) ;
    fill(255,255,255);
    ellipse(super.position.x, super.position.y-1, 7,7);
    fill(0,0,0);
