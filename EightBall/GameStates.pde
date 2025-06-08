@@ -62,9 +62,11 @@ public class GameStates{
       text("It is Player2's Turn", 20,20);
     }
   }
- /* 
+/*
   public boolean isfinalShot(){
-<<<<<<< HEAD
+    for(Ball e: pt.circles){
+   //   if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
+
    int currentPlayerType;
     if (playerTurn == 0) {
       playerType = player1.type();
@@ -72,20 +74,24 @@ public class GameStates{
       currentPlayerType = player2.type();
     }
     for(Ball b: pt.circles) {
-      if(b.type() == currentPlayerType) return false;
+      if(b.type() == currentPlayerType) 
+      return false;
     }
     return true;
-  }*/
+  }
 }
-=======
-    if(player1.getBallsLeft() == 0 || player2.getBallsLeft(2) == 0) return true;
+ public boolean isfinalShot(){
+    if(player1.getBallsLeft() == 0 || player2.getBallsLeft(2) == 0)
+    return true;
     return false;
   }
   public void changeTurn() {
-    if(isTurnOver() == true) 
+    if(isTurnOver() == true){}
+    
   }
   
   public void choosePocket(){
-    if(isFinalShot == true) 
+    if(isFinalShot == true){} 
   }
->>>>>>> Mackey
+  */
+}

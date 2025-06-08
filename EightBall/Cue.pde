@@ -2,10 +2,10 @@ public class Cue{
   //defaults 
   final private float length = 200;
   final private PVector up = new PVector(0,1); //why no static
-  final private static int minPower = 5;
-  final private static int maxPower = 300;
+  final private static int minPower = 20;
+  final private static int maxPower = 140;
   final private static int space = 2;
-  
+  final private float powerScale =2;
   private PVector centerPos; //center of the stick b4 rotate
   private PVector angle; //
   private PVector tprint = new PVector(0,0); //
@@ -18,7 +18,7 @@ public class Cue{
   private boolean stricken = false;
   private Ball ball;
   private float hPower; //highest pwoer b4 cue released
-  
+
   public Cue(Ball b){
     ball = b;
     power= 0;
@@ -98,7 +98,7 @@ public class Cue{
       println("current power (cue hit ball)"+power);
             println("hPower (cue hit ball)"+hPower);
        println("angle to y: "+ (angleToY *180/PI));
-      ball.setVelocity(new PVector((float) Math.sin(angleToY) * -hPower * .1, (float) Math.cos(angleToY) * -hPower * .1));
+      ball.setVelocity(ball.getVelocity().add(new PVector((float) Math.sin(angleToY) * -hPower * .1* powerScale, (float) Math.cos(angleToY) * -hPower * .1 * powerScale)));
       power =0;
       hPower=0;
       stricken = true;

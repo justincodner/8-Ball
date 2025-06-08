@@ -34,6 +34,5 @@ public class GameBall extends Ball {
     } else {
       text(num,super.position.x-5,super.position.y+4);
     }
-    
 }
 }

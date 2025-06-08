@@ -4,11 +4,13 @@ public class PoolTable{
   private final int pocketRadius = 13;
   private final int inset = 10;
   private final int gapRadius =pocketRadius + 3;
+  final private boolean debug = true;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
   private ArrayList<PVector> pocket = new ArrayList<PVector>();
   private ArrayList<Ball> circles = new ArrayList<Ball>();
+  private ArrayList<Ball> scoredBalls = new ArrayList<Ball>();
   private int bounce=0;
   
   public PoolTable(int wd, int len, int fr){
@@ -57,63 +59,84 @@ public class PoolTable{
     return circles.get(i);
  }
   
- public Ball cscore(Cue st){
+ public void cscore(Cue st){
    //returns ball scored.null if nothing
    //checks entire circles
-   
+   int prevSize =0;
    for(int i = 0; i<circles.size(); i++){
-     for(int k = 0; k<pocket.size(); k++){
+     prevSize= circles.size();
+     for(int k = 0; k<pocket.size() && prevSize==circles.size(); k++){
        //CHANGE VLAUE
-       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <20){
-         println(circles.toString());
+       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <pocketRadius){
+     
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
-         return circles.remove(i);
+         scoredBalls.add(circles.remove(i));
+         
+         
        }
+       print(i+", ");
      }
    }
-    return null;
  }
  public Ball wbounce(){
    //returns ball bounced.null if nothing
    //checks entire circles
+  // println("Ball bounce");
    PVector t = new PVector(0,0);
    fill(255,255,0);
    strokeWeight(2);
    for(int i = 0; i<circles.size(); i++){
-     if(circles.get(i).getPosition().x>= x+wr-circles.get(i).getRad() || circles.get(i).getPosition().x<= x-wr+circles.get(i).getRad()){ //right wall
-       bounce++;
-     //  println("bounce: "+ bounce);
+     if(circles.get(i).getPosition().x> x+wr-circles.get(i).getRad()){
+        bounce++;
+        circles.get(i).setPosition(new PVector(x+wr-circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
-      // println("v b:"+t + " mag " +t.mag());
        t.x*=-1;
        circles.get(i).setVelocity(t);
-     //  println("v a: "+circles.get(i).getVelocity()+" mag " + circles.get(i).getVelocity().mag());
-       return circles.get(i);
-     } 
-     if(circles.get(i).getPosition().y>= y+lr-circles.get(i).getRad() || circles.get(i).getPosition().y<= y-lr+circles.get(i).getRad()){ //bottom
-       t=circles.get(i).getVelocity();
+        return circles.get(i);
+     }else if(circles.get(i).getPosition().x< x-wr+circles.get(i).getRad()){//right wall
+        bounce++;
+        circles.get(i).setPosition(new PVector(x-wr+circles.get(i).getRad(),circles.get(i).getPosition().y));
+       t =circles.get(i).getVelocity();
+       t.x*=-1;
+       circles.get(i).setVelocity(t);
+        return circles.get(i);
+     }else if(circles.get(i).getPosition().y> y+lr-circles.get(i).getRad()){
+        bounce++;
+        circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y+lr-circles.get(i).getRad()));
+       t =circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
-       return circles.get(i);
-     }
+        return circles.get(i);
+     }else if(circles.get(i).getPosition().y< y-lr+circles.get(i).getRad()){
+        bounce++;
+        circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y-lr+circles.get(i).getRad()));
+       t =circles.get(i).getVelocity();
+       t.y*=-1;
+       circles.get(i).setVelocity(t);
+        return circles.get(i);
+     }//bottom wall
      
    }
    return null;
   }
-  public float getTopWall(){
-    return y-lr+5;
+  public boolean topBound(Ball oi){
+    return oi.getPosition().y<= y-lr+5;
   }
-  public float geBottomWall(){
-    return y+lr-5;
+  public boolean bottomBound(Ball oi){
+    return oi.getPosition().y>=y+lr-5;
   }
-  public float getleWall(){
-    return x-wr+5;
+  public boolean leftBound(Ball oi){
+    return oi.getPosition().y<=x-wr+5;
   }
-  public float getRaWall(){
-    return x+wr-5;
+  public boolean rightBound(Ball oi){
+    return oi.getPosition().y>=x+wr-5;
   }
-  
+  /*
+  public void checkBound(){
+    for(for(int i = 0; i<circles.size(); i++){)
+  }
+  */
   public void render(){
     color felt = color(40,170,20);
     rectMode(CORNERS);
@@ -132,10 +155,10 @@ public class PoolTable{
     rectMode(RADIUS);   
     rotate(-PI/4);
     fill(felt);
-   rect((pocket.get(0).x-pocket.get(0).y)/sqrt(2),(pocket.get(0).x+pocket.get(0).y+3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //top left
-   rect((pocket.get(1).x-pocket.get(1).y+3*inset)/sqrt(2),(pocket.get(1).x+pocket.get(1).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //bottom left
-   rect((pocket.get(4).x-pocket.get(4).y-3*inset)/sqrt(2),(pocket.get(4).x+pocket.get(4).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //top right
-   rect((pocket.get(5).x-pocket.get(5).y)/sqrt(2),(pocket.get(5).x+pocket.get(5).y-3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //bottom right
+    rect((pocket.get(0).x-pocket.get(0).y)/sqrt(2),(pocket.get(0).x+pocket.get(0).y+3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //top left
+    rect((pocket.get(1).x-pocket.get(1).y+3*inset)/sqrt(2),(pocket.get(1).x+pocket.get(1).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //bottom left
+    rect((pocket.get(4).x-pocket.get(4).y-3*inset)/sqrt(2),(pocket.get(4).x+pocket.get(4).y)/sqrt(2),sqrt(2)*(1.5*inset),gapRadius); //top right
+    rect((pocket.get(5).x-pocket.get(5).y)/sqrt(2),(pocket.get(5).x+pocket.get(5).y-3*inset)/sqrt(2),gapRadius,sqrt(2)*(1.5*inset)); //bottom right
     resetMatrix();
     rect(pocket.get(2).x,pocket.get(2).y+inset,gapRadius,inset);
     rect(pocket.get(3).x,pocket.get(3).y-inset,gapRadius,inset);
@@ -148,20 +171,27 @@ public class PoolTable{
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
    }
+   //collision detection
    for(int i = 0; i < circles.size()-1; i++) {
      for(int e = i+1 ; e < circles.size(); e++) {
        detectCollision(circles.get(i),circles.get(e));
        
      }
    }
+   if (debug)
+   println("combination collision detection, ");
    
    for(Ball bob :circles){
       bob.render(); 
    }
+   if (debug)
+   println("pt circle render, ");
    ptble();
    if(circles.size()>0){
      circles.get(0).pball();
    }
+   if (debug)
+   println("pt whiteball render, ");
    strokeWeight(1);
    stroke(222,0,2);
    line(x,0,x,height);
@@ -169,12 +199,13 @@ public class PoolTable{
    //boucnewalls
    line(x+wr-5,0,x+wr-5,height);
    line(x-wr+5,0,x-wr+5,height);
-   println(x-wr+5);
    line(0,y+lr-5,width,y+lr-5);
    line(0,y-lr+5,width,y-lr+5);
    stroke(0);
    //striped ad to arr player one
    //not strpied arr p2
+   if (debug)
+   println("pt render finished, ");
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();
@@ -207,9 +238,9 @@ public class PoolTable{
   }
   
   void detectCollision(Ball tb1, Ball tb2) {
-  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) <= 10) {
+  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) < 10) {
     tb1.collision(tb2);
-    print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
+  //  print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
     //tb1.transferSpin(tb2); //<==
   }
   }
@@ -225,13 +256,10 @@ public class PoolTable{
   
   public boolean whitePocketed() {
     for(Ball ball: circles) {
-      if(ball.type == 2) {
+      if(ball.type() == 2) {
         return false;
       } 
     }
     return true;
-  }
-  
-  
-  
+  } 
 }
