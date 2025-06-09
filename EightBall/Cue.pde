@@ -143,6 +143,12 @@ public class Cue{
      text(debug.get(i), 20, i*20);
    }
   }
+  
+  public float getAngle() {
+    return angleToY;
+  }
+  
+  
 }
 /*
 mouseX  

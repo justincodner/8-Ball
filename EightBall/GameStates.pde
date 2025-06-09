@@ -8,6 +8,8 @@ public class GameStates{
   PoolTable pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
   int ballNum;
   Cue stick;
+  boolean easy;
+  
   
   public GameStates() {
     playerTurn = 0;
@@ -66,7 +68,7 @@ public class GameStates{
   }
   
   public void renderGame() {
-    while(!isGameOver()) {
+    if(!isGameOver()) {
       
     //visuals
     textSize(30);
@@ -112,6 +114,7 @@ public class GameStates{
     }
   }
   
+<<<<<<< HEAD
   public boolean isFinalShot() {
      if(currentPlayer.getBallsLeft() == 0) return true;
      return false;
@@ -121,6 +124,12 @@ public class GameStates{
     if(isFinalShot() == true) {
       
     }
+=======
+  public void drawLine() {
+    Ball white = pt.circles.get(0);
+    PVector pos = white.getPosition();
+    
+>>>>>>> a2a9c1402b97a79c9784927a0c1fba562bd19322
   }
 /*
   public boolean isfinalShot(){
