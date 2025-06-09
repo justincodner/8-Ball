@@ -5,7 +5,11 @@ public class Cue{
   final private static int minPower = 20;
   final private static int maxPower = 140;
   final private static int space = 2;
+<<<<<<< HEAD
   final private float powerScale =5;
+=======
+  final private float powerScale =.3;
+>>>>>>> 14000d64e7d51fea8292ee76aa30e903b816a307
   private PVector centerPos; //center of the stick b4 rotate
   private PVector angle; //
   private PVector tprint = new PVector(0,0); //

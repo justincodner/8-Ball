@@ -257,11 +257,10 @@ public class PoolTable{
   }
   
   public boolean whitePocketed() {
-    for(Ball ball: circles) {
-      if(ball.type() == 2) {
-        return false;
-      } 
+    if(circles.get(0).type() == 2) {
+      return false;
     }
+    
     return true;
   } 
 }

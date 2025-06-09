@@ -7,9 +7,13 @@ boolean debug=false; //toggle on for system print used to debug when error happe
 PoolTable pt;
 Ball mball;
 
+GameStates game = new GameStates();
 void setup() {
    size(700,700);
+   
+   
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
+
     println("# BALLS:"+pt.circ().size());
    mball =new WhiteBall(200,350);
    pt.start();
@@ -21,6 +25,7 @@ void setup() {
    frameRate(300000);
    //****************
    println("# BALLS:"+pt.circ().size());
+   
 }
 
 void draw() {
@@ -30,6 +35,8 @@ void draw() {
   //  ball2.render();
 
   background(100,000,150); 
+  
+  
   pt.wbounce();
   if(debug)
    print("wbounce, ");
@@ -52,18 +59,9 @@ void draw() {
    if(!c.stricken) {
       c.render();
    }
-
- /*for(int i=0; i< pt.circ().size();i++){
-     println("qweq");
-     for(int k=i; k< pt.circ().size();k++){
-        println("qweq");
-        detectCollision(pt.getBall(k),pt.getBall(i));
-         
-     }
-  } 
-  */
  
   //pool table
+  
   
 }
 void mousePressed(){
