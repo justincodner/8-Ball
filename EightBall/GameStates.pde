@@ -111,6 +111,17 @@ public class GameStates{
     
     }
   }
+  
+  public boolean isFinalShot() {
+     if(currentPlayer.getBallsLeft() == 0) return true;
+     return false;
+  }
+  
+  public void finalShot(){
+    if(isFinalShot() == true) {
+      
+    }
+  }
 /*
   public boolean isfinalShot(){
     for(Ball e: pt.circles){
