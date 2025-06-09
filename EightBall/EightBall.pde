@@ -6,10 +6,13 @@ Ball testingBall = new GameBall(250,250,1,red, 5);
 boolean debug=true;
 PoolTable pt;
 
+GameStates game = new GameStates();
 void setup() {
    size(700,700);
+   
+   
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
-    println("# BALLS:"+pt.circ().size());
+   println("# BALLS:"+pt.circ().size());
    Ball mball =new WhiteBall(124,350);
    pt.start();
    pt.addBall(0,mball);
@@ -20,6 +23,7 @@ void setup() {
    frameRate(3000);
    //****************
    println("# BALLS:"+pt.circ().size());
+   
 }
 
 void draw() {
@@ -28,6 +32,8 @@ void draw() {
   //  ball2.render();
 
   background(100,000,150); 
+  
+  
   pt.wbounce();
   if(debug)
    print("wbounce, ");
@@ -50,18 +56,9 @@ void draw() {
    if(!c.stricken) {
       c.render();
    }
-
- /*for(int i=0; i< pt.circ().size();i++){
-     println("qweq");
-     for(int k=i; k< pt.circ().size();k++){
-        println("qweq");
-        detectCollision(pt.getBall(k),pt.getBall(i));
-         
-     }
-  } 
-  */
  
   //pool table
+  
   
 }
 void mousePressed(){
