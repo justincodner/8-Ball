@@ -1,16 +1,17 @@
 Cue c;
 PVector x = new PVector(220,220);
 color red = color(0,0,255);
-Ball testingBall = new GameBall(250,250,1,red, 5);
 //boolean debug=false; //toggle on for system print used to debug when error happens
 boolean debug=true;
 PoolTable pt;
-
 GameStates game = new GameStates();
+
 void setup() {
    size(700,700);
+   frameRate(3000);
    
-   
+   game.start("dylan","bob");
+   /*
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
    println("# BALLS:"+pt.circ().size());
    Ball mball =new WhiteBall(124,350);
@@ -23,17 +24,15 @@ void setup() {
    frameRate(3000);
    //****************
    println("# BALLS:"+pt.circ().size());
-   
+   */
 }
 
 void draw() {
   println("start draw =======");
-  //ball2.setVelocity(new PVector(10,10));  
-  //  ball2.render();
 
   background(100,000,150); 
-  
-  
+  game.renderGame();
+  /*
   pt.wbounce();
   if(debug)
    print("wbounce, ");
@@ -58,7 +57,7 @@ void draw() {
    }
  
   //pool table
-  
+  */
   
 }
 void mousePressed(){

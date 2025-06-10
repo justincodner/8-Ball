@@ -18,8 +18,8 @@ public class PoolTable{
     lr = len/2;
     frame += fr;
   //  pocket = new ArrayList<int[]>();
-    x= width/2;
-    y=height/2;
+    x= 350;
+    y=350;
     println("x: "+x);
     println("y: "+y);
     println("w: "+width);
@@ -194,13 +194,13 @@ public class PoolTable{
    println("pt whiteball render, ");
    strokeWeight(1);
    stroke(222,0,2);
-   line(x,0,x,height);
-   line(0,y,width,y);
+   //line(x,0,x,height);
+   //line(0,y,width,y);
    //boucnewalls
-   line(x+wr-5,0,x+wr-5,height);
-   line(x-wr+5,0,x-wr+5,height);
-   line(0,y+lr-5,width,y+lr-5);
-   line(0,y-lr+5,width,y-lr+5);
+   //line(x+wr-5,0,x+wr-5,height);
+   //line(x-wr+5,0,x-wr+5,height);
+   //line(0,y+lr-5,width,y+lr-5);
+   //line(0,y-lr+5,width,y-lr+5);
    stroke(0);
    //striped ad to arr player one
    //not strpied arr p2
