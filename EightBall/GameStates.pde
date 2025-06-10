@@ -5,10 +5,10 @@ public class GameStates{
   Player player1;
   Player player2;
   Player currentPlayer = player1;
-  PoolTable pt = new PoolTable(width-100,(int)(.6*(width-50) +.5),5);
+  PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
   int ballNum;
   Cue stick;
-  boolean easy;
+  boolean easy = true;
   
   
   public GameStates() {
@@ -66,6 +66,14 @@ public class GameStates{
   public void respawnCue() {
     Cue stick = new Cue(pt.circles.get(0));
   }
+  
+  
+  public void spinInterface() {
+    
+  }
+  
+  
+  
   
   public void renderGame() {
     if(!isGameOver()) {
