@@ -78,6 +78,12 @@ public class GameStates{
       text("It is Player2's Turn", 20,20);
     }
     pt.render();
+    if(!stick.stricken) {
+      stick.render();
+      if(easy) {
+          stick.drawLine();
+      }
+    }
     
     //game mechanics
     
@@ -113,8 +119,7 @@ public class GameStates{
     
     }
   }
-  
-<<<<<<< HEAD
+
   public boolean isFinalShot() {
      if(currentPlayer.getBallsLeft() == 0) return true;
      return false;
@@ -124,13 +129,8 @@ public class GameStates{
     if(isFinalShot() == true) {
       
     }
-=======
-  public void drawLine() {
-    Ball white = pt.circles.get(0);
-    PVector pos = white.getPosition();
-    
->>>>>>> a2a9c1402b97a79c9784927a0c1fba562bd19322
   }
+
 /*
   public boolean isfinalShot(){
     for(Ball e: pt.circles){
