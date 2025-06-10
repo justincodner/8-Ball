@@ -78,6 +78,12 @@ public class GameStates{
       text("It is Player2's Turn", 20,20);
     }
     pt.render();
+    if(!stick.stricken) {
+      stick.render();
+      if(easy) {
+          stick.drawLine();
+      }
+    }
     
     //game mechanics
     
@@ -112,12 +118,6 @@ public class GameStates{
     
     
     }
-  }
-  
-  public void drawLine() {
-    Ball white = pt.circles.get(0);
-    PVector pos = white.getPosition();
-    
   }
 /*
   public boolean isfinalShot(){
