@@ -22,7 +22,7 @@ void setup() {
    pt.getBall(0).setVelocity(new PVector(0,0));
    c = new Cue(pt.getBall(0));
    //****************
-   frameRate(300000);
+   frameRate(120);
    //****************
    println("# BALLS:"+pt.circ().size());
    
@@ -31,23 +31,10 @@ void setup() {
 void draw() {
   if(debug)
   println("start draw =======");
-  //ball2.setVelocity(new PVector(10,10));  
-  //  ball2.render();
-
   background(100,000,150); 
-  
-  
-  pt.wbounce();
-  if(debug)
-   print("wbounce, ");
   pt.render();
-  if(debug) 
+  if(debug) {
   print("pt render, ");
-  pt.cscore(c);
-
-  if(debug){
-  print("pocket score");
-  
    println("bound top: " + pt.topBound(pt.circ().get(0)));
     println("bound bottom: " + pt.bottomBound(pt.circ().get(0)));
      println("left bound: " + pt.leftBound(pt.circ().get(0)));
@@ -55,11 +42,9 @@ void draw() {
   }
 
  // println("first ball render");
-
    if(!c.stricken) {
       c.render();
    }
- 
   //pool table
   
   
@@ -73,10 +58,10 @@ void keyPressed(){
   } else if(keyCode == ENTER){
     frameRate(1);
   } else if(keyCode == RIGHT){
-    frameRate++;
+    frameRate+=5;
     //println(frameRate);
   } else if(keyCode == LEFT){
-    frameRate--;
+    frameRate-=5;
   }
   if(key == 'R'||key== 'r'){
     println("key pressed r");
