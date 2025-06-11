@@ -11,7 +11,7 @@ public class Player {
     public Player(String name) {
         this.playerName = name;
         this.finalShot = false;
-        this.ballsLeft = 0;
+        this.ballsLeft = 8;
         this.turn = true;
     }
     public void setWhiteBall(Ball whiteball){

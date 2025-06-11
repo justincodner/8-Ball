@@ -1,14 +1,8 @@
-Cue c;
-PVector x = new PVector(220,220);
-color red = color(0,0,255);
-//boolean debug=false; //toggle on for system print used to debug when error happens
-boolean debug=true;
-PoolTable pt;
 GameStates game = new GameStates();
 
 void setup() {
    size(700,700);
-   frameRate(3000);
+   frameRate(120);
    
    game.start("dylan","bob");
    /*
@@ -61,7 +55,7 @@ void draw() {
   
 }
 void mousePressed(){
-  c.setPower();
+  game.stick.setPower();
 }
 void keyPressed(){
   if(keyCode == 32){

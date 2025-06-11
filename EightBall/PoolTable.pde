@@ -20,10 +20,6 @@ public class PoolTable{
   //  pocket = new ArrayList<int[]>();
     x= 350;
     y=350;
-    println("x: "+x);
-    println("y: "+y);
-    println("w: "+width);
-    println("h: "+height);
     
     //top down left right
         
@@ -75,7 +71,6 @@ public class PoolTable{
          
          
        }
-       print(i+", ");
      }
    }
  }
@@ -178,20 +173,14 @@ public class PoolTable{
        
      }
    }
-   if (debug)
-   println("combination collision detection, ");
    
    for(Ball bob :circles){
       bob.render(); 
    }
-   if (debug)
-   println("pt circle render, ");
    ptble();
    if(circles.size()>0){
      circles.get(0).pball();
    }
-   if (debug)
-   println("pt whiteball render, ");
    strokeWeight(1);
    stroke(222,0,2);
    //line(x,0,x,height);
@@ -204,8 +193,6 @@ public class PoolTable{
    stroke(0);
    //striped ad to arr player one
    //not strpied arr p2
-   if (debug)
-   println("pt render finished, ");
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();
@@ -247,11 +234,13 @@ public class PoolTable{
   
   public boolean ballStop() {
     for(Ball ball : circles) {
-      if(ball.velocity.x !=0 || ball.velocity.y!=0) {
+      if(Math.abs(ball.velocity.x) <.001 || Math.abs(ball.velocity.y)<.001) {
+        continue;
+      } else {
         return false;
       }
     }
-    return false;
+    return true;
   }
   
   public boolean whitePocketed() {
