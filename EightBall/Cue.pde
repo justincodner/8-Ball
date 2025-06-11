@@ -2,7 +2,7 @@ public class Cue{
   //defaults 
   final private float length = 200;
   final private PVector up = new PVector(0,1); //why no static
-  final private static int minPower = 20;
+  final private static int minPower = 10;
   final private static int maxPower = 140;
   final private static int space = 2;
   final private float powerScale =.3;

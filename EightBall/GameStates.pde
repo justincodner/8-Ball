@@ -4,7 +4,7 @@ public class GameStates{
   boolean playerTwoFinal;
   Player player1;
   Player player2;
-  Player currentPlayer = player1;
+  Player currentPlayer;
   PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
   int ballNum;
   Cue stick;
@@ -28,6 +28,7 @@ public class GameStates{
     Ball white = new WhiteBall(150,350);
     stick =new Cue(white);
     pt.circles.add(0,white);
+    currentPlayer = player1;
   }
   
   public boolean isGameOver() {
@@ -67,7 +68,7 @@ public class GameStates{
   }
   
   public void respawnCue() {
-    Cue stick = new Cue(pt.circles.get(0));
+    stick = new Cue(pt.circles.get(0));
   }
   
   
@@ -75,51 +76,65 @@ public class GameStates{
     
   }
   public void renderGame() {
-    print("render game start, ");
-    if(!isGameOver()) {      
-    //visuals
-    textSize(30);
-    if(playerTurn == 0) {
-       text("It is Player1's Turn", 20,20);
-    } else {
-      text("It is Player2's Turn", 20,20);
-    }
-     println("b4 running pt render, ");
-    pt.render();
-    if(!stick.stricken) {
-      stick.render();
-      if(easy) {
-          stick.drawLine();
+    if(!isGameOver()) {
+      
+    
+      //visuals
+      textSize(30);
+      if(playerTurn == 0) {
+         text("It is Player1's Turn", 20,20);
+      } else {
+        text("It is Player2's Turn", 20,20);
       }
-    }
-    println("apple");
-    //game mechanics
-    
-    
-    //add in final shot mechanics here
-    if(playerTurn == 0) {
-      if(isTurnOver()) {
-        currentPlayer = player2;
-        playerTurn = 1;
-        if(pt.whitePocketed()) {
-          respawnWhiteBall(150,350);
+      pt.render();
+      pt.wbounce();
+      if(!stick.stricken) {
+        stick.render();
+        if(easy) {
+            stick.drawLine();
         }
       }
       
-    } else {
-      if(isTurnOver()) {
-        currentPlayer = player1;
-        playerTurn = 0;
-        if(pt.whitePocketed()) {
-          respawnWhiteBall(150,350);
+      //game mechanics
+      
+      
+      //add in final shot mechanics here
+      if(playerTurn == 0) {
+        if(pt.ballStop()) {
+          println("hello");
         }
+        if(isTurnOver()) {
+          currentPlayer = player2;
+          playerTurn = 1;
+          if(pt.whitePocketed()) {
+            respawnWhiteBall(150,350);
+          }
+        }
+        
+      } else {
+        if(isTurnOver()) {
+          currentPlayer = player1;
+          playerTurn = 0;
+          if(pt.whitePocketed()) {
+            respawnWhiteBall(150,350);
+          }
+        }
+      
       }
+        
+      //spawning a cue if necessary
+      if(pt.ballStop() && stick.stricken) {
+        respawnCue();
+      }
+      
+      assignBallTypes();
+      if(isFinalShot()) {
+        choosePocket(5);
+        finalShot();
+      }
+    
     }
-    //spawning a cue if necessary
-    if(pt.ballStop() && stick.stricken) {
-      respawnCue();
-    }
-   }
+
   }
 
   public boolean isFinalShot() {
@@ -178,6 +193,7 @@ public class GameStates{
     }
   }
 }
+
 //GETTERS
   public Cue getCue(){
     return this.stick;
@@ -217,4 +233,5 @@ public class GameStates{
     if(isFinalShot == true){} 
   }
   */
+
 }

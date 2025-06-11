@@ -20,10 +20,6 @@ public class PoolTable{
   //  pocket = new ArrayList<int[]>();
     x= 350;
     y=350;
-    println("x: "+x);
-    println("y: "+y);
-    println("w: "+width);
-    println("h: "+height);
     
     //top down left right
         
@@ -71,12 +67,11 @@ public class PoolTable{
      prevSize= circles.size();
      for(int k = 0; k<pocket.size() && prevSize==circles.size(); k++){
        //CHANGE VLAUE
-       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <pocketRadius+inset){
+       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <pocketRadius+inset+10){
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
          scoredBalls.add(circles.remove(i));
        }
-      // print(i+", ");
      }
    }
  }
@@ -199,25 +194,26 @@ public class PoolTable{
        detectCollision(circles.get(i),circles.get(e));
      }
    }
-   if (debug)
-   print("combination collision detection, ");
-   
+   cscore();
    for(Ball bob :circles){
       bob.render(); 
    }
-   if (debug)
-   print("ball render, ");
    ptble();
    if(circles.size()>0){
      circles.get(0).pball();
    }
-   if (debug)
-   print("pt whiteball render, ");
-  cscore();
-  if(debug)
-  print("pocket score, ");
-   if (debug)
-   println("pt render finished..!!");
+   strokeWeight(1);
+   stroke(222,0,2);
+   //line(x,0,x,height);
+   //line(0,y,width,y);
+   //boucnewalls
+   //line(x+wr-5,0,x+wr-5,height);
+   //line(x-wr+5,0,x-wr+5,height);
+   //line(0,y+lr-5,width,y+lr-5);
+   //line(0,y-lr+5,width,y-lr+5);
+   stroke(0);
+   //striped ad to arr player one
+   //not strpied arr p2
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();
@@ -259,11 +255,13 @@ public class PoolTable{
   
   public boolean ballStop() {
     for(Ball ball : circles) {
-      if(ball.velocity.x !=0 || ball.velocity.y!=0) {
+      if(Math.abs(ball.velocity.x) <.001 || Math.abs(ball.velocity.y)<.001) {
+        continue;
+      } else {
         return false;
       }
     }
-    return false;
+    return true;
   }
   
   public boolean whitePocketed() {

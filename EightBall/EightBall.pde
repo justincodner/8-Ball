@@ -1,15 +1,8 @@
-Cue c;
-PVector x = new PVector(220,220);
-color red = color(0,0,255);
-Ball testingBall = new GameBall(250,250,1,red, 5);
-
-PoolTable pt;
-Ball mball;
 GameStates game = new GameStates();
 
 void setup() {
    size(700,700);
-   frameRate(3000);
+   frameRate(120);
    
    game.start("dylan","bob");
    /*
@@ -53,6 +46,7 @@ void draw() {
   
 }
 void mousePressed(){
+
   game.getCue().setPower();
 }
 void keyPressed(){
@@ -69,7 +63,8 @@ void keyPressed(){
   if(key == 'R'||key== 'r'){
     println("key pressed r");
   }
-  if(key == 'r' && game.getTable().getScoredBalls().indexOf(mball) == -1){
+ // if(key == 'r' && game.getTable().getScoredBalls().indexOf(mball) == -1){
+    if(key == 'r'){
     println("reset done...");
     game.getCue().reset();
     println("reset done...");
