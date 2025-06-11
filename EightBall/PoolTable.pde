@@ -167,18 +167,7 @@ public class PoolTable{
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
     }
-    if (debug){
-      strokeWeight(1);
-      stroke(222,0,2);
-      line(x,0,x,height);
-      line(0,y,width,y);
-      //boucnewalls
-      line(x+wr-5,0,x+wr-5,height);
-      line(x-wr+5,0,x-wr+5,height);
-      line(0,y+lr-5,width,y+lr-5);
-      line(0,y-lr+5,width,y-lr+5);
-      stroke(0);
-    }
+    
   }
   
   public void render(){
@@ -255,8 +244,8 @@ public class PoolTable{
   
   public boolean ballStop() {
     for(Ball ball : circles) {
-      if(Math.abs(ball.velocity.x) <.001 || Math.abs(ball.velocity.y)<.001) {
-        continue;
+      if(ball.velocity.x ==0 || ball.velocity.y==0) {
+         continue;
       } else {
         return false;
       }

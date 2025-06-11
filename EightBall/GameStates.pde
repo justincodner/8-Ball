@@ -7,8 +7,12 @@ public class GameStates{
   Player currentPlayer;
   PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
   int ballNum;
+  int start0=0;
+  int start1=0;
   Cue stick;
   boolean easy = true;
+  boolean ballsAssigned = false;
+  boolean afterBreak = false;
   PVector chosenPocket;
   
   
@@ -31,6 +35,77 @@ public class GameStates{
     currentPlayer = player1;
   }
   
+  public void renderGame() {
+    if(!isGameOver()) {
+      
+    
+      //visuals
+      textSize(30);
+      if(ballsAssigned) {
+        if(player1.ballType == 0) {
+          if(playerTurn == 0) {
+           text("It is Player1's Turn(Solid)", 20,20);
+        } else {
+          text("It is Player2's Turn(Striped)", 20,20);
+        }
+        } else {
+          if(playerTurn == 0) {
+           text("It is Player1's Turn(Striped)", 20,20);
+        } else {
+          text("It is Player2's Turn(Solid)", 20,20);
+        }
+        }
+      } else {
+        if(playerTurn == 0) {
+           text("It is Player1's Turn", 20,20);
+        } else {
+          text("It is Player2's Turn", 20,20);
+        }
+      }
+      pt.render();
+      if(!stick.stricken) {
+        stick.render();
+        if(easy) {
+            stick.drawLine();
+        }
+      }
+      
+      
+      
+      //game mechanics
+      
+      if(!ballsAssigned) {
+        assignBallTypes();
+      }
+      if(isFinalShot()) {
+        choosePocket(5);
+        finalShot();
+      }
+      
+      //turn switching
+      
+      if(isTurnOver()) {
+        if(pt.whitePocketed()) {
+          respawnWhiteBall(150, 350);
+        }
+        
+        playerTurn = 1 - playerTurn; // Toggles 0/1
+        if(playerTurn ==0) {
+          currentPlayer = player1;
+        } else {currentPlayer = player2;}
+      }
+        
+      //spawning a cue if necessary
+      if(pt.ballStop() && stick.stricken) {
+        respawnCue();
+        afterBreak = true;
+      }
+      
+    
+    }
+
+  }
+  
   public boolean isGameOver() {
      
     for(Ball e : pt.circles) {
@@ -38,25 +113,51 @@ public class GameStates{
         return false;
       }
     } 
-     print("ran game over, ");
     return true;
   }
   
   public boolean isTurnOver() {
-    if(pt.ballStop()) {
-      int count = 0;
-      for(Ball ball: pt.circles) {
-        if(ball.type() == currentPlayer.ballType) {
-          count++;
-        }
-      }
-      if(count == currentPlayer.getBallsLeft()) {
-        return true;
+    if(stick.stricken && pt.ballStop()){
+      if(ballsAssigned) {
+          int count = 0;
+          for(Ball ball: pt.circles) {
+            if(ball.type() == currentPlayer.ballType) {
+              count++;
+            }
+          }
+          if(count == currentPlayer.getBallsLeft()) {
+            return true;
+          } else {
+            currentPlayer.ballsLeft = count;
+          }
+          if(pt.whitePocketed()) {
+            return true;
+          }
+        
+        return false;
       } else {
-        currentPlayer.ballsLeft = count;
-      }
-      if(pt.whitePocketed()) {
-        return true;
+        if(pt.whitePocketed()) {
+            return true;
+          }
+        int count = 0;
+        start0 =0;
+        start1=0;
+        for(Ball ball:pt.circles) {
+          if(ball.type() == 1) {
+            start1++;
+            count++;
+          }
+          if(ball.type() == 0) {
+            start0++;
+            count++;
+          }
+        }
+        if(count == 14) {
+          
+          return true;
+        } else {
+          return false;
+        }
       }
     }
     return false;
@@ -69,72 +170,6 @@ public class GameStates{
   
   public void respawnCue() {
     stick = new Cue(pt.circles.get(0));
-  }
-  
-  
-  public void spinInterface() {
-    
-  }
-  public void renderGame() {
-    if(!isGameOver()) {
-      
-    
-      //visuals
-      textSize(30);
-      if(playerTurn == 0) {
-         text("It is Player1's Turn", 20,20);
-      } else {
-        text("It is Player2's Turn", 20,20);
-      }
-      pt.render();
-      pt.wbounce();
-      if(!stick.stricken) {
-        stick.render();
-        if(easy) {
-            stick.drawLine();
-        }
-      }
-      
-      //game mechanics
-      
-      
-      //add in final shot mechanics here
-      if(playerTurn == 0) {
-        if(pt.ballStop()) {
-          println("hello");
-        }
-        if(isTurnOver()) {
-          currentPlayer = player2;
-          playerTurn = 1;
-          if(pt.whitePocketed()) {
-            respawnWhiteBall(150,350);
-          }
-        }
-        
-      } else {
-        if(isTurnOver()) {
-          currentPlayer = player1;
-          playerTurn = 0;
-          if(pt.whitePocketed()) {
-            respawnWhiteBall(150,350);
-          }
-        }
-      
-      }
-        
-      //spawning a cue if necessary
-      if(pt.ballStop() && stick.stricken) {
-        respawnCue();
-      }
-      
-      assignBallTypes();
-      if(isFinalShot()) {
-        choosePocket(5);
-        finalShot();
-      }
-    
-    }
-
   }
 
   public boolean isFinalShot() {
@@ -177,22 +212,43 @@ public class GameStates{
     }
   }
   public void assignBallTypes() {
-  if (player1.getBallType() == 0 || player1.getBallType() == 1) return;
-
-  for (Ball b : pt.scoredBalls) {
-    int type = b.type();
-    if (type == 0 || type == 1) { // Only assign if it's a solid or striped ball
-      if (playerTurn == 0) {
-        player1.type(type);
-        player2.type(1);
-      } else {
-        player2.type(type);
-        player1.type(1);
+  
+  if(afterBreak && stick.stricken) {
+    int count0 = 0;
+    int count1 = 0;
+    for(Ball b : pt.circles) {
+      if(b.type() == 0) {
+        count0++;
+      } 
+      if(b.type()==1) {
+        count1++;
       }
-      break; // assign once on first valid pocket
+    }
+      if(count0 <start0) { // Only assign if it's a solid or striped ball
+        if (playerTurn == 0) {
+          player1.type(0);
+          player2.type(1);
+        } else {
+          player2.type(0);
+          player1.type(1);
+        }
+        ballsAssigned = true;
+        return;
+      }
+      if(count1<start1) {
+        if (playerTurn == 0) {
+          player1.type(1);
+          player2.type(0);
+        } else {
+          player2.type(0);
+          player1.type(1);
+        }
+        ballsAssigned = true;
+        return;
+      }
     }
   }
-}
+
 
 //GETTERS
   public Cue getCue(){
@@ -201,37 +257,10 @@ public class GameStates{
    public PoolTable getTable(){
     return this.pt;
   }
-/*
-  public boolean isfinalShot(){
-    for(Ball e: pt.circles){
-   //   if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
 
-   int currentPlayerType;
-    if (playerTurn == 0) {
-      playerType = player1.type();
-    } else {
-      currentPlayerType = player2.type();
-    }
-    for(Ball b: pt.circles) {
-      if(b.type() == currentPlayerType) 
-      return false;
-    }
-    return true;
-  }
-}
- public boolean isfinalShot(){
-    if(player1.getBallsLeft() == 0 || player2.getBallsLeft(2) == 0)
-    return true;
-    return false;
-  }
-  public void changeTurn() {
-    if(isTurnOver() == true){}
+
+   public void spinInterface() {
     
-  }
-  
-  public void choosePocket(){
-    if(isFinalShot == true){} 
-  }
-  */
+   }  
 
 }
