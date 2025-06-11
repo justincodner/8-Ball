@@ -9,6 +9,7 @@ public class GameStates{
   int ballNum;
   Cue stick;
   boolean easy = true;
+  PVector chosenPocket;
   
   
   public GameStates() {
@@ -132,12 +133,58 @@ public class GameStates{
      if(currentPlayer.getBallsLeft() == 0) return true;
      return false;
   }
+  public void choosePocket(int index) {
+  if (index >= 0 && index < pt.pocket.size()) {
+    chosenPocket = pt.pocket.get(index);
+  }
+}
   
-  public void finalShot(){
-    if(isFinalShot() == true) {
-      
+public void finalShot() {
+  if (isFinalShot() && pt.ballStop()) {
+    // Check if the black ball was pocketed
+    Ball black = null;
+    for (Ball b : pt.scoredBalls) {
+      if (b.type() == 3) {
+        black = b;
+        break;
+      }
+    }
+
+    if (black != null) {
+      // Find which pocket it went into
+      PVector blackPos = black.getPosition();
+      for (PVector pocket : pt.pocket) {
+        if (PVector.dist(blackPos, pocket) < pt.pocketRadius) {
+          if (pocket == chosenPocket) {
+            println(currentPlayer.getPlayerName() + " wins! Correct pocket.");
+          } else {
+            println(currentPlayer.getPlayerName() + " loses! Wrong pocket.");
+          }
+          return;
+        }
+      }
+    } else {
+      println("Black ball not pocketed. Turn over.");
     }
   }
+}
+  public void assignBallTypes() {
+  if (player1.getBallType() == 0 || player1.getBallType() == 1) return;
+
+  for (Ball b : pt.scoredBalls) {
+    int type = b.type();
+    if (type == 0 || type == 1) { // Only assign if it's a solid or striped ball
+      if (playerTurn == 0) {
+        player1.type(type);
+        player2.type(1);
+      } else {
+        player2.type(type);
+        player1.type(1);
+      }
+      break; // assign once on first valid pocket
+    }
+  }
+}
 
 /*
   public boolean isfinalShot(){
