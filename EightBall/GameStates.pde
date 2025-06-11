@@ -32,11 +32,13 @@ public class GameStates{
   }
   
   public boolean isGameOver() {
+     
     for(Ball e : pt.circles) {
       if(e.type() == 3) {
         return false;
       }
     } 
+     print("ran game over, ");
     return true;
   }
   
@@ -73,10 +75,6 @@ public class GameStates{
   public void spinInterface() {
     
   }
-  
-  
-  
-  
   public void renderGame() {
     if(!isGameOver()) {
       
@@ -136,6 +134,7 @@ public class GameStates{
       }
     
     }
+
   }
 
   public boolean isFinalShot() {
@@ -143,40 +142,40 @@ public class GameStates{
      return false;
   }
   public void choosePocket(int index) {
-  if (index >= 0 && index < pt.pocket.size()) {
-    chosenPocket = pt.pocket.get(index);
-  }
-}
-  
-public void finalShot() {
-  if (isFinalShot() && pt.ballStop()) {
-    // Check if the black ball was pocketed
-    Ball black = null;
-    for (Ball b : pt.scoredBalls) {
-      if (b.type() == 3) {
-        black = b;
-        break;
-      }
+    if (index >= 0 && index < pt.pocket.size()) {
+      chosenPocket = pt.pocket.get(index);
     }
-
-    if (black != null) {
-      // Find which pocket it went into
-      PVector blackPos = black.getPosition();
-      for (PVector pocket : pt.pocket) {
-        if (PVector.dist(blackPos, pocket) < pt.pocketRadius) {
-          if (pocket == chosenPocket) {
-            println(currentPlayer.getPlayerName() + " wins! Correct pocket.");
-          } else {
-            println(currentPlayer.getPlayerName() + " loses! Wrong pocket.");
-          }
-          return;
+  }
+  
+  public void finalShot() {
+    if (isFinalShot() && pt.ballStop()) {
+      // Check if the black ball was pocketed
+      Ball black = null;
+      for (Ball b : pt.scoredBalls) {
+        if (b.type() == 3) {
+          black = b;
+          break;
         }
       }
-    } else {
-      println("Black ball not pocketed. Turn over.");
+  
+      if (black != null) {
+        // Find which pocket it went into
+        PVector blackPos = black.getPosition();
+        for (PVector pocket : pt.pocket) {
+          if (PVector.dist(blackPos, pocket) < pt.pocketRadius) {
+            if (pocket == chosenPocket) {
+              println(currentPlayer.getPlayerName() + " wins! Correct pocket.");
+            } else {
+              println(currentPlayer.getPlayerName() + " loses! Wrong pocket.");
+            }
+            return;
+          }
+        }
+      } else {
+        println("Black ball not pocketed. Turn over.");
+      }
     }
   }
-}
   public void assignBallTypes() {
   if (player1.getBallType() == 0 || player1.getBallType() == 1) return;
 
@@ -194,5 +193,45 @@ public void finalShot() {
     }
   }
 }
+
+//GETTERS
+  public Cue getCue(){
+    return this.stick;
+  }
+   public PoolTable getTable(){
+    return this.pt;
+  }
+/*
+  public boolean isfinalShot(){
+    for(Ball e: pt.circles){
+   //   if(player1.type(1) == e.type() || player2.type(0) == e.type()) return false;
+
+   int currentPlayerType;
+    if (playerTurn == 0) {
+      playerType = player1.type();
+    } else {
+      currentPlayerType = player2.type();
+    }
+    for(Ball b: pt.circles) {
+      if(b.type() == currentPlayerType) 
+      return false;
+    }
+    return true;
+  }
+}
+ public boolean isfinalShot(){
+    if(player1.getBallsLeft() == 0 || player2.getBallsLeft(2) == 0)
+    return true;
+    return false;
+  }
+  public void changeTurn() {
+    if(isTurnOver() == true){}
+    
+  }
+  
+  public void choosePocket(){
+    if(isFinalShot == true){} 
+  }
+  */
 
 }

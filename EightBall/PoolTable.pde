@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class PoolTable{
   private final int pocketRadius = 13;
-  private final int inset = 10;
+  private final int inset = 5;
   private final int gapRadius =pocketRadius + 3;
   final private boolean debug = true;
   private int wr, lr; //width radius is x direction
@@ -29,6 +29,7 @@ public class PoolTable{
     pocket.add(new PVector(x,y+lr+inset));
     pocket.add(new PVector(x+wr+inset,y-lr-inset));
     pocket.add(new PVector(x+wr+inset,y+lr+inset));
+    //keep frame in bounce the same
 
  }
  public Ball checkForBall(){
@@ -46,6 +47,9 @@ public class PoolTable{
     circles.add(index, apple);
     return circles;
  }
+ public ArrayList<Ball> getScoredBalls (){
+    return scoredBalls;
+ }
  public ArrayList<Ball> circ(){
     return circles;
  }
@@ -55,7 +59,7 @@ public class PoolTable{
     return circles.get(i);
  }
   
- public void cscore(Cue st){
+ public void cscore(){
    //returns ball scored.null if nothing
    //checks entire circles
    int prevSize =0;
@@ -63,13 +67,10 @@ public class PoolTable{
      prevSize= circles.size();
      for(int k = 0; k<pocket.size() && prevSize==circles.size(); k++){
        //CHANGE VLAUE
-       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <pocketRadius){
-     
+       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <pocketRadius+inset+10){
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
          scoredBalls.add(circles.remove(i));
-         
-         
        }
      }
    }
@@ -132,8 +133,8 @@ public class PoolTable{
     for(for(int i = 0; i<circles.size(); i++){)
   }
   */
-  public void render(){
-    color felt = color(40,170,20);
+  public void graphics(){ //just draws a table
+     color felt = color(40,170,20);
     rectMode(CORNERS);
     //table (corners)
     fill(felt);
@@ -165,15 +166,35 @@ public class PoolTable{
       ellipse(pocket.get(i).x,pocket.get(i).y, gapRadius,gapRadius);
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
-   }
+    }
+    if (debug){
+      strokeWeight(1);
+      stroke(222,0,2);
+      line(x,0,x,height);
+      line(0,y,width,y);
+      //boucnewalls
+      line(x+wr-5,0,x+wr-5,height);
+      line(x-wr+5,0,x-wr+5,height);
+      line(0,y+lr-5,width,y+lr-5);
+      line(0,y-lr+5,width,y-lr+5);
+      stroke(0);
+    }
+  }
+  
+  public void render(){
+    wbounce();
+    if(debug)
+      print("wbounce, ");
+    graphics();
+    if(debug)
+      print("graphics, ");
    //collision detection
    for(int i = 0; i < circles.size()-1; i++) {
      for(int e = i+1 ; e < circles.size(); e++) {
        detectCollision(circles.get(i),circles.get(e));
-       
      }
    }
-   
+   cscore();
    for(Ball bob :circles){
       bob.render(); 
    }
@@ -202,9 +223,9 @@ public class PoolTable{
    for(int i=0;i<debug.size();i++){
      text(debug.get(i), 20, height-i*20);
    }
-  }
+ }
   
-  public void start() {
+ public void start() {
     color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,139), color(255,165,0), color(0,255,0), color(139,0,0)};
     for(int i = 0; i < 7; i++) {
       circles.add(new GameBall(0,0,0, ballCol[i],i+1));
@@ -225,7 +246,7 @@ public class PoolTable{
   }
   
   void detectCollision(Ball tb1, Ball tb2) {
-  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) < 10) {
+  if(PVector.dist(tb1.position,tb2.position) < tb1.getRad()) {
     tb1.collision(tb2);
   //  print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
     //tb1.transferSpin(tb2); //<==
@@ -247,7 +268,6 @@ public class PoolTable{
     if(circles.get(0).type() == 2) {
       return false;
     }
-    
     return true;
   }
   

@@ -1,5 +1,5 @@
 public class Ball {
-final private float radius = 5.0;
+final private float radius = 10.0;
 
 private PVector position;
 private PVector velocity;
@@ -122,7 +122,7 @@ void render(){
    debug.add("Vel Angle: " +(ta*180/PI));
    debug.add("Fsub f: " +friction.mag());
     debug.add("friction: " +friction);
-   
+   debug.add("FR: "+frameRate);
    for(int i=0;i<debug.size();i++){
      text(debug.get(i), 20,height-30- i*20);
    }

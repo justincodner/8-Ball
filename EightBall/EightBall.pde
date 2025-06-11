@@ -7,15 +7,16 @@ void setup() {
    game.start("dylan","bob");
    /*
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
-   println("# BALLS:"+pt.circ().size());
-   Ball mball =new WhiteBall(124,350);
+
+    println("# BALLS:"+pt.circ().size());
+   mball =new WhiteBall(200,350);
    pt.start();
    pt.addBall(0,mball);
    
    pt.getBall(0).setVelocity(new PVector(0,0));
    c = new Cue(pt.getBall(0));
    //****************
-   frameRate(3000);
+   frameRate(120);
    //****************
    println("# BALLS:"+pt.circ().size());
    */
@@ -23,39 +24,30 @@ void setup() {
 
 void draw() {
   println("start draw =======");
-
   background(100,000,150); 
+  print("made background, ");
   game.renderGame();
+   println("ran game render");
   /*
   pt.wbounce();
   if(debug)
-   print("wbounce, ");
+  println("start draw =======");
+  background(100,000,150); 
   pt.render();
   if(debug) 
   print("pt render, ");
-  pt.cscore(c);
-
-  if(debug){
-  print("pocket score");
-  
-   println("bound top: " + pt.topBound(pt.circ().get(0)));
-    println("bound bottom: " + pt.bottomBound(pt.circ().get(0)));
-     println("left bound: " + pt.leftBound(pt.circ().get(0)));
-      println("right bound: " + pt.rightBound(pt.circ().get(0)));
-  }
 
  // println("first ball render");
-
    if(!c.stricken) {
       c.render();
    }
- 
   //pool table
   */
   
 }
 void mousePressed(){
-  game.stick.setPower();
+
+  game.getCue().setPower();
 }
 void keyPressed(){
   if(keyCode == 32){
@@ -63,10 +55,18 @@ void keyPressed(){
   } else if(keyCode == ENTER){
     frameRate(1);
   } else if(keyCode == RIGHT){
-    frameRate++;
+    frameRate+=5;
     //println(frameRate);
   } else if(keyCode == LEFT){
-    frameRate--;
+    frameRate-=5;
+  }
+  if(key == 'R'||key== 'r'){
+    println("key pressed r");
+  }
+ // if(key == 'r' && game.getTable().getScoredBalls().indexOf(mball) == -1){
+    if(key == 'r'){
+    println("reset done...");
+    game.getCue().reset();
+    println("reset done...");
   }
 }
-//for testing purposes
