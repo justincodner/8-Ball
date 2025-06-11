@@ -2,16 +2,17 @@ Cue c;
 PVector x = new PVector(220,220);
 color red = color(0,0,255);
 Ball testingBall = new GameBall(250,250,1,red, 5);
-boolean debug=false; //toggle on for system print used to debug when error happens
-//boolean debug=true;
+
 PoolTable pt;
 Ball mball;
-
 GameStates game = new GameStates();
+
 void setup() {
    size(700,700);
+   frameRate(3000);
    
-   
+   game.start("dylan","bob");
+   /*
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
 
     println("# BALLS:"+pt.circ().size());
@@ -25,32 +26,34 @@ void setup() {
    frameRate(120);
    //****************
    println("# BALLS:"+pt.circ().size());
-   
+   */
 }
 
 void draw() {
+  println("start draw =======");
+  background(100,000,150); 
+  print("made background, ");
+  game.renderGame();
+   println("ran game render");
+  /*
+  pt.wbounce();
   if(debug)
   println("start draw =======");
   background(100,000,150); 
   pt.render();
-  if(debug) {
+  if(debug) 
   print("pt render, ");
-   println("bound top: " + pt.topBound(pt.circ().get(0)));
-    println("bound bottom: " + pt.bottomBound(pt.circ().get(0)));
-     println("left bound: " + pt.leftBound(pt.circ().get(0)));
-      println("right bound: " + pt.rightBound(pt.circ().get(0)));
-  }
 
  // println("first ball render");
    if(!c.stricken) {
       c.render();
    }
   //pool table
-  
+  */
   
 }
 void mousePressed(){
-  c.setPower();
+  game.getCue().setPower();
 }
 void keyPressed(){
   if(keyCode == 32){
@@ -66,8 +69,9 @@ void keyPressed(){
   if(key == 'R'||key== 'r'){
     println("key pressed r");
   }
-  if(key == 'r' && pt.getScoredBalls().indexOf(mball) == -1){
-    c.reset();
+  if(key == 'r' && game.getTable().getScoredBalls().indexOf(mball) == -1){
+    println("reset done...");
+    game.getCue().reset();
+    println("reset done...");
   }
 }
-//for testing purposes

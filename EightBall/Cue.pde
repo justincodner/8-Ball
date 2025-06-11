@@ -107,6 +107,7 @@ public class Cue{
   
   public void reset(){
     stricken = false;
+    print("rawr    ");
   }
   public boolean isFired(){
      return stricken; 
@@ -125,7 +126,8 @@ public class Cue{
     rect(centerPos.x,centerPos.y,length,10);
     fill(255);
     rect(centerPos.x,centerPos.y,2,2);
-    resetMatrix(); 
+    resetMatrix();
+    //drawLine();
   }
   public void pcue(){ 
    ArrayList<String> debug = new ArrayList<String>();
@@ -147,6 +149,41 @@ public class Cue{
      text(debug.get(i), 20, i*20);
    }
   }
+  public void drawLine() {
+    PVector start = ball.getPosition().copy();
+    PVector direction = new PVector(cos(angleToY*-1-PI/2), sin(angleToY*-1-PI/2));
+    PVector end = start.copy();    
+    end.add(PVector.mult(direction, 15));
+  
+    int steps = 0;
+    while (steps < 1000) {
+      if (get((int)end.x, (int)end.y) != color(40,170,20)) {
+        break;
+      }    
+      end.add(direction);
+      steps++;
+    }
+  
+    stroke(255); // White trajectory line
+    strokeWeight(2);
+    line(start.x, start.y, end.x, end.y);
+}
+  
+  
+}
+  /*
+   public void drawLine() {
+    PVector pos = ball.getPosition();
+    PVector end = ball.getPosition();
+    end.add(5*cos(angleToY)*1.1,5*sin(angleToY)*1.1);
+    while(get((int)end.x,(int)end.y) == color(100,000,150)) {
+      end.add(cos(angleToY) * 3, sin(angleToY) * 3);
+    }
+    fill(255,255,255);
+    line(pos.x,pos.y,end.x,end.y);
+  }
+  /*
+  
 }
 /*
 mouseX  

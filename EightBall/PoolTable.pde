@@ -4,7 +4,7 @@ public class PoolTable{
   private final int pocketRadius = 13;
   private final int inset = 5;
   private final int gapRadius =pocketRadius + 3;
-  final private boolean debug = false;
+  final private boolean debug = true;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
@@ -18,8 +18,8 @@ public class PoolTable{
     lr = len/2;
     frame += fr;
   //  pocket = new ArrayList<int[]>();
-    x= width/2;
-    y=height/2;
+    x= 350;
+    y=350;
     println("x: "+x);
     println("y: "+y);
     println("w: "+width);
@@ -200,25 +200,24 @@ public class PoolTable{
      }
    }
    if (debug)
-   println("combination collision detection, ");
+   print("combination collision detection, ");
    
    for(Ball bob :circles){
       bob.render(); 
    }
    if (debug)
-   println("ball render, ");
+   print("ball render, ");
    ptble();
    if(circles.size()>0){
      circles.get(0).pball();
    }
    if (debug)
-   println("pt whiteball render, ");
+   print("pt whiteball render, ");
   cscore();
   if(debug)
-  print("pocket score");
-  
+  print("pocket score, ");
    if (debug)
-   println("pt render finished, ");
+   println("pt render finished..!!");
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();
@@ -251,7 +250,7 @@ public class PoolTable{
   }
   
   void detectCollision(Ball tb1, Ball tb2) {
-  if(Math.sqrt((tb1.position.x-tb2.position.x) * (tb1.position.x-tb2.position.x) + (tb1.position.y - tb2.position.y) * (tb1.position.y - tb2.position.y)) < 10) {
+  if(PVector.dist(tb1.position,tb2.position) < tb1.getRad()) {
     tb1.collision(tb2);
   //  print(tb1.position.x +" "+tb1.position.y + "and" +tb2.position.x+" "+tb2.position.y);
     //tb1.transferSpin(tb2); //<==
@@ -272,5 +271,8 @@ public class PoolTable{
       return false;
     }
     return true;
-  } 
+  }
+  
+  
+  
 }
