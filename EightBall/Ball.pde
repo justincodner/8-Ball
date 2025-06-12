@@ -101,6 +101,10 @@ public void collision(Ball otherBall) {
    //implemented only in white ball
    return;
  }
+ public void setSpin(PVector spin) {
+   //to be implemented in white ball
+   return;
+ }
  public String toString(){
    return "ball";
  }
