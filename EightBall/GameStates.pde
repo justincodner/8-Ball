@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class GameStates{
   private int playerTurn;
   int pocketIndex = -1;
