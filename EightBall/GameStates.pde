@@ -20,8 +20,8 @@ public class GameStates{
   private boolean mouseUp = true;
   private boolean firstMove = true;
   private PVector finalBlackPos;
-   
-  
+   private boolean firstMove = true;
+   private PVector prevMouse = new PVector(width/2,height/2);
   public GameStates() {
     playerTurn = 0;
     finalShot = false;
@@ -55,7 +55,31 @@ public class GameStates{
   
   public void renderGame() {
     if(resettingBall){ 
-      pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
+      boolean interference = false;
+      for(int i=1; i<pt.circ().size();i++){
+        if(PVector.dist(pt.circ().get(i).getPosition(),new PVector(mouseX,mouseY)) < 2*pt.circ().get(0).getRad()){
+          interference = true;
+        }
+      }
+      if(!interference){
+        prevMouse= new PVector(mouseX,mouseY);
+        pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
+      } else {
+        pt.circ().get(0).setPosition(prevMouse);
+      }
+      
+      if(firstMove){
+        /*
+        stroke(220);
+        strokeWeight(20);
+                line(xlim,pt.getCenter().y-pt.getHalfHeight(),xlim,pt.getCenter().y+pt.getHalfHeight());
+                */
+        float xlim =pt.getCenter().x-pt.getHalfWidth()/5;
+
+        if(pt.circ().get(0).getPosition().x> xlim){
+          pt.circ().get(0).setPosition(new PVector(xlim,pt.circ().get(0).getPosition().y));
+        }
+      }
       pt.render();
       mouseUp = false;
     }else 
@@ -161,7 +185,8 @@ public class GameStates{
     
       println("access granted");
    //   pt.circ().get(0).setPosition(new PVector(x,y));
-   
+   if(firstMove)
+   firstMove=false;
       resettingBall=false;
     
   }

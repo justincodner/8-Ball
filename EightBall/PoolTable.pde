@@ -2,10 +2,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class PoolTable{
   private final int pocketRadius = 13;
-  private final int inset = 5;
+  private final int inset = 12;
   private final int gapRadius =pocketRadius + 4;
   final private boolean debug = false;
-  final private float hitCircle = 1*(pocketRadius+inset+5+2);
+  final private float hitCircle = 1*(pocketRadius+inset+5+8);
+  final private int startConfigXShift = 200;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
@@ -20,8 +21,8 @@ public class PoolTable{
   //  pocket = new ArrayList<int[]>();
     x= width/2;
     y=height/2; 
-    //top down left right
-    pocket.add(new PVector(x-wr-inset,y-lr-inset)); 
+    //top down left right        
+    pocket.add(new PVector(x-wr-inset,y-lr-inset));  
     pocket.add(new PVector(x-wr-inset,y+lr+inset));
     pocket.add(new PVector(x,y-lr-inset));
     pocket.add(new PVector(x,y+lr+inset));
@@ -38,13 +39,13 @@ public class PoolTable{
       circles.add(new GameBall(0,0,1,ballCol[i],i+8));
     }
     float l = (float) Math.sqrt(3);
-    Ball black = new BlackBall(450-20*l,350);
+    Ball black = new BlackBall((x+startConfigXShift)-20*l,350);
     java.util.Collections.shuffle(circles);
-    PVector[] positions ={new PVector(450,390), new PVector(450,370), new PVector(450,350), new PVector(450,330), new PVector(450,310),
-                          new PVector(450-10*l,380),new PVector(450-10*l,360), new PVector(450-10*l,340), new PVector(450-10*l,320),
-                          new PVector(450-20*l, 370), new PVector(450-20*l, 330), 
-                          new PVector(450-30*l, 360), new PVector(450-30*l, 340),
-                          new PVector(450-40*l, 350) };
+    PVector[] positions ={new PVector((x+startConfigXShift),390), new PVector((x+startConfigXShift),370), new PVector((x+startConfigXShift),350), new PVector((x+startConfigXShift),330), new PVector((x+startConfigXShift),310),
+                          new PVector((x+startConfigXShift)-10*l,380),new PVector((x+startConfigXShift)-10*l,360), new PVector((x+startConfigXShift)-10*l,340), new PVector((x+startConfigXShift)-10*l,320),
+                          new PVector((x+startConfigXShift)-20*l, 370), new PVector((x+startConfigXShift)-20*l, 330), 
+                          new PVector((x+startConfigXShift)-30*l, 360), new PVector((x+startConfigXShift)-30*l, 340),
+                          new PVector((x+startConfigXShift)-40*l, 350) };
     for(int i = 0; i < circles.size(); i++) {
       circles.get(i).setPosition(positions[i]);
     }
@@ -75,8 +76,15 @@ public class PoolTable{
  public ArrayList<Ball> circ(){
     return circles;
  }
- 
- 
+ public int getHalfWidth(){
+   return wr;
+ }
+ public int getHalfHeight(){
+   return lr;
+ }
+ public PVector getCenter(){
+   return new PVector(x,y);
+ }
  public Ball getBall(int i){
     return circles.get(i);
  }
@@ -88,16 +96,46 @@ public class PoolTable{
    for(int i = 0; i<circles.size(); i++){
      prevSize= circles.size();
      for(int k = 0; k<pocket.size() && prevSize==circles.size(); k++){
-       //CHANGE VLAUE
-       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) < hitCircle){
+       float r = circles.get(i).getRad();      //CHANGE VLAUE
+       if(((PVector.dist(circles.get(i).getPosition(),pocket.get(k)) < hitCircle) && k!=2 &&  k!=3)||  
+       ((k==2 ||  k==3) && circles.get(i).getPosition().x > x-gapRadius+r/2 &&  circles.get(i).getPosition().x < x+gapRadius-r/2)){
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
-         scoredBalls.add(circles.remove(i));
+         if(k==0){
+           if(circles.get(i).getVelocity().y<-0.001 || circles.get(i).getVelocity().x<-0.001){
+             
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==1){
+           if(circles.get(i).getVelocity().y>0.001 || circles.get(i).getVelocity().x<-0.001){
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==4){
+           if(circles.get(i).getVelocity().y<-0.001 || circles.get(i).getVelocity().x>0.001){
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==5){
+           if(circles.get(i).getVelocity().y>0.001 || circles.get(i).getVelocity().x>0.001){
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==2){
+           if(circles.get(i).getVelocity().y>0 && circles.get(i).getPosition().y < y-lr+r+10){
+             println("k=2");
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==3){
+           if(circles.get(i).getVelocity().y<0 && circles.get(i).getPosition().y > y+lr-r-10){
+                          println("k=3");
+
+             scoredBalls.add(circles.remove(i));
+           }
+         }
+         
        }
      }
    }
  }
- public Ball wbounce(){
+ public void wbounce(){
    //returns ball bounced.null if nothing
    //checks entire circles
   // println("Ball bounce");
@@ -105,34 +143,34 @@ public class PoolTable{
    fill(255,255,0);
    strokeWeight(2);
    for(int i = 0; i<circles.size(); i++){
-     if(circles.get(i).getPosition().x> x+wr-circles.get(i).getRad()){
+     if(circles.get(i).getPosition().x>= x+wr-circles.get(i).getRad() && circles.get(i).getVelocity().x>=0){//right
         circles.get(i).setPosition(new PVector(x+wr-circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
        t.x*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
-     }else if(circles.get(i).getPosition().x< x-wr+circles.get(i).getRad()){//right wall
+       
+     } if(circles.get(i).getPosition().x<= x-wr+circles.get(i).getRad()&& circles.get(i).getVelocity().x<=0){//right wall
         circles.get(i).setPosition(new PVector(x-wr+circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
        t.x*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
-     }else if(circles.get(i).getPosition().y> y+lr-circles.get(i).getRad()){
+       
+     } if(circles.get(i).getPosition().y>= y+lr-circles.get(i).getRad()&& circles.get(i).getVelocity().y>=0){
         circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y+lr-circles.get(i).getRad()));
        t =circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
-     }else if(circles.get(i).getPosition().y< y-lr+circles.get(i).getRad()){
+
+        
+     } if(circles.get(i).getPosition().y<= y-lr+circles.get(i).getRad()&& circles.get(i).getVelocity().y<=0){
         circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y-lr+circles.get(i).getRad()));
        t =circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
+       
      }//bottom wall
      
    }
-   return null;
   }
   /*
   public void checkBound(){
@@ -171,14 +209,14 @@ public class PoolTable{
     for(int i=0; i< pocket.size();i++){
       fill(felt);
       ellipse(pocket.get(i).x,pocket.get(i).y, gapRadius,gapRadius);
-      //
+      /*
       stroke(255,255,0);
       strokeWeight(1);
       fill(0,0,0,0);
       ellipse(pocket.get(i).x,pocket.get(i).y,hitCircle, hitCircle);
       stroke(0,0,0);
       strokeWeight(0);
-      //
+      */
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
     }
@@ -210,9 +248,10 @@ public class PoolTable{
       bob.render(); 
    }
    ptble();
-   if(circles.size()>0){
+  /* if(circles.size()>0){
      circles.get(0).pball();
    }
+   */
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();

@@ -22,7 +22,7 @@ public class WhiteBall extends Ball{
  public void render() {
    stroke(255);
    fill(255);
-   strokeWeight(2);
+   strokeWeight(1);
    ellipse(super.position.x, super.position.y, super.radius,super.radius);
    stroke(140,170,190);
    ellipse(super.position.x, super.position.y, 2,2);

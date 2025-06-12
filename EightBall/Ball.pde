@@ -5,6 +5,8 @@ private PVector position;
 private PVector velocity;
 private PVector friction;
 private double ta = 0;
+private boolean zeroXF = false;
+private boolean zeroYF = false;
 
 public Ball(){
     position= new PVector(220,220);
@@ -62,6 +64,14 @@ public void collision(Ball otherBall) {
    if(Math.abs(velocity.x) > 0 || Math.abs(velocity.y) > 0) {
      updateFriction();
      velocity.add(friction);
+     if(zeroXF){
+      velocity.x=0; 
+      zeroXF = false;
+     }
+     if(zeroYF){
+      velocity.y=0; 
+      zeroYF = false;
+     }
    //  println(velocity);
    }
  }
@@ -77,11 +87,13 @@ public void collision(Ball otherBall) {
    
    ///if maginite of x-increment velocity
    if(Math.abs(vx) > Math.abs(velocity.x)) {
+     zeroXF = true;
      vx = velocity.x * -1;
      
    }
    
    if(Math.abs(vy) > Math.abs(velocity.y)) {
+     zeroYF = true;
      vy = velocity.y * -1;
     
    }

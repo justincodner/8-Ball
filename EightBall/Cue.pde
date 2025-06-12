@@ -99,6 +99,7 @@ public class Cue{
             println("hPower (cue hit ball)"+hPower);
        println("angle to y: "+ (angleToY *180/PI));
       ball.setVelocity(ball.getVelocity().add(new PVector((float) Math.sin(angleToY) * -hPower * .1* powerScale, (float) Math.cos(angleToY) * -hPower * .1 * powerScale)));
+println("BALL SET VEL: " +( new PVector((float) Math.sin(angleToY) * -hPower * .1* powerScale, (float) Math.cos(angleToY) * -hPower * .1 * powerScale)));
       power =0;
       hPower=0;
       stricken = true;
@@ -117,7 +118,7 @@ public class Cue{
     strike();
     setAngle();
     setPower();
-    pcue();
+   // pcue();
     float rot = PI/2-angleToY;
     rotate(rot);
     rectMode(CENTER);
@@ -128,8 +129,8 @@ public class Cue{
     rect(centerPos.x,centerPos.y,2,2);
     resetMatrix();
   }
-  public void pcue(){ 
-    /*
+
+ /* public void pcue(){ 
    ArrayList<String> debug = new ArrayList<String>();
    textSize(20);
    fill(0,255,255);
@@ -148,9 +149,8 @@ public class Cue{
    for(int i=0;i<debug.size();i++){
      text(debug.get(i), 20, i*20);
    }
-   */
   }
-  
+  */
   public float getAngle() {
     return angleToY;
   }
