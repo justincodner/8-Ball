@@ -95,11 +95,8 @@ public class GameStates{
       
       //turn switching
       if(isTurnOver()) {
-        print("turn over, ");
         if(pt.whitePocketed()){
-          pt.circ().add(0, new WhiteBall(mouseX,mouseY));
-          print("addBall, ");
-          resettingBall =true;
+          respawnWhiteBall(mouseX,mouseY);
         }
         playerTurn = 1 - playerTurn; // Toggles 0/1
         if(playerTurn ==0) {
@@ -181,9 +178,9 @@ public class GameStates{
   }
   
   public void respawnWhiteBall(float x, float y) {
-    //if(Ball)
     Ball a = new WhiteBall(x,y);
     pt.circles.add(0, a);
+    resettingBall =true;
   }
   
   public void respawnCue() {
@@ -283,9 +280,6 @@ public boolean finalShot() {
   public boolean getWBState(){
    return resettingBall; 
   }
-  public void setWBState(boolean k){
-   resettingBall = k; 
-  }
   public void spinControlKeys() {
     PVector moveDir = new PVector(0, 0);    
     if(keyPressed) {
@@ -339,6 +333,7 @@ public boolean finalShot() {
      text(debug.get(i), width-220, height-(i+2)*20);
    }
  }
+  
   public void toggleEasy() {
         if(easy) {
           easy = false;
@@ -355,6 +350,9 @@ public boolean finalShot() {
     PVector end = start.copy().add(PVector.mult(direction,15));
     Ball firstHitBall = null;
     PVector collisionPoint = null;
+
+
+
     //first line
     for(int steps = 0; steps<1000; steps++) {
       end.add(direction);
@@ -401,4 +399,5 @@ public boolean finalShot() {
       line(hitStart.x, hitStart.y, hitEnd.x, hitEnd.y);  
     }
   }
+
 }
