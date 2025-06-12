@@ -99,6 +99,7 @@ public class Cue{
             println("hPower (cue hit ball)"+hPower);
        println("angle to y: "+ (angleToY *180/PI));
       ball.setVelocity(ball.getVelocity().add(new PVector((float) Math.sin(angleToY) * -hPower * .1* powerScale, (float) Math.cos(angleToY) * -hPower * .1 * powerScale)));
+println("BALL SET VEL: " +( new PVector((float) Math.sin(angleToY) * -hPower * .1* powerScale, (float) Math.cos(angleToY) * -hPower * .1 * powerScale)));
       power =0;
       hPower=0;
       stricken = true;

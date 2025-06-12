@@ -40,6 +40,18 @@ public class GameStates{
   public void renderGame() {
     if(resettingBall){ 
       pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
+      if(firstMove){
+        /*
+        stroke(220);
+        strokeWeight(20);
+                line(xlim,pt.getCenter().y-pt.getHalfHeight(),xlim,pt.getCenter().y+pt.getHalfHeight());
+                */
+        float xlim =pt.getCenter().x-pt.getHalfWidth()/5;
+
+        if(pt.circ().get(0).getPosition().x> xlim){
+          pt.circ().get(0).setPosition(new PVector(xlim,pt.circ().get(0).getPosition().y));
+        }
+      }
       pt.render();
       mouseUp = false;
     }else 
@@ -116,7 +128,8 @@ public class GameStates{
     
       println("access granted");
    //   pt.circ().get(0).setPosition(new PVector(x,y));
-   
+   if(firstMove)
+   firstMove=false;
       resettingBall=false;
     
   }
