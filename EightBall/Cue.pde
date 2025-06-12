@@ -118,7 +118,7 @@ println("BALL SET VEL: " +( new PVector((float) Math.sin(angleToY) * -hPower * .
     strike();
     setAngle();
     setPower();
-    pcue();
+   // pcue();
     float rot = PI/2-angleToY;
     rotate(rot);
     rectMode(CENTER);
@@ -129,7 +129,7 @@ println("BALL SET VEL: " +( new PVector((float) Math.sin(angleToY) * -hPower * .
     rect(centerPos.x,centerPos.y,2,2);
     resetMatrix();
   }
-  public void pcue(){ 
+ /* public void pcue(){ 
    ArrayList<String> debug = new ArrayList<String>();
    textSize(20);
    fill(0,255,255);
@@ -149,7 +149,7 @@ println("BALL SET VEL: " +( new PVector((float) Math.sin(angleToY) * -hPower * .
      text(debug.get(i), 20, i*20);
    }
   }
-  
+  */
   public float getAngle() {
     return angleToY;
   }

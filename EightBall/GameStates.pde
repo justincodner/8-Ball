@@ -19,6 +19,7 @@ public class GameStates{
   private boolean resettingBall = true;
   private boolean mouseUp = true;
    private boolean firstMove = true;
+   private PVector prevMouse = new PVector(width/2,height/2);
   public GameStates() {
     playerTurn = 0;
     playerOneFinal = false;
@@ -39,7 +40,19 @@ public class GameStates{
   
   public void renderGame() {
     if(resettingBall){ 
-      pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
+      boolean interference = false;
+      for(int i=1; i<pt.circ().size();i++){
+        if(PVector.dist(pt.circ().get(i).getPosition(),new PVector(mouseX,mouseY)) < 2*pt.circ().get(0).getRad()){
+          interference = true;
+        }
+      }
+      if(!interference){
+        prevMouse= new PVector(mouseX,mouseY);
+        pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
+      } else {
+        pt.circ().get(0).setPosition(prevMouse);
+      }
+      
       if(firstMove){
         /*
         stroke(220);
