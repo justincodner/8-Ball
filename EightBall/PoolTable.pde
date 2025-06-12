@@ -13,16 +13,13 @@ public class PoolTable{
   private ArrayList<Ball> circles = new ArrayList<Ball>();
   private ArrayList<Ball> scoredBalls = new ArrayList<Ball>();
   
-  
   public PoolTable(int wd, int len, int fr){
     wr = wd/2;
     lr = len/2;
     frame += fr;
   //  pocket = new ArrayList<int[]>();
     x= width/2;
-    
-    y=height/2;
-println("width/2: " + width/2);    
+    y=height/2; 
     //top down left right
         
     pocket.add(new PVector(x-wr-inset,y-lr-inset));  
@@ -34,6 +31,27 @@ println("width/2: " + width/2);
     //keep frame in bounce the same
 
  }
+ 
+ public void start() {
+    color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,209), color(255,165,0), color(0,255,0), color(139,0,0)};
+    for(int i = 0; i < 7; i++) {
+      circles.add(new GameBall(0,0,0, ballCol[i],i+1));
+      circles.add(new GameBall(0,0,1,ballCol[i],i+8));
+    }
+    float l = (float) Math.sqrt(3);
+    Ball black = new BlackBall(450-20*l,350);
+    java.util.Collections.shuffle(circles);
+    PVector[] positions ={new PVector(450,390), new PVector(450,370), new PVector(450,350), new PVector(450,330), new PVector(450,310),
+                          new PVector(450-10*l,380),new PVector(450-10*l,360), new PVector(450-10*l,340), new PVector(450-10*l,320),
+                          new PVector(450-20*l, 370), new PVector(450-20*l, 330), 
+                          new PVector(450-30*l, 360), new PVector(450-30*l, 340),
+                          new PVector(450-40*l, 350) };
+    for(int i = 0; i < circles.size(); i++) {
+      circles.get(i).setPosition(positions[i]);
+    }
+    circles.add(black);
+ }
+ 
  public Ball checkForBall(){
    rectMode(CENTER);
    return new Ball();
@@ -227,25 +245,6 @@ println("width/2: " + width/2);
    }
  }
   
- public void start() {
-    color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,209), color(255,165,0), color(0,255,0), color(139,0,0)};
-    for(int i = 0; i < 7; i++) {
-      circles.add(new GameBall(0,0,0, ballCol[i],i+1));
-      circles.add(new GameBall(0,0,1,ballCol[i],i+8));
-    }
-    float l = (float) Math.sqrt(3);
-    Ball black = new BlackBall(450-20*l,350);
-    java.util.Collections.shuffle(circles);
-    PVector[] positions ={new PVector(450,390), new PVector(450,370), new PVector(450,350), new PVector(450,330), new PVector(450,310),
-                          new PVector(450-10*l,380),new PVector(450-10*l,360), new PVector(450-10*l,340), new PVector(450-10*l,320),
-                          new PVector(450-20*l, 370), new PVector(450-20*l, 330), 
-                          new PVector(450-30*l, 360), new PVector(450-30*l, 340),
-                          new PVector(450-40*l, 350) };
-    for(int i = 0; i < circles.size(); i++) {
-      circles.get(i).setPosition(positions[i]);
-    }
-    circles.add(black);
-  }
   public boolean ballStop() {
     for(Ball ball : circles) {
       if(ball.velocity.x ==0 || ball.velocity.y==0) {
