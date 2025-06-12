@@ -2,7 +2,7 @@ GameStates game = new GameStates();
 
 void setup() {
    size(700,700);
-   frameRate(120);
+   frameRate(130);
    
    game.start("dylan","bob");
    /*
@@ -59,6 +59,8 @@ void keyPressed(){
     //println(frameRate);
   } else if(keyCode == LEFT){
     frameRate-=5;
+  } else if(key == 'u'){
+       frameRate(60);
   }
   if(key == 'R'||key== 'r'){
     println("key pressed r");

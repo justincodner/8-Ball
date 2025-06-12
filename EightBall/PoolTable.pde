@@ -170,6 +170,13 @@ public class PoolTable{
     
   }
   
+  void detectCollision(Ball tb1, Ball tb2) {
+    if(PVector.dist(tb1.position,tb2.position) < 2*tb1.getRad()) {
+      tb1.collision(tb2);
+      tb1.transferSpin(tb2);
+    }
+  }
+  
   public void render(){
     wbounce();
     if(debug)
@@ -233,14 +240,6 @@ public class PoolTable{
     }
     circles.add(black);
   }
-  
-  void detectCollision(Ball tb1, Ball tb2) {
-  if(PVector.dist(tb1.position,tb2.position) < tb1.getRad()) {
-    tb1.collision(tb2);
-    tb1.transferSpin(tb2);
-  }
-  }
-  
   public boolean ballStop() {
     for(Ball ball : circles) {
       if(ball.velocity.x ==0 || ball.velocity.y==0) {
