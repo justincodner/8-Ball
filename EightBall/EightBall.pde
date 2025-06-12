@@ -50,6 +50,9 @@ void mousePressed(){
   game.getCue().setPower();
 }
 void keyPressed(){
+  if(key == ' ') {
+    game.toggleEasy();
+  }
   if(keyCode == 32){
     frameRate(30);
   } else if(keyCode == ENTER){

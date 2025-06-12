@@ -68,7 +68,7 @@ public class GameStates{
       if(!stick.stricken) {
         stick.render();
         if(easy) {
-            stick.drawLine();
+            drawLine();
         }
       }
       
@@ -271,7 +271,7 @@ public boolean finalShot() {
    
   public void spinControlKeys() {
     PVector moveDir = new PVector(0, 0);    
-    if (keyPressed) {
+    if(keyPressed) {
       if(keyCode == UP) {
         moveDir.y -= 1;
       }
@@ -287,16 +287,16 @@ public boolean finalShot() {
     }
     
     if(moveDir.mag() > 0) {
-      moveDir.normalize().mult(2);
+      moveDir.normalize();
       currentSpin.add(moveDir);
-      if(currentSpin.mag() > 45) {
-        currentSpin.normalize().mult(45);
+      if(currentSpin.mag() > 40) {
+        currentSpin.normalize().mult(40);
       }
       updateSpin();
     }
   }  
   
- public void updateSpin() {
+  public void updateSpin() {
     Ball whiteBall = pt.circles.get(0);
     float distanceRatio = currentSpin.mag() / 45;
     PVector spinVec = currentSpin.copy();
@@ -306,11 +306,78 @@ public boolean finalShot() {
     whiteBall.setSpin(spinVec);
   }
   
- public void drawSpinInterface() {
+  public void drawSpinInterface() {
+    noStroke();
     fill(255,255,255);
     ellipse(350, 600, 50, 50);
     fill(255, 0, 0);
     ellipse(350 + currentSpin.x, 600 + currentSpin.y,10, 10);
+  }
+  
+  public void toggleEasy() {
+        if(easy) {
+          easy = false;
+        } else {
+          easy = true;
+        }
+      }
+  
+  public void drawLine() {
+    Ball ball = pt.circles.get(0);
+    PVector start = ball.position.copy();
+    PVector direction = new PVector(cos(-1*stick.getAngle() - PI/2), sin(-1*stick.getAngle() - PI/2));
+    direction.normalize();
+    PVector end = start.copy().add(PVector.mult(direction,15));
+    Ball firstHitBall = null;
+    PVector collisionPoint = null;
+
+
+
+    //first line
+    for(int steps = 0; steps<1000; steps++) {
+      end.add(direction);
+      if(get((int)end.x, (int)end.y) != color(40, 170, 20)) {
+        break;
+      }   
+      for(Ball b : pt.circles) {
+        if (b == ball) continue;
+        float distance = PVector.dist(end, b.position);
+        float minDistance = b.radius*2;
+        if(distance <= minDistance) {
+          firstHitBall = b;
+          PVector toBall = PVector.sub(b.position, end);
+          toBall.normalize();
+          collisionPoint = PVector.add(end, PVector.mult(toBall, 10));
+          steps = 1000;
+          break;
+          }
+       }
+    }
+    stroke(255);
+    strokeWeight(2);
+    line(start.x, start.y, end.x, end.y);
+
+
+    //second line
+    if(firstHitBall != null) {
+      PVector hitDirection = PVector.sub(firstHitBall.position, end);
+      hitDirection.normalize(); 
+      noFill();
+      stroke(255);
+      ellipse(collisionPoint.x, collisionPoint.y, 8, 8);
+      PVector hitStart = firstHitBall.position.copy();
+      PVector hitEnd = hitStart.copy();
+      hitEnd.add(PVector.mult(hitDirection,15));
+      for(int steps = 0; steps < 1000; steps++) {
+        hitEnd.add(hitDirection);
+        if(get((int)hitEnd.x, (int)hitEnd.y) != color(40, 170, 20)) {
+          break;
+        }
+      }
+      stroke(255);
+      strokeWeight(2);
+      line(hitStart.x, hitStart.y, hitEnd.x, hitEnd.y);  
+    }
   }
   
 
