@@ -1,20 +1,19 @@
 public class GameStates{
-  int playerTurn;
-  boolean playerOneFinal;
-  boolean playerTwoFinal;
-  Player player1;
-  Player player2;
-  Player currentPlayer;
-  PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
-  int ballNum;
-  int start0=0;
-  int start1=0;
-  Cue stick;
-  boolean easy = true;
-  boolean ballsAssigned = false;
-  boolean afterBreak = false;
-  PVector chosenPocket;
-  
+  private int playerTurn;
+  private boolean playerOneFinal;
+  private boolean playerTwoFinal;
+  private Player player1;
+  private Player player2;
+  private Player currentPlayer;
+  private PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
+  private int start0=0;
+  private int start1=0;
+  private Cue stick;
+  private boolean easy = true;
+  private boolean ballsAssigned = false;
+  private boolean afterBreak = false;
+  private PVector chosenPocket;
+  private PVector currentSpin;
   
   public GameStates() {
     playerTurn = 0;
@@ -26,13 +25,12 @@ public class GameStates{
     player1 = new Player(name1);
     player2 = new Player(name2);
     playerTurn = 0;
-    player1.turn = true;
-    player2.turn = false;
     pt.start();
     Ball white = new WhiteBall(150,350);
     stick =new Cue(white);
     pt.circles.add(0,white);
     currentPlayer = player1;
+    currentSpin = new PVector(0,0);
   }
   
   public void renderGame() {
@@ -70,7 +68,10 @@ public class GameStates{
         }
       }
       
-      
+      if(!stick.stricken) {
+        drawSpinInterface();
+        spinControlKeys();
+      }
       
       //game mechanics
       
@@ -98,6 +99,8 @@ public class GameStates{
       //spawning a cue if necessary
       if(pt.ballStop() && stick.stricken) {
         respawnCue();
+        pt.circles.get(0).setSpin(new PVector(0,0));
+        currentSpin = new PVector(0,0);
         afterBreak = true;
       }
       
@@ -254,13 +257,53 @@ public class GameStates{
   public Cue getCue(){
     return this.stick;
   }
-   public PoolTable getTable(){
+  public PoolTable getTable(){
     return this.pt;
   }
-
-
-   public void spinInterface() {
+   
+  public void spinControlKeys() {
+    PVector moveDir = new PVector(0, 0);    
+    if (keyPressed) {
+      if(keyCode == UP) {
+        moveDir.y -= 1;
+      }
+      if(keyCode == DOWN) {
+        moveDir.y += 1;
+      }
+      if(keyCode == LEFT) {
+        moveDir.x -= 1;
+      }
+      if(keyCode == RIGHT) {
+        moveDir.x += 1;
+      }
+    }
     
-   }  
+    if(moveDir.mag() > 0) {
+      moveDir.normalize().mult(2);
+      currentSpin.add(moveDir);
+      if(currentSpin.mag() > 45) {
+        currentSpin.normalize().mult(45);
+      }
+      updateSpin();
+    }
+  }  
+  
+ public void updateSpin() {
+    Ball whiteBall = pt.circles.get(0);
+    float distanceRatio = currentSpin.mag() / 45;
+    PVector spinVec = currentSpin.copy();
+    spinVec.y = -spinVec.y;  // Invert Y for proper physics
+    spinVec.normalize();
+    spinVec.mult(distanceRatio*.7);   
+    whiteBall.setSpin(spinVec);
+  }
+  
+ public void drawSpinInterface() {
+    fill(255,255,255);
+    ellipse(350, 600, 50, 50);
+    fill(255, 0, 0);
+    ellipse(350 + currentSpin.x, 600 + currentSpin.y,10, 10);
+  }
+  
 
 }
