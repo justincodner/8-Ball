@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class GameStates{
   private int playerTurn;
   private boolean playerOneFinal;
@@ -177,45 +179,49 @@ public class GameStates{
     stick = new Cue(pt.circles.get(0));
   }
 
-  public boolean isFinalShot() {
-     if(currentPlayer.getBallsLeft() == 0) return true;
-     return false;
-  }
-  public void choosePocket(int index) {
-    if (index >= 0 && index < pt.pocket.size()) {
-      chosenPocket = pt.pocket.get(index);
-    }
-  }
-  
-  public void finalShot() {
-    if (isFinalShot() && pt.ballStop()) {
-      // Check if the black ball was pocketed
-      Ball black = null;
-      for (Ball b : pt.scoredBalls) {
-        if (b.type() == 3) {
-          black = b;
-          break;
-        }
-      }
-  
-      if (black != null) {
-        // Find which pocket it went into
-        PVector blackPos = black.getPosition();
-        for (PVector pocket : pt.pocket) {
-          if (PVector.dist(blackPos, pocket) < pt.pocketRadius) {
-            if (pocket == chosenPocket) {
-              println("Player 1 wins! Correct pocket.");
+public boolean finalShot() {
+    Scanner scanner = new Scanner(System.in);
+    int pocketIndex = -1;
+
+    // Map keys '1' to '6' to pocket indices 0-5
+    while (pocketIndex == -1) {
+        System.out.println("Final Shot! Call your pocket (press keys 1 to 6):");
+        String input = scanner.nextLine();
+
+        if (input.length() == 1) {
+            char key = input.charAt(0);
+            if (key >= '1' && key <= '6') {
+                pocketIndex = key - '1';  // convert char '1' to int 0, etc.
             } else {
-              println("Player 2 loses! Wrong pocket.");
+                System.out.println("Invalid pocket. Please press keys 1 to 6.");
             }
-            return;
-          }
+        } else {
+            System.out.println("Invalid input. Please press a single key from 1 to 6.");
         }
-      } else {
-        println("Black ball not pocketed. Turn over.");
-      }
     }
-  }
+
+    // Check if black ball was pocketed in the called pocket
+    ArrayList<Ball> scoredBalls = pt.getScoredBalls();
+
+    for (Ball ball : scoredBalls) {
+        if (ball.type() == 2) {  // black ball
+            PVector blackPos = ball.getPosition();
+            PVector pocketPos = pt.pocket.get(pocketIndex);
+
+            float dist = PVector.dist(blackPos, pocketPos);
+            if (dist <= pt.pocketRadius + 5) {
+                System.out.println("Black ball potted in the called pocket. Player wins.");
+                return true;
+            } else {
+                System.out.println("Black ball NOT potted in the called pocket. Foul or loss.");
+                return false;
+            }
+        }
+    }
+
+    System.out.println("Black ball was not potted this shot.");
+    return false;
+} 
   public void assignBallTypes() {
   
   if(afterBreak && stick.stricken) {
