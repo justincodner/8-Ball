@@ -1,7 +1,8 @@
-GameStates game = new GameStates();
+GameStates game;
 
 void setup() {
-   size(700,700);
+ game = new GameStates();
+   size(900,700);
    frameRate(130);
    
    game.start("dylan","bob");
@@ -23,11 +24,11 @@ void setup() {
 }
 
 void draw() {
-  println("start draw =======");
+//  println("start draw =======");
   background(100,000,150); 
-  print("made background, ");
+  //print("made background, ");
   game.renderGame();
-   println("ran game render");
+ //  println("ran game render");
   /*
   pt.wbounce();
   if(debug)

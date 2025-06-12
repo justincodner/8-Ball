@@ -17,10 +17,10 @@ public class GameBall extends Ball {
   public void render() {
    super.render();
    fill(col);
-   strokeWeight(2);
+   strokeWeight(1);
    ellipse(super.position.x, super.position.y, super.radius,super.radius);
    fill(255,255,255);
-   ellipse(super.position.x, super.position.y-1, 7,7);
+   ellipse(super.position.x, super.position.y, 6,6);
    strokeWeight(1);
    if(type == 1) {
      arc(super.position.x, super.position.y, super.radius,super.radius, QUARTER_PI, 3 * QUARTER_PI, CHORD);

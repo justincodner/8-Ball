@@ -4,23 +4,25 @@ public class PoolTable{
   private final int pocketRadius = 13;
   private final int inset = 5;
   private final int gapRadius =pocketRadius + 3;
-  final private boolean debug = true;
+  final private boolean debug = false;
+  final private float hitCircle = 1*(pocketRadius+inset+5+2);
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
   private ArrayList<PVector> pocket = new ArrayList<PVector>();
   private ArrayList<Ball> circles = new ArrayList<Ball>();
   private ArrayList<Ball> scoredBalls = new ArrayList<Ball>();
-  private int bounce=0;
+  
   
   public PoolTable(int wd, int len, int fr){
     wr = wd/2;
     lr = len/2;
     frame += fr;
   //  pocket = new ArrayList<int[]>();
-    x= 350;
-    y=350;
+    x= width/2;
     
+    y=height/2;
+println("width/2: " + width/2);    
     //top down left right
         
     pocket.add(new PVector(x-wr-inset,y-lr-inset));  
@@ -67,7 +69,7 @@ public class PoolTable{
      prevSize= circles.size();
      for(int k = 0; k<pocket.size() && prevSize==circles.size(); k++){
        //CHANGE VLAUE
-       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) <pocketRadius+inset+10){
+       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) < hitCircle){
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
          scoredBalls.add(circles.remove(i));
@@ -84,28 +86,24 @@ public class PoolTable{
    strokeWeight(2);
    for(int i = 0; i<circles.size(); i++){
      if(circles.get(i).getPosition().x> x+wr-circles.get(i).getRad()){
-        bounce++;
         circles.get(i).setPosition(new PVector(x+wr-circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
        t.x*=-1;
        circles.get(i).setVelocity(t);
         return circles.get(i);
      }else if(circles.get(i).getPosition().x< x-wr+circles.get(i).getRad()){//right wall
-        bounce++;
         circles.get(i).setPosition(new PVector(x-wr+circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
        t.x*=-1;
        circles.get(i).setVelocity(t);
         return circles.get(i);
      }else if(circles.get(i).getPosition().y> y+lr-circles.get(i).getRad()){
-        bounce++;
         circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y+lr-circles.get(i).getRad()));
        t =circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
         return circles.get(i);
      }else if(circles.get(i).getPosition().y< y-lr+circles.get(i).getRad()){
-        bounce++;
         circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y-lr+circles.get(i).getRad()));
        t =circles.get(i).getVelocity();
        t.y*=-1;
@@ -164,6 +162,14 @@ public class PoolTable{
     for(int i=0; i< pocket.size();i++){
       fill(felt);
       ellipse(pocket.get(i).x,pocket.get(i).y, gapRadius,gapRadius);
+      //
+      stroke(255,255,0);
+      strokeWeight(1);
+      fill(0,0,0,0);
+      ellipse(pocket.get(i).x,pocket.get(i).y,hitCircle, hitCircle);
+      stroke(0,0,0);
+      strokeWeight(0);
+      //
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
     }
@@ -223,7 +229,7 @@ public class PoolTable{
  }
   
  public void start() {
-    color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,139), color(255,165,0), color(0,255,0), color(139,0,0)};
+    color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,209), color(255,165,0), color(0,255,0), color(139,0,0)};
     for(int i = 0; i < 7; i++) {
       circles.add(new GameBall(0,0,0, ballCol[i],i+1));
       circles.add(new GameBall(0,0,1,ballCol[i],i+8));
