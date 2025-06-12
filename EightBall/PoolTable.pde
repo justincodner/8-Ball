@@ -6,6 +6,7 @@ public class PoolTable{
   private final int gapRadius =pocketRadius + 4;
   final private boolean debug = false;
   final private float hitCircle = 1*(pocketRadius+inset+5+8);
+  final private int startConfigXShift = 200;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
@@ -38,13 +39,13 @@ public class PoolTable{
       circles.add(new GameBall(0,0,1,ballCol[i],i+8));
     }
     float l = (float) Math.sqrt(3);
-    Ball black = new BlackBall(450-20*l,350);
+    Ball black = new BlackBall((x+startConfigXShift)-20*l,350);
     java.util.Collections.shuffle(circles);
-    PVector[] positions ={new PVector(450,390), new PVector(450,370), new PVector(450,350), new PVector(450,330), new PVector(450,310),
-                          new PVector(450-10*l,380),new PVector(450-10*l,360), new PVector(450-10*l,340), new PVector(450-10*l,320),
-                          new PVector(450-20*l, 370), new PVector(450-20*l, 330), 
-                          new PVector(450-30*l, 360), new PVector(450-30*l, 340),
-                          new PVector(450-40*l, 350) };
+    PVector[] positions ={new PVector((x+startConfigXShift),390), new PVector((x+startConfigXShift),370), new PVector((x+startConfigXShift),350), new PVector((x+startConfigXShift),330), new PVector((x+startConfigXShift),310),
+                          new PVector((x+startConfigXShift)-10*l,380),new PVector((x+startConfigXShift)-10*l,360), new PVector((x+startConfigXShift)-10*l,340), new PVector((x+startConfigXShift)-10*l,320),
+                          new PVector((x+startConfigXShift)-20*l, 370), new PVector((x+startConfigXShift)-20*l, 330), 
+                          new PVector((x+startConfigXShift)-30*l, 360), new PVector((x+startConfigXShift)-30*l, 340),
+                          new PVector((x+startConfigXShift)-40*l, 350) };
     for(int i = 0; i < circles.size(); i++) {
       circles.get(i).setPosition(positions[i]);
     }
@@ -208,14 +209,14 @@ public class PoolTable{
     for(int i=0; i< pocket.size();i++){
       fill(felt);
       ellipse(pocket.get(i).x,pocket.get(i).y, gapRadius,gapRadius);
-      //
+      /*
       stroke(255,255,0);
       strokeWeight(1);
       fill(0,0,0,0);
       ellipse(pocket.get(i).x,pocket.get(i).y,hitCircle, hitCircle);
       stroke(0,0,0);
       strokeWeight(0);
-      //
+      */
       fill(20);
       ellipse(pocket.get(i).x,pocket.get(i).y,pocketRadius,pocketRadius);
     }
@@ -247,9 +248,10 @@ public class PoolTable{
       bob.render(); 
    }
    ptble();
-   if(circles.size()>0){
+  /* if(circles.size()>0){
      circles.get(0).pball();
    }
+   */
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();
