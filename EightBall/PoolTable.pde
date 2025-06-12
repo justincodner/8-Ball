@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 public class PoolTable{
   private final int pocketRadius = 13;
-  private final int inset = 5;
-  private final int gapRadius =pocketRadius + 3;
+  private final int inset = 12;
+  private final int gapRadius =pocketRadius + 4;
   final private boolean debug = false;
-  final private float hitCircle = 1*(pocketRadius+inset+5+2);
+  final private float hitCircle = 1*(pocketRadius+inset+5+8);
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
@@ -13,18 +13,14 @@ public class PoolTable{
   private ArrayList<Ball> circles = new ArrayList<Ball>();
   private ArrayList<Ball> scoredBalls = new ArrayList<Ball>();
   
-  
   public PoolTable(int wd, int len, int fr){
     wr = wd/2;
     lr = len/2;
     frame += fr;
   //  pocket = new ArrayList<int[]>();
     x= width/2;
-    
-    y=height/2;
-println("width/2: " + width/2);    
-    //top down left right
-        
+    y=height/2; 
+    //top down left right        
     pocket.add(new PVector(x-wr-inset,y-lr-inset));  
     pocket.add(new PVector(x-wr-inset,y+lr+inset));
     pocket.add(new PVector(x,y-lr-inset));
@@ -34,6 +30,27 @@ println("width/2: " + width/2);
     //keep frame in bounce the same
 
  }
+ 
+ public void start() {
+    color[] ballCol = {color(255,255,0), color(173,216,230), color(255,71,76), color(0,0,209), color(255,165,0), color(0,255,0), color(139,0,0)};
+    for(int i = 0; i < 7; i++) {
+      circles.add(new GameBall(0,0,0, ballCol[i],i+1));
+      circles.add(new GameBall(0,0,1,ballCol[i],i+8));
+    }
+    float l = (float) Math.sqrt(3);
+    Ball black = new BlackBall(450-20*l,350);
+    java.util.Collections.shuffle(circles);
+    PVector[] positions ={new PVector(450,390), new PVector(450,370), new PVector(450,350), new PVector(450,330), new PVector(450,310),
+                          new PVector(450-10*l,380),new PVector(450-10*l,360), new PVector(450-10*l,340), new PVector(450-10*l,320),
+                          new PVector(450-20*l, 370), new PVector(450-20*l, 330), 
+                          new PVector(450-30*l, 360), new PVector(450-30*l, 340),
+                          new PVector(450-40*l, 350) };
+    for(int i = 0; i < circles.size(); i++) {
+      circles.get(i).setPosition(positions[i]);
+    }
+    circles.add(black);
+ }
+ 
  public Ball checkForBall(){
    rectMode(CENTER);
    return new Ball();
@@ -52,11 +69,21 @@ println("width/2: " + width/2);
  public ArrayList<Ball> getScoredBalls (){
     return scoredBalls;
  }
+ public ArrayList<PVector> getPocket(){
+    return pocket;
+ }
  public ArrayList<Ball> circ(){
     return circles;
  }
- 
- 
+ public int getHalfWidth(){
+   return wr;
+ }
+ public int getHalfHeight(){
+   return lr;
+ }
+ public PVector getCenter(){
+   return new PVector(x,y);
+ }
  public Ball getBall(int i){
     return circles.get(i);
  }
@@ -68,16 +95,46 @@ println("width/2: " + width/2);
    for(int i = 0; i<circles.size(); i++){
      prevSize= circles.size();
      for(int k = 0; k<pocket.size() && prevSize==circles.size(); k++){
-       //CHANGE VLAUE
-       if(PVector.dist(circles.get(i).getPosition(),pocket.get(k)) < hitCircle){
+       float r = circles.get(i).getRad();      //CHANGE VLAUE
+       if(((PVector.dist(circles.get(i).getPosition(),pocket.get(k)) < hitCircle) && k!=2 &&  k!=3)||  
+       ((k==2 ||  k==3) && circles.get(i).getPosition().x > x-gapRadius+r/2 &&  circles.get(i).getPosition().x < x+gapRadius-r/2)){
         // if(circles.size()>0)
          //  st.setBall(circles.get(i+1));
-         scoredBalls.add(circles.remove(i));
+         if(k==0){
+           if(circles.get(i).getVelocity().y<-0.001 || circles.get(i).getVelocity().x<-0.001){
+             
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==1){
+           if(circles.get(i).getVelocity().y>0.001 || circles.get(i).getVelocity().x<-0.001){
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==4){
+           if(circles.get(i).getVelocity().y<-0.001 || circles.get(i).getVelocity().x>0.001){
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==5){
+           if(circles.get(i).getVelocity().y>0.001 || circles.get(i).getVelocity().x>0.001){
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==2){
+           if(circles.get(i).getVelocity().y>0 && circles.get(i).getPosition().y < y-lr+r+10){
+             println("k=2");
+             scoredBalls.add(circles.remove(i));
+           }
+         }else if(k==3){
+           if(circles.get(i).getVelocity().y<0 && circles.get(i).getPosition().y > y+lr-r-10){
+                          println("k=3");
+
+             scoredBalls.add(circles.remove(i));
+           }
+         }
+         
        }
      }
    }
  }
- public Ball wbounce(){
+ public void wbounce(){
    //returns ball bounced.null if nothing
    //checks entire circles
   // println("Ball bounce");
@@ -85,46 +142,34 @@ println("width/2: " + width/2);
    fill(255,255,0);
    strokeWeight(2);
    for(int i = 0; i<circles.size(); i++){
-     if(circles.get(i).getPosition().x> x+wr-circles.get(i).getRad()){
+     if(circles.get(i).getPosition().x>= x+wr-circles.get(i).getRad() && circles.get(i).getVelocity().x>=0){//right
         circles.get(i).setPosition(new PVector(x+wr-circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
        t.x*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
-     }else if(circles.get(i).getPosition().x< x-wr+circles.get(i).getRad()){//right wall
+       
+     } if(circles.get(i).getPosition().x<= x-wr+circles.get(i).getRad()&& circles.get(i).getVelocity().x<=0){//right wall
         circles.get(i).setPosition(new PVector(x-wr+circles.get(i).getRad(),circles.get(i).getPosition().y));
        t =circles.get(i).getVelocity();
        t.x*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
-     }else if(circles.get(i).getPosition().y> y+lr-circles.get(i).getRad()){
+       
+     } if(circles.get(i).getPosition().y>= y+lr-circles.get(i).getRad()&& circles.get(i).getVelocity().y>=0){
         circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y+lr-circles.get(i).getRad()));
        t =circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
-     }else if(circles.get(i).getPosition().y< y-lr+circles.get(i).getRad()){
+
+        
+     } if(circles.get(i).getPosition().y<= y-lr+circles.get(i).getRad()&& circles.get(i).getVelocity().y<=0){
         circles.get(i).setPosition(new PVector(circles.get(i).getPosition().x,y-lr+circles.get(i).getRad()));
        t =circles.get(i).getVelocity();
        t.y*=-1;
        circles.get(i).setVelocity(t);
-        return circles.get(i);
+       
      }//bottom wall
      
    }
-   return null;
-  }
-  public boolean topBound(Ball oi){
-    return oi.getPosition().y<= y-lr+5;
-  }
-  public boolean bottomBound(Ball oi){
-    return oi.getPosition().y>=y+lr-5;
-  }
-  public boolean leftBound(Ball oi){
-    return oi.getPosition().y<=x-wr+5;
-  }
-  public boolean rightBound(Ball oi){
-    return oi.getPosition().y>=x+wr-5;
   }
   /*
   public void checkBound(){
@@ -132,7 +177,8 @@ println("width/2: " + width/2);
   }
   */
   public void graphics(){ //just draws a table
-     color felt = color(40,170,20);
+    stroke(0);
+    color felt = color(40,170,20);
     rectMode(CORNERS);
     //table (corners)
     fill(felt);
@@ -204,18 +250,6 @@ println("width/2: " + width/2);
    if(circles.size()>0){
      circles.get(0).pball();
    }
-   strokeWeight(1);
-   stroke(222,0,2);
-   //line(x,0,x,height);
-   //line(0,y,width,y);
-   //boucnewalls
-   //line(x+wr-5,0,x+wr-5,height);
-   //line(x-wr+5,0,x-wr+5,height);
-   //line(0,y+lr-5,width,y+lr-5);
-   //line(0,y-lr+5,width,y-lr+5);
-   stroke(0);
-   //striped ad to arr player one
-   //not strpied arr p2
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();

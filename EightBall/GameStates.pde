@@ -1,3 +1,4 @@
+import java.util.Scanner;
 public class GameStates{
   private int playerTurn;
   private boolean playerOneFinal;
@@ -5,25 +6,28 @@ public class GameStates{
   private Player player1;
   private Player player2;
   private Player currentPlayer;
-  private PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
+  private PoolTable pt = new PoolTable(600,(int)(.6*(700-200) +.5),5);
   private int start0=0;
   private int start1=0;
+  private int prevStart = 14;
   private Cue stick;
   private boolean easy = true;
   private boolean ballsAssigned = false;
   private boolean afterBreak = false;
   private PVector chosenPocket;
   private PVector currentSpin;
-  
+  private boolean resettingBall = true;
+  private boolean mouseUp = true;
+   private boolean firstMove = true;
   public GameStates() {
     playerTurn = 0;
     playerOneFinal = false;
     playerTwoFinal = false;
   }
   
-  public void start(String name1, String name2) {
-    player1 = new Player(name1);
-    player2 = new Player(name2);
+  public void start() {
+    player1 = new Player();
+    player2 = new Player();
     playerTurn = 0;
     pt.start();
     Ball white = new WhiteBall(150,350);
@@ -34,47 +38,64 @@ public class GameStates{
   }
   
   public void renderGame() {
+    if(resettingBall){ 
+      pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
+      if(firstMove){
+        /*
+        stroke(220);
+        strokeWeight(20);
+                line(xlim,pt.getCenter().y-pt.getHalfHeight(),xlim,pt.getCenter().y+pt.getHalfHeight());
+                */
+        float xlim =pt.getCenter().x-pt.getHalfWidth()/5;
+
+        if(pt.circ().get(0).getPosition().x> xlim){
+          pt.circ().get(0).setPosition(new PVector(xlim,pt.circ().get(0).getPosition().y));
+        }
+      }
+      pt.render();
+      mouseUp = false;
+    }else 
     if(!isGameOver()) {
-      
-    
       //visuals
+      fill(0,0,0);
       textSize(30);
       if(ballsAssigned) {
         if(player1.ballType == 0) {
           if(playerTurn == 0) {
-           text("It is Player1's Turn(Solid)", 20,20);
+           text("It is Player1's Turn(Solid)", 20,50);
         } else {
-          text("It is Player2's Turn(Striped)", 20,20);
+          text("It is Player2's Turn(Striped)", 20,50);
         }
         } else {
           if(playerTurn == 0) {
-           text("It is Player1's Turn(Striped)", 20,20);
+           text("It is Player1's Turn(Striped)", 20,50);
         } else {
-          text("It is Player2's Turn(Solid)", 20,20);
+          text("It is Player2's Turn(Solid)", 20,50);
         }
         }
       } else {
         if(playerTurn == 0) {
-           text("It is Player1's Turn", 20,20);
+           text("It is Player1's Turn", 20,50);
         } else {
-          text("It is Player2's Turn", 20,20);
+          text("It is Player2's Turn", 20,50);
         }
       }
       pt.render();
       if(!stick.stricken) {
-        stick.render();
-        if(easy) {
-            stick.drawLine();
+        if(!mouseUp && !mousePressed){ //stored says mouse down, irl mouse up -->
+          mouseUp = true;
         }
-      }
-      
-      if(!stick.stricken) {
+        if(mouseUp){
+         stick.render();
+        }
+        if(easy) {
+            drawLine();
+        }
         drawSpinInterface();
         spinControlKeys();
       }
       
       //game mechanics
-      
       if(!ballsAssigned) {
         assignBallTypes();
       }
@@ -84,18 +105,15 @@ public class GameStates{
       }
       
       //turn switching
-      
       if(isTurnOver()) {
-        if(pt.whitePocketed()) {
-          respawnWhiteBall(150, 350);
+        if(pt.whitePocketed()){
+          respawnWhiteBall(mouseX,mouseY);
         }
-        
         playerTurn = 1 - playerTurn; // Toggles 0/1
         if(playerTurn ==0) {
           currentPlayer = player1;
         } else {currentPlayer = player2;}
-      }
-        
+      } 
       //spawning a cue if necessary
       if(pt.ballStop() && stick.stricken) {
         respawnCue();
@@ -103,14 +121,36 @@ public class GameStates{
         currentSpin = new PVector(0,0);
         afterBreak = true;
       }
-      
-    
+    } else {
+      textAlign(CENTER);
+      textSize(32);
+      fill(255, 0, 0);
+      String winnerName;
+      String loserName;
+      if (playerTurn == 0) {
+      winnerName = "player1";
+      loserName = "player2";
+      } else {
+        winnerName = "player2";
+        loserName = "player1";
     }
 
+    text(winnerName + " wins", width / 2, height / 2 - 20);
+    text(loserName + " loses", width / 2, height / 2 + 20);
+
+    }
   }
-  
+  public void wbset(int x, int y){
+    //sets ball inc ureent position
+    
+      println("access granted");
+   //   pt.circ().get(0).setPosition(new PVector(x,y));
+   if(firstMove)
+   firstMove=false;
+      resettingBall=false;
+    
+  }
   public boolean isGameOver() {
-     
     for(Ball e : pt.circles) {
       if(e.type() == 3) {
         return false;
@@ -118,7 +158,7 @@ public class GameStates{
     } 
     return true;
   }
-  
+
   public boolean isTurnOver() {
     if(stick.stricken && pt.ballStop()){
       if(ballsAssigned) {
@@ -155,10 +195,10 @@ public class GameStates{
             count++;
           }
         }
-        if(count == 14) {
-          
+        if(count == prevStart) {
           return true;
         } else {
+          prevStart = start0+start1;
           return false;
         }
       }
@@ -169,12 +209,12 @@ public class GameStates{
   public void respawnWhiteBall(float x, float y) {
     Ball a = new WhiteBall(x,y);
     pt.circles.add(0, a);
+    resettingBall =true;
   }
   
   public void respawnCue() {
     stick = new Cue(pt.circles.get(0));
   }
-
   public boolean isFinalShot() {
      if(currentPlayer.getBallsLeft() == 0) return true;
      return false;
@@ -184,36 +224,49 @@ public class GameStates{
       chosenPocket = pt.pocket.get(index);
     }
   }
-  
-  public void finalShot() {
-    if (isFinalShot() && pt.ballStop()) {
-      // Check if the black ball was pocketed
-      Ball black = null;
-      for (Ball b : pt.scoredBalls) {
-        if (b.type() == 3) {
-          black = b;
-          break;
-        }
-      }
-  
-      if (black != null) {
-        // Find which pocket it went into
-        PVector blackPos = black.getPosition();
-        for (PVector pocket : pt.pocket) {
-          if (PVector.dist(blackPos, pocket) < pt.pocketRadius) {
-            if (pocket == chosenPocket) {
-              println(currentPlayer.getPlayerName() + " wins! Correct pocket.");
+public boolean finalShot() {
+    Scanner scanner = new Scanner(System.in);
+    int pocketIndex = -1;
+
+    // Map keys '1' to '6' to pocket indices 0-5
+    while (pocketIndex == -1) {
+        System.out.println("Final Shot! Call your pocket (press keys 1 to 6):");
+        String input = scanner.nextLine();
+
+        if (input.length() == 1) {
+            char key = input.charAt(0);
+            if (key >= '1' && key <= '6') {
+                pocketIndex = key - '1';  // convert char '1' to int 0, etc.
             } else {
-              println(currentPlayer.getPlayerName() + " loses! Wrong pocket.");
+                System.out.println("Invalid pocket. Please press keys 1 to 6.");
             }
-            return;
-          }
+        } else {
+            System.out.println("Invalid input. Please press a single key from 1 to 6.");
         }
-      } else {
-        println("Black ball not pocketed. Turn over.");
-      }
     }
-  }
+
+    // Check if black ball was pocketed in the called pocket
+    ArrayList<Ball> scoredBalls = pt.getScoredBalls();
+
+    for (Ball ball : scoredBalls) {
+        if (ball.type() == 2) {  // black ball
+            PVector blackPos = ball.getPosition();
+            PVector pocketPos = pt.pocket.get(pocketIndex);
+
+            float dist = PVector.dist(blackPos, pocketPos);
+            if (dist <= pt.pocketRadius + 5) {
+                System.out.println("Black ball potted in the called pocket. Player wins.");
+                return true;
+            } else {
+                System.out.println("Black ball NOT potted in the called pocket. Foul or loss.");
+                return false;
+            }
+        }
+    }
+
+    System.out.println("Black ball was not potted this shot.");
+    return false;
+} 
   public void assignBallTypes() {
   
   if(afterBreak && stick.stricken) {
@@ -261,9 +314,12 @@ public class GameStates{
     return this.pt;
   }
    
+  public boolean getWBState(){
+   return resettingBall; 
+  }
   public void spinControlKeys() {
     PVector moveDir = new PVector(0, 0);    
-    if (keyPressed) {
+    if(keyPressed) {
       if(keyCode == UP) {
         moveDir.y -= 1;
       }
@@ -279,16 +335,16 @@ public class GameStates{
     }
     
     if(moveDir.mag() > 0) {
-      moveDir.normalize().mult(2);
+      moveDir.normalize();
       currentSpin.add(moveDir);
-      if(currentSpin.mag() > 45) {
-        currentSpin.normalize().mult(45);
+      if(currentSpin.mag() > 40) {
+        currentSpin.normalize().mult(40);
       }
       updateSpin();
     }
   }  
   
- public void updateSpin() {
+  public void updateSpin() {
     Ball whiteBall = pt.circles.get(0);
     float distanceRatio = currentSpin.mag() / 45;
     PVector spinVec = currentSpin.copy();
@@ -298,12 +354,78 @@ public class GameStates{
     whiteBall.setSpin(spinVec);
   }
   
- public void drawSpinInterface() {
+  public void drawSpinInterface() {
+    noStroke();
     fill(255,255,255);
     ellipse(350, 600, 50, 50);
     fill(255, 0, 0);
     ellipse(350 + currentSpin.x, 600 + currentSpin.y,10, 10);
   }
   
+  public void toggleEasy() {
+        if(easy) {
+          easy = false;
+        } else {
+          easy = true;
+        }
+      }
+  
+  public void drawLine() {
+    Ball ball = pt.circles.get(0);
+    PVector start = ball.position.copy();
+    PVector direction = new PVector(cos(-1*stick.getAngle() - PI/2), sin(-1*stick.getAngle() - PI/2));
+    direction.normalize();
+    PVector end = start.copy().add(PVector.mult(direction,15));
+    Ball firstHitBall = null;
+    PVector collisionPoint = null;
+
+
+
+    //first line
+    for(int steps = 0; steps<1000; steps++) {
+      end.add(direction);
+      if(get((int)end.x, (int)end.y) != color(40, 170, 20)) {
+        break;
+      }   
+      for(Ball b : pt.circles) {
+        if (b == ball) continue;
+        float distance = PVector.dist(end, b.position);
+        float minDistance = b.radius*2;
+        if(distance <= minDistance) {
+          firstHitBall = b;
+          PVector toBall = PVector.sub(b.position, end);
+          toBall.normalize();
+          collisionPoint = PVector.add(end, PVector.mult(toBall, 10));
+          steps = 1000;
+          break;
+          }
+       }
+    }
+    stroke(255);
+    strokeWeight(2);
+    line(start.x, start.y, end.x, end.y);
+
+
+    //second line
+    if(firstHitBall != null) {
+      PVector hitDirection = PVector.sub(firstHitBall.position, end);
+      hitDirection.normalize(); 
+      noFill();
+      stroke(255);
+      ellipse(collisionPoint.x, collisionPoint.y, 8, 8);
+      PVector hitStart = firstHitBall.position.copy();
+      PVector hitEnd = hitStart.copy();
+      hitEnd.add(PVector.mult(hitDirection,15));
+      for(int steps = 0; steps < 1000; steps++) {
+        hitEnd.add(hitDirection);
+        if(get((int)hitEnd.x, (int)hitEnd.y) != color(40, 170, 20)) {
+          break;
+        }
+      }
+      stroke(255);
+      strokeWeight(2);
+      line(hitStart.x, hitStart.y, hitEnd.x, hitEnd.y);  
+    }
+  }
 
 }
