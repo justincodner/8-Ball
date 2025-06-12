@@ -129,6 +129,7 @@ println("BALL SET VEL: " +( new PVector((float) Math.sin(angleToY) * -hPower * .
     rect(centerPos.x,centerPos.y,2,2);
     resetMatrix();
   }
+
  /* public void pcue(){ 
    ArrayList<String> debug = new ArrayList<String>();
    textSize(20);

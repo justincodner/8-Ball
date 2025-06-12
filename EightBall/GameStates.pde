@@ -1,12 +1,12 @@
 import java.util.Scanner;
 public class GameStates{
   private int playerTurn;
-  private boolean playerOneFinal;
-  private boolean playerTwoFinal;
+  int pocketIndex = -1;
+  private boolean finalShot;
   private Player player1;
   private Player player2;
   private Player currentPlayer;
-  private PoolTable pt = new PoolTable(600,(int)(.6*(700-200) +.5),5);
+  private PoolTable pt = new PoolTable(width-100,(int)(.6*(width-200) +.5),5);
   private int start0=0;
   private int start1=0;
   private int prevStart = 14;
@@ -18,12 +18,13 @@ public class GameStates{
   private PVector currentSpin;
   private boolean resettingBall = true;
   private boolean mouseUp = true;
+  private boolean firstMove = true;
+  private PVector finalBlackPos;
    private boolean firstMove = true;
    private PVector prevMouse = new PVector(width/2,height/2);
   public GameStates() {
     playerTurn = 0;
-    playerOneFinal = false;
-    playerTwoFinal = false;
+    finalShot = false;
   }
   
   public void start() {
@@ -36,6 +37,20 @@ public class GameStates{
     pt.circles.add(0,white);
     currentPlayer = player1;
     currentSpin = new PVector(0,0);
+    finalBlackPos = pt.circles.get(pt.circles.size()-1).position;
+    
+    
+    
+    //testing
+    player1.type(0);
+    player2.type(1);
+    for(int i = 1; i < 15; i++) {
+      pt.circles.remove(1);
+    }
+    ballsAssigned = true;
+    player1.ballsLeft = 0;
+    player2.ballsLeft = 0;
+    //finalShot = true;
   }
   
   public void renderGame() {
@@ -108,13 +123,14 @@ public class GameStates{
         spinControlKeys();
       }
       
+      finalBlackPos = pt.circles.get(pt.circles.size()-1).position;
+      if(isFinalShot()) {
+        finalShot();
+      }
+      
       //game mechanics
       if(!ballsAssigned) {
         assignBallTypes();
-      }
-      if(isFinalShot()) {
-        choosePocket(5);
-        finalShot();
       }
       
       //turn switching
@@ -135,17 +151,28 @@ public class GameStates{
         afterBreak = true;
       }
     } else {
+      
+      if(finalShot) {
+        for(int i = 0; i < 6; i++) {
+          println(pt.pocket.get(i).x + " " + pt.pocket.get(i));
+        }
+        if(PVector.dist(chosenPocket, finalBlackPos)< 50) {
+          print("pooop");
+          playerTurn = 1 - playerTurn;
+          finalShot = false;
+        }
+      }
       textAlign(CENTER);
       textSize(32);
       fill(255, 0, 0);
       String winnerName;
       String loserName;
       if (playerTurn == 0) {
-      winnerName = "player1";
-      loserName = "player2";
+      winnerName = "player2";
+      loserName = "player1";
       } else {
-        winnerName = "player2";
-        loserName = "player1";
+        winnerName = "Player 1";
+        loserName = "Player 2";
     }
 
     text(winnerName + " wins", width / 2, height / 2 - 20);
@@ -229,56 +256,29 @@ public class GameStates{
     stick = new Cue(pt.circles.get(0));
   }
   public boolean isFinalShot() {
-     if(currentPlayer.getBallsLeft() == 0) return true;
-     return false;
+     if(currentPlayer.getBallsLeft() == 0) {
+       finalShot = true;
+       return true;
+     } else {
+       finalShot = false;
+       return false;
+       
+     }
   }
   public void choosePocket(int index) {
     if (index >= 0 && index < pt.pocket.size()) {
       chosenPocket = pt.pocket.get(index);
     }
   }
-public boolean finalShot() {
-    Scanner scanner = new Scanner(System.in);
-    int pocketIndex = -1;
+public void finalShot() {
 
     // Map keys '1' to '6' to pocket indices 0-5
-    while (pocketIndex == -1) {
-        System.out.println("Final Shot! Call your pocket (press keys 1 to 6):");
-        String input = scanner.nextLine();
-
-        if (input.length() == 1) {
-            char key = input.charAt(0);
-            if (key >= '1' && key <= '6') {
-                pocketIndex = key - '1';  // convert char '1' to int 0, etc.
-            } else {
-                System.out.println("Invalid pocket. Please press keys 1 to 6.");
-            }
-        } else {
-            System.out.println("Invalid input. Please press a single key from 1 to 6.");
-        }
-    }
-
-    // Check if black ball was pocketed in the called pocket
-    ArrayList<Ball> scoredBalls = pt.getScoredBalls();
-
-    for (Ball ball : scoredBalls) {
-        if (ball.type() == 2) {  // black ball
-            PVector blackPos = ball.getPosition();
-            PVector pocketPos = pt.pocket.get(pocketIndex);
-
-            float dist = PVector.dist(blackPos, pocketPos);
-            if (dist <= pt.pocketRadius + 5) {
-                System.out.println("Black ball potted in the called pocket. Player wins.");
-                return true;
-            } else {
-                System.out.println("Black ball NOT potted in the called pocket. Foul or loss.");
-                return false;
-            }
-        }
-    }
-
-    System.out.println("Black ball was not potted this shot.");
-    return false;
+    textSize(32);
+    fill(0);
+    text("Final Shot: Call your pocket  (press keys 1 to 6):", width/2, 50);
+    text("1  3  5\n2  4  6",width/2, 80);
+    text("Aim for pocket: "+(pocketIndex+1), width/2, 150);
+    choosePocket(pocketIndex);
 } 
   public void assignBallTypes() {
   
