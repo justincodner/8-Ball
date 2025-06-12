@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class PoolTable{
   private final int pocketRadius = 13;
   private final int inset = 5;
-  private final int gapRadius =pocketRadius + 3;
+  private final int gapRadius =pocketRadius + 4;
   final private boolean debug = false;
   final private float hitCircle = 1*(pocketRadius+inset+5+2);
   private int wr, lr; //width radius is x direction
@@ -70,6 +70,9 @@ public class PoolTable{
  public ArrayList<Ball> getScoredBalls (){
     return scoredBalls;
  }
+ public ArrayList<PVector> getPocket(){
+    return pocket;
+ }
  public ArrayList<Ball> circ(){
     return circles;
  }
@@ -131,18 +134,6 @@ public class PoolTable{
      
    }
    return null;
-  }
-  public boolean topBound(Ball oi){
-    return oi.getPosition().y<= y-lr+5;
-  }
-  public boolean bottomBound(Ball oi){
-    return oi.getPosition().y>=y+lr-5;
-  }
-  public boolean leftBound(Ball oi){
-    return oi.getPosition().y<=x-wr+5;
-  }
-  public boolean rightBound(Ball oi){
-    return oi.getPosition().y>=x+wr-5;
   }
   /*
   public void checkBound(){

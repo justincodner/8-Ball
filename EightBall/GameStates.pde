@@ -1,5 +1,4 @@
 import java.util.Scanner;
-
 public class GameStates{
   private int playerTurn;
   private boolean playerOneFinal;
@@ -17,8 +16,9 @@ public class GameStates{
   private boolean afterBreak = false;
   private PVector chosenPocket;
   private PVector currentSpin;
-  private boolean resettingBall = false;
+  private boolean resettingBall = true;
   private boolean mouseUp = true;
+   private boolean firstMove = true;
   public GameStates() {
     playerTurn = 0;
     playerOneFinal = false;
@@ -38,7 +38,6 @@ public class GameStates{
   }
   
   public void renderGame() {
-    pgame();
     if(resettingBall){ 
       pt.circ().get(0).setPosition(new PVector(mouseX,mouseY));
       pt.render();
@@ -332,15 +331,6 @@ public boolean finalShot() {
     fill(255, 0, 0);
     ellipse(350 + currentSpin.x, 600 + currentSpin.y,10, 10);
   }
-  public void pgame(){ 
-   ArrayList<String> debug = new ArrayList<String>();
-   textSize(20);
-   fill(0,255,255);
- debug.add("resettingBall: "+ resettingBall);
-   for(int i=0;i<debug.size();i++){
-     text(debug.get(i), width-220, height-(i+2)*20);
-   }
- }
   
   public void toggleEasy() {
         if(easy) {
