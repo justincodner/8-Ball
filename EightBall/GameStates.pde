@@ -178,7 +178,15 @@ public class GameStates{
   public void respawnCue() {
     stick = new Cue(pt.circles.get(0));
   }
-
+  public boolean isFinalShot() {
+     if(currentPlayer.getBallsLeft() == 0) return true;
+     return false;
+  }
+  public void choosePocket(int index) {
+    if (index >= 0 && index < pt.pocket.size()) {
+      chosenPocket = pt.pocket.get(index);
+    }
+  }
 public boolean finalShot() {
     Scanner scanner = new Scanner(System.in);
     int pocketIndex = -1;
