@@ -6,7 +6,7 @@ public class PoolTable{
   private final int gapRadius =pocketRadius + 4;
   final private boolean debug = false;
   final private float hitCircle = 1*(pocketRadius+inset+5+8);
-  final private int startConfigXShift = 200;
+  final private int startConfigXShift = 270;
   private int wr, lr; //width radius is x direction
   private int frame = pocketRadius+inset+5;
   private int x,y;//center
@@ -119,12 +119,14 @@ public class PoolTable{
              scoredBalls.add(circles.remove(i));
            }
          }else if(k==2){
-           if(circles.get(i).getVelocity().y>0 && circles.get(i).getPosition().y < y-lr+r+10){
+           if(circles.get(i).getVelocity().y<0 && circles.get(i).getPosition().y < y-lr+r+10){
              println("k=2");
+             if(i==0)
+             println("whtieball y vel:"+circles.get(i).getVelocity().y);
              scoredBalls.add(circles.remove(i));
            }
          }else if(k==3){
-           if(circles.get(i).getVelocity().y<0 && circles.get(i).getPosition().y > y+lr-r-10){
+           if(circles.get(i).getVelocity().y>0 && circles.get(i).getPosition().y > y+lr-r-10){
                           println("k=3");
 
              scoredBalls.add(circles.remove(i));
