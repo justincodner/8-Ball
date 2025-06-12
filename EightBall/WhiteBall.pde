@@ -3,6 +3,7 @@ public class WhiteBall extends Ball{
  private int type = 2;
  public WhiteBall(float i, float k){
    super(i,k);
+   spin = new PVector(0,0);
  }
  public int type() {
    return type;

@@ -4,7 +4,7 @@ void setup() {
    size(700,700);
    frameRate(130);
    
-   game.start("dylan","bob");
+   game.start();
    /*
    pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
 

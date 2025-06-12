@@ -8,6 +8,7 @@ public class GameStates{
   private PoolTable pt = new PoolTable(700-200,(int)(.6*(700-200) +.5),5);
   private int start0=0;
   private int start1=0;
+  private int prevStart = 14;
   private Cue stick;
   private boolean easy = true;
   private boolean ballsAssigned = false;
@@ -21,9 +22,9 @@ public class GameStates{
     playerTwoFinal = false;
   }
   
-  public void start(String name1, String name2) {
-    player1 = new Player(name1);
-    player2 = new Player(name2);
+  public void start() {
+    player1 = new Player();
+    player2 = new Player();
     playerTurn = 0;
     pt.start();
     Ball white = new WhiteBall(150,350);
@@ -38,6 +39,7 @@ public class GameStates{
       
     
       //visuals
+      fill(0,0,0);
       textSize(30);
       if(ballsAssigned) {
         if(player1.ballType == 0) {
@@ -155,10 +157,10 @@ public class GameStates{
             count++;
           }
         }
-        if(count == 14) {
-          
+        if(count == prevStart) {
           return true;
         } else {
+          prevStart = start0+start1;
           return false;
         }
       }
@@ -202,9 +204,9 @@ public class GameStates{
         for (PVector pocket : pt.pocket) {
           if (PVector.dist(blackPos, pocket) < pt.pocketRadius) {
             if (pocket == chosenPocket) {
-              println(currentPlayer.getPlayerName() + " wins! Correct pocket.");
+              println("Player 1 wins! Correct pocket.");
             } else {
-              println(currentPlayer.getPlayerName() + " loses! Wrong pocket.");
+              println("Player 2 loses! Wrong pocket.");
             }
             return;
           }
