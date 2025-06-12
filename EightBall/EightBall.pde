@@ -24,7 +24,7 @@ void setup() {
 
 void draw() {
 //  println("start draw =======");
-  background(100,000,150); 
+  background(120,70,250); 
   //print("made background, ");
   game.renderGame();
   
