@@ -20,7 +20,6 @@ public class GameStates{
   private boolean mouseUp = true;
   private boolean firstMove = true;
   private PVector finalBlackPos;
-   private boolean firstMove = true;
    private PVector prevMouse = new PVector(width/2,height/2);
   public GameStates() {
     playerTurn = 0;
@@ -40,17 +39,7 @@ public class GameStates{
     finalBlackPos = pt.circles.get(pt.circles.size()-1).position;
     
     
-    
-    //testing
-    player1.type(0);
-    player2.type(1);
-    for(int i = 1; i < 15; i++) {
-      pt.circles.remove(1);
-    }
-    ballsAssigned = true;
-    player1.ballsLeft = 0;
-    player2.ballsLeft = 0;
-    //finalShot = true;
+  
   }
   
   public void renderGame() {
@@ -153,13 +142,13 @@ public class GameStates{
     } else {
       
       if(finalShot) {
-        for(int i = 0; i < 6; i++) {
-          println(pt.pocket.get(i).x + " " + pt.pocket.get(i));
-        }
-        if(PVector.dist(chosenPocket, finalBlackPos)< 50) {
-          print("pooop");
-          playerTurn = 1 - playerTurn;
-          finalShot = false;
+        for (int i = 0; i < pt.circles.size(); i++) {
+          Ball b = pt.circles.get(i);
+          if (b.type() == 3 && b.isInPocket()) {
+            // Black ball has been pocketed during final shot
+            finalShot = false;
+            break;
+          }
         }
       }
       textAlign(CENTER);
@@ -168,11 +157,11 @@ public class GameStates{
       String winnerName;
       String loserName;
       if (playerTurn == 0) {
-      winnerName = "player2";
-      loserName = "player1";
+      winnerName = "Player 1";
+      loserName = "Player 2";
       } else {
-        winnerName = "Player 1";
-        loserName = "Player 2";
+        winnerName = "Player 2";
+        loserName = "Player 1";
     }
 
     text(winnerName + " wins", width / 2, height / 2 - 20);
@@ -271,14 +260,9 @@ public class GameStates{
     }
   }
 public void finalShot() {
-
-    // Map keys '1' to '6' to pocket indices 0-5
-    textSize(32);
-    fill(0);
-    text("Final Shot: Call your pocket  (press keys 1 to 6):", width/2, 50);
-    text("1  3  5\n2  4  6",width/2, 80);
-    text("Aim for pocket: "+(pocketIndex+1), width/2, 150);
-    choosePocket(pocketIndex);
+  textSize(32);
+  fill(0);
+  text("Final Shot: Pocket the 8-ball", width / 2, 50);
 } 
   public void assignBallTypes() {
   

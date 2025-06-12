@@ -10,9 +10,7 @@ public class Cue{
   private PVector angle; //
   private PVector tprint = new PVector(0,0); //
   private float angleToY; //radians
-  private float angleLock;
   private float power;
-  private float setPower;
   private boolean powerDraw;
   private boolean powerDrawn;
   private boolean stricken = false;
@@ -24,8 +22,6 @@ public class Cue{
     power= 0;
     angle = new PVector(1,0); //default right
     centerPos = new PVector(0,0);
-    angleLock =0;
-    setPower =0;
   }
   //drag cue 
   //
