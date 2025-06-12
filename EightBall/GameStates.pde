@@ -121,6 +121,23 @@ public class GameStates{
         currentSpin = new PVector(0,0);
         afterBreak = true;
       }
+    } else {
+      textAlign(CENTER);
+      textSize(32);
+      fill(255, 0, 0);
+      String winnerName;
+      String loserName;
+      if (playerTurn == 0) {
+      winnerName = "player1";
+      loserName = "player2";
+      } else {
+        winnerName = "player2";
+        loserName = "player1";
+    }
+
+    text(winnerName + " wins", width / 2, height / 2 - 20);
+    text(loserName + " loses", width / 2, height / 2 + 20);
+
     }
   }
   public void wbset(int x, int y){
@@ -141,7 +158,7 @@ public class GameStates{
     } 
     return true;
   }
-  
+
   public boolean isTurnOver() {
     if(stick.stricken && pt.ballStop()){
       if(ballsAssigned) {
