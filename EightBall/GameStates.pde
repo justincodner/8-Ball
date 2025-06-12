@@ -128,7 +128,7 @@ public class GameStates{
     } 
     return true;
   }
-  
+
   public boolean isTurnOver() {
     if(stick.stricken && pt.ballStop()){
       if(ballsAssigned) {
