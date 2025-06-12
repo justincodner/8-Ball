@@ -1,25 +1,10 @@
 GameStates game;
 void setup() {
  game = new GameStates();
-   size(700,700);
+   size(900,700);
    frameRate(130);
    
    game.start();
-   /*
-   pt = new PoolTable(width-200,(int)(.6*(width-200) +.5),5);
-
-    println("# BALLS:"+pt.circ().size());
-   mball =new WhiteBall(200,350);
-   pt.start();
-   pt.addBall(0,mball);
-   
-   pt.getBall(0).setVelocity(new PVector(0,0));
-   c = new Cue(pt.getBall(0));
-   //****************
-   frameRate(120);
-   //****************
-   println("# BALLS:"+pt.circ().size());
-   */
 }
 
 void draw() {
@@ -27,10 +12,9 @@ void draw() {
   background(120,70,250); 
   //print("made background, ");
   game.renderGame();
-  
 }
-void mousePressed(){
 
+void mousePressed(){
   if(game.getWBState()){
     print("final set ball");
     game.wbset(mouseX,mouseY);
