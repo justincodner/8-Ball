@@ -150,7 +150,8 @@ public class PoolTable{
   }
   */
   public void graphics(){ //just draws a table
-     color felt = color(40,170,20);
+    stroke(0);
+    color felt = color(40,170,20);
     rectMode(CORNERS);
     //table (corners)
     fill(felt);
@@ -222,18 +223,6 @@ public class PoolTable{
    if(circles.size()>0){
      circles.get(0).pball();
    }
-   strokeWeight(1);
-   stroke(222,0,2);
-   //line(x,0,x,height);
-   //line(0,y,width,y);
-   //boucnewalls
-   //line(x+wr-5,0,x+wr-5,height);
-   //line(x-wr+5,0,x-wr+5,height);
-   //line(0,y+lr-5,width,y+lr-5);
-   //line(0,y-lr+5,width,y-lr+5);
-   stroke(0);
-   //striped ad to arr player one
-   //not strpied arr p2
  }
  public void ptble(){ 
    ArrayList<String> debug = new ArrayList<String>();

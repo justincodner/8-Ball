@@ -3,6 +3,7 @@ public class WhiteBall extends Ball{
  private int type = 2;
  public WhiteBall(float i, float k){
    super(i,k);
+   spin = new PVector(0,0);
  }
  public int type() {
    return type;
@@ -19,7 +20,8 @@ public class WhiteBall extends Ball{
    spin = new PVector(0,0);
   }
  public void render() {
-   fill(255,255,255);
+   stroke(255);
+   fill(255);
    strokeWeight(2);
    ellipse(super.position.x, super.position.y, super.radius,super.radius);
    stroke(140,170,190);
