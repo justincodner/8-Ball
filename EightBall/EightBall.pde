@@ -41,6 +41,31 @@ void mousePressed(){
   }
 }
 void keyPressed(){
+  
+  
+  if(key == '1') {
+    game.pocketIndex = 0;
+  }
+  if(key == '2') {
+    game.pocketIndex = 1;
+  }
+  
+  if(key == '3') {
+    game.pocketIndex = 2;
+  }
+  
+  if(key == '4') {
+    game.pocketIndex = 3;
+  }
+  
+  if(key == '5') {
+    game.pocketIndex = 4;
+  }
+  
+  if(key == '6') {
+    game.pocketIndex = 5;
+  }
+  
   if(key == ' ') {
     game.toggleEasy();
   }

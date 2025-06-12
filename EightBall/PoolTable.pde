@@ -21,8 +21,7 @@ public class PoolTable{
     x= width/2;
     y=height/2; 
     //top down left right
-        
-    pocket.add(new PVector(x-wr-inset,y-lr-inset));  
+    pocket.add(new PVector(x-wr-inset,y-lr-inset)); 
     pocket.add(new PVector(x-wr-inset,y+lr+inset));
     pocket.add(new PVector(x,y-lr-inset));
     pocket.add(new PVector(x,y+lr+inset));

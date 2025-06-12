@@ -129,6 +129,7 @@ public class Cue{
     resetMatrix();
   }
   public void pcue(){ 
+    /*
    ArrayList<String> debug = new ArrayList<String>();
    textSize(20);
    fill(0,255,255);
@@ -147,6 +148,7 @@ public class Cue{
    for(int i=0;i<debug.size();i++){
      text(debug.get(i), 20, i*20);
    }
+   */
   }
   
   public float getAngle() {

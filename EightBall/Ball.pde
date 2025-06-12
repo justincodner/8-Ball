@@ -115,7 +115,9 @@ void render(){
    updatePosition();
  //  updateSpin();
  }
+ 
   public void pball(){ 
+    
     //ball debug window;
    ArrayList<String> debug = new ArrayList<String>();
    textSize(20);
@@ -128,7 +130,8 @@ void render(){
     debug.add("friction: " +friction);
    debug.add("FR: "+frameRate);
    for(int i=0;i<debug.size();i++){
-     text(debug.get(i), 20,height-30- i*20);
+     //text(debug.get(i), 20,height-30- i*20);
    }
   }
+  
 }
